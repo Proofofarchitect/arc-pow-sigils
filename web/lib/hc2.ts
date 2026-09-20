@@ -15,6 +15,7 @@ import {
   attributeMap,
   deriveAttributes,
 } from "./traits";
+import { ARC_TRAITS_SLOTS, deriveAttributesV2 } from "./traits_v2";
 
 /**
  * HC/2 craft derivation — byte-for-byte TS mirror of `art/hc2.py`.
@@ -39,6 +40,13 @@ import {
  * * Choice-able slots are 0..11; `legendary` (12) is ALWAYS derived from the
  *   childSeed, and `golden`/`bug` conditional rules are evaluated on the FINAL
  *   values (inherited included), fed by childSeed word streams 13/14.
+ * * ARC-traits/2 port (`deriveHC2V2`): identical inheritance semantics but over
+ *   `ARC_TRAITS_SLOTS` with `deriveAttributesV2` parents. Choice-able slots are
+ *   indices 0..11; indices 12/13/14 (quote/lore/hair_color) are always wildcard.
+ *   The v2 set has no golden/bug conditional rules, so the result is always
+ *   `{ attributes, golden: false }`. `childSeed` is trait-set independent (the
+ *   choices live only in the controller's `Crafted` event), so the §1 formula
+ *   above is reused verbatim.
  */
 
 export type Hc2Choice = { slot: number; parent: 0 | 1 };
@@ -191,6 +199,57 @@ export function deriveHC2(
   values["bug"] = bugValue;
 
   return { attributes: values, golden: goldenValue !== NONE };
+}
+
+/**
+ * ARC-traits/2 (§2) — derive the 15 final v2 slots from `childSeed` + parents.
+ *
+ * Mirrors `deriveHC2` but over `ARC_TRAITS_SLOTS` with `deriveAttributesV2`
+ * parents and no golden/bug logic (the artist set has no such categories):
+ *
+ * * Choice-able slot (index 0..11) in `choices`: inherit the chosen parent's
+ *   value UNLESS both parents agree, in which case it becomes a wildcard — the
+ *   exact v1 rule, applied per-slot, `None` values included.
+ * * Every non-chosen slot AND indices 12/13/14 (quote/lore/hair_color) are
+ *   wildcards: `weightedPickFromSeed(childSeed, slot.index, slot.weights)`.
+ *
+ * `childSeed` is trait-set independent (the §1 formula is unchanged), so callers
+ * reuse `computeChildSeed` / the on-chain child seed as-is.
+ */
+export function deriveHC2V2(
+  childSeed: Hex,
+  seedLow: Hex,
+  seedHigh: Hex,
+  choices: Hc2Choice[],
+): { attributes: Record<string, string>; golden: boolean } {
+  const parentA = attributeMap(deriveAttributesV2(seedLow));
+  const parentB = attributeMap(deriveAttributesV2(seedHigh));
+
+  const chosen = new Map<number, 0 | 1>();
+  for (const choice of choices) chosen.set(choice.slot, choice.parent);
+
+  const values: Record<string, string> = {};
+
+  for (const slot of ARC_TRAITS_SLOTS) {
+    const name = slot.name;
+    const index = slot.index;
+    if (index <= CHOICEABLE_SLOTS && chosen.has(index)) {
+      const parent = chosen.get(index)!;
+      const a = parentA[name];
+      const b = parentB[name];
+      if (a !== b) {
+        values[name] = parent === 0 ? a : b;
+        continue;
+      }
+      // Both parents agree -> wildcard (fall through).
+    }
+
+    values[name] = slot.values[
+      weightedPickFromSeed(childSeed, index, slot.weights)
+    ];
+  }
+
+  return { attributes: values, golden: false };
 }
 
 /**

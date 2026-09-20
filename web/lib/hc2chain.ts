@@ -17,7 +17,7 @@ import {
   deriveAttributes,
   type DerivedAttributes,
 } from "./traits";
-import { deriveAttributesV2 } from "./traits_v2";
+import { ARC_TRAITS_SLOTS, deriveAttributesV2 } from "./traits_v2";
 import { IS_V2 } from "./traits-set";
 import {
   informationContent,
@@ -25,7 +25,7 @@ import {
   type RarityTier,
 } from "./rarity";
 import { informationContentV2, tierForScoreV2 } from "./rarity_v2";
-import { deriveHC2, type Hc2Choice } from "./hc2";
+import { deriveHC2, deriveHC2V2, type Hc2Choice } from "./hc2";
 
 /**
  * hc2chain.ts — crafted-token (id ≥ FORGE_ID_BASE) resolution for the web API.
@@ -40,7 +40,11 @@ import { deriveHC2, type Hc2Choice } from "./hc2";
  *      cannot topic-filter — we page `getLogs` in bounded chunks and filter);
  *   3. read the parents' `seedOf` (they are burned, but the core keeps the seed
  *      mapping after `_burn` — verified in `PowMintNFTv3_1.sol` / `ERC721Minimal.sol`);
- *   4. derive the 15 final slots via `deriveHC2(childSeed, seedLow, seedHigh, choices)`.
+ *   4. derive the 15 final slots via `deriveHC2(childSeed, seedLow, seedHigh,
+ *      choices)` (house-card/1) or `deriveHC2V2(...)` (ARC-traits/2) depending on
+ *      the active trait set. `childSeed` (§1) is trait-set independent — the
+ *      `choices` are the only trait-set-specific input, and they live only in
+ *      the `Crafted` event.
  *
  * Everything is cached in-memory (Map + TTL, `globalThis`-backed like
  * `lib/chain.ts`) so a page/API burst does not re-run the log scan.
@@ -292,7 +296,9 @@ export async function resolveCraftedToken(
             ? [record.cardA, record.cardB]
             : [record.cardB, record.cardA];
 
-          const derived = deriveHC2(childSeed, seedLow, seedHigh, record.choices);
+          const derived = IS_V2
+            ? deriveHC2V2(childSeed, seedLow, seedHigh, record.choices)
+            : deriveHC2(childSeed, seedLow, seedHigh, record.choices);
 
           value = {
             childSeed,
@@ -318,13 +324,18 @@ export async function resolveCraftedToken(
   return value;
 }
 
-/** Build the shared `DerivedAttributes` shape from an HC/2 slot→value record. */
+/**
+ * Build the shared `DerivedAttributes` shape from an HC/2 slot→value record.
+ * The slot layout follows the active trait set (house-card/1 vs ARC-traits/2),
+ * so the record is mapped onto the matching slot list.
+ */
 function derivedFromRecord(
   values: Record<string, string>,
   golden: boolean,
 ): DerivedAttributes {
+  const slots = IS_V2 ? ARC_TRAITS_SLOTS : HOUSE_CARD_SLOTS;
   return {
-    attributes: HOUSE_CARD_SLOTS.map((slot) => ({
+    attributes: slots.map((slot) => ({
       slot: slot.name,
       value: values[slot.name] ?? "None",
     })),
@@ -362,11 +373,13 @@ export type TokenTraits = {
 /**
  * Unified trait resolution for a token id, used by the meta/image routes:
  *
- * * id < FORGE_ID_BASE → existing `deriveAttributes(seed)` path;
- * * id ≥ FORGE_ID_BASE → HC/2 via `resolveCraftedToken`; on failure the
- *   documented fallback runs plain `deriveAttributes(childSeed)` and the result
- *   carries `crafted: true` + `craftedLookup: "unavailable"` (so callers can
- *   flag it) — `crafted: true` + `craftedLookup: "ok"` on success.
+ * * id < FORGE_ID_BASE → the active-set derivation path (`deriveAttributes` for
+ *   house-card/1, `deriveAttributesV2` for ARC-traits/2);
+ * * id ≥ FORGE_ID_BASE → HC/2 via `resolveCraftedToken` (v1 or v2 derivation
+ *   per the active trait set); on failure the documented fallback runs plain
+ *   derivation of `childSeed` and the result carries `crafted: true` +
+ *   `craftedLookup: "unavailable"` (so callers can flag it) — `crafted: true` +
+ *   `craftedLookup: "ok"` on success.
  *
  * Rarity is computed from the derived attributes via `informationContent` +
  * `tierForScore` (works for any trait dict — never `rarityForSeed` for crafted
@@ -391,20 +404,8 @@ export async function getTraitsForToken(tokenId: bigint): Promise<TokenTraits> {
     };
   }
 
-  // ARC-traits/2 mode: the HC/2 v2 slot-inheritance port is pending — crafted
-  // tokens fall back to plain v2 derivation of their child seed (flagged via
-  // `craftedLookup: "unavailable"` exactly like the v1 fallback path).
-  if (IS_V2) {
-    const derived = deriveAttributesV2(token.seed);
-    return {
-      crafted: true,
-      craftedLookup: "unavailable",
-      seed: token.seed,
-      derived,
-      rarity: rarityForDerived(derived),
-    };
-  }
-
+  // Crafted ids (both trait sets) resolve via the HC/2 path below; the
+  // derivation branch is selected inside `resolveCraftedToken`.
   const resolved = await resolveCraftedToken(tokenId);
 
   if (resolved) {
@@ -419,9 +420,12 @@ export async function getTraitsForToken(tokenId: bigint): Promise<TokenTraits> {
   }
 
   // Documented fallback: HC/2 resolution unavailable → deterministic plain
-  // house-card/1 derivation of the childSeed. Traits will NOT match the crafted
-  // card; `craftedLookup: "unavailable"` lets the UI/API say so.
-  const derived = deriveAttributes(token.seed);
+  // derivation of the childSeed under the active trait set (house-card/1 or
+  // ARC-traits/2). Traits will NOT match the crafted card;
+  // `craftedLookup: "unavailable"` lets the UI/API say so.
+  const derived = IS_V2
+    ? deriveAttributesV2(token.seed)
+    : deriveAttributes(token.seed);
   return {
     crafted: true,
     craftedLookup: "unavailable",

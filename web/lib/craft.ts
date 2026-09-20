@@ -6,6 +6,8 @@ import {
   type Hex,
 } from "viem";
 import { HOUSE_CARD_SLOTS } from "./traits";
+import { ARC_TRAITS_SLOTS } from "./traits_v2";
+import { IS_V2 } from "./traits-set";
 
 /**
  * craft.ts — CraftingController v1 web surface (Phase 2, stream C).
@@ -161,14 +163,25 @@ export function tierMaxChosen(tier: number): number {
 // --------------------------------------------------------------- slot names
 
 /**
- * Human-readable names of the 12 choice-able slots (0..11), in slot order —
- * background…companion. `legendary` (12) is excluded (always entropy-derived,
- * RT-3). Derived from `traits.ts` HOUSE_CARD_SLOTS so the UI never drifts from
- * the derivation.
+ * Human-readable names of the 12 choice-able slots (indices 0..11), in slot
+ * order — house-card/1: background…companion; ARC-traits/2: background…origin.
+ * Indices 12/13/14 (v1 `legendary`/`golden`/`bug`, v2 `quote`/`lore`/
+ * `hair_color`) are always entropy-derived and excluded. Derived from the active
+ * trait set (RT-3) so the UI never drifts from the derivation.
  */
-export const CHOICE_SLOT_NAMES: readonly string[] = HOUSE_CARD_SLOTS.slice(
-  0,
-  12,
+export const CHOICE_SLOT_NAMES: readonly string[] = (
+  IS_V2 ? ARC_TRAITS_SLOTS : HOUSE_CARD_SLOTS
+)
+  .slice(0, 12)
+  .map((slot) => slot.name);
+
+/**
+ * All 15 slot names for the active trait set, in roll order — the display set
+ * for the post-reveal / Gacha trait chips. house-card/1: 12 choice-able +
+ * `legendary`/`golden`/`bug`; ARC-traits/2: the full ARC slot list.
+ */
+export const CRAFTED_SLOT_NAMES: readonly string[] = (
+  IS_V2 ? ARC_TRAITS_SLOTS : HOUSE_CARD_SLOTS
 ).map((slot) => slot.name);
 
 /** Display label for a slot index (title-cased; falls back to `slot N`). */

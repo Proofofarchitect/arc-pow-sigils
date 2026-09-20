@@ -1,0 +1,4291 @@
+{
+  "domain": "hc2/2",
+  "generated_by": "art/hc2_v2.py --vectors-v2",
+  "spec_version": "2.2",
+  "coverage": {
+    "total": 70,
+    "tiers": {
+      "0": 17,
+      "1": 19,
+      "2": 19,
+      "3": 15
+    },
+    "empty_choices": 6,
+    "max_choices": 60,
+    "dup_wildcard": 58,
+    "inherited_none": 1,
+    "wildcard_tail": 3
+  },
+  "vectors": [
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000001",
+      "seedHigh": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "minId": 1000,
+      "maxId": 1001,
+      "boostTier": 0,
+      "craftNonce": 0,
+      "entropy": "0x83a8e7a2344d979af0ad7cd84c26941a1b09cba9496517086ac8865d9ac0750c",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "childSeed": "0x6dece0a6d881be0d81404a9bb68d0345d26e146f1f2ec256b4a478735b616fe4",
+      "attributes": {
+        "background": "Construction",
+        "head": "Female",
+        "outfit": "Coat",
+        "hair": "Long",
+        "eyes": "Explorer",
+        "nose": "Straight",
+        "mouth": "Default",
+        "eyewear": "USDC Lenses",
+        "headwear": "None",
+        "companion": "Drone",
+        "era": "Genesis",
+        "origin": "Discord Queue",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=0 sweep pair=0 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000001",
+      "seedHigh": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "minId": 1000,
+      "maxId": 1001,
+      "boostTier": 1,
+      "craftNonce": 1,
+      "entropy": "0xdbe7d5f46f26f69b4cc095141b25dd4deb6ac9eed8bd2283335e5257da5f1e0c",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "childSeed": "0xdbdc70b06c006ff5eb1180d369ab5cec34e305cb4bc4c859d614e07bea21042c",
+      "attributes": {
+        "background": "Construction",
+        "head": "Scar",
+        "outfit": "Coat",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Straight",
+        "mouth": "Default",
+        "eyewear": "Glasses",
+        "headwear": "Hard Hat",
+        "companion": "AI Orb",
+        "era": "House",
+        "origin": "Partner",
+        "quote": "None",
+        "lore": "Faucet sent zero",
+        "hair_color": "Ice"
+      },
+      "notes": "tier=1 sweep pair=0 choices=8"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000001",
+      "seedHigh": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "minId": 1000,
+      "maxId": 1001,
+      "boostTier": 2,
+      "craftNonce": 2,
+      "entropy": "0x97f19d2228f857d0ead7e4464a90b05e85e29d779883484dbbf8f98546d9705c",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "childSeed": "0x566bb8030ffed2c0e317ed342809220ebbf86fdab515349d9f7565fbde722675",
+      "attributes": {
+        "background": "Construction",
+        "head": "Default",
+        "outfit": "Coat",
+        "hair": "Curly",
+        "eyes": "Red",
+        "nose": "Straight",
+        "mouth": "Default",
+        "eyewear": "Sunglasses",
+        "headwear": "Hard Hat",
+        "companion": "Robot",
+        "era": "Genesis",
+        "origin": "LinkedIn Form",
+        "quote": "Fees in the dollar",
+        "lore": "Discord not linked",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=2 sweep pair=0 choices=10"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000001",
+      "seedHigh": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "minId": 1000,
+      "maxId": 1001,
+      "boostTier": 3,
+      "craftNonce": 3,
+      "entropy": "0xd78d079c6d19f5e2518a855fc5b884dd9231d42ea5c5b8ab1301c30cbc73f9c3",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "childSeed": "0x0da8ff1661dd0294f6767a50faecc26d335a71356a51e8168ff46e4063a16886",
+      "attributes": {
+        "background": "Construction",
+        "head": "Default",
+        "outfit": "Coat",
+        "hair": "Short",
+        "eyes": "Soft",
+        "nose": "Straight",
+        "mouth": "Default",
+        "eyewear": "USDC Lenses",
+        "headwear": "Hard Hat",
+        "companion": "Robot",
+        "era": "Genesis",
+        "origin": "Partner",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=3 sweep pair=0 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "seedHigh": "0x1111111111111111111111111111111111111111111111111111111111111111",
+      "minId": 1002,
+      "maxId": 1003,
+      "boostTier": 0,
+      "craftNonce": 10,
+      "entropy": "0x5b865965fda2962a24a8eaf50808e5f7e72e70318cc467a5695a12f2328a9e56",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "childSeed": "0xf34120f0b4d4879d8d86da25a128f23f453bfe443ea17a02f537f694c47bf0e8",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Coat",
+        "hair": "Curly",
+        "eyes": "Explorer",
+        "nose": "Straight",
+        "mouth": "Grin",
+        "eyewear": "None",
+        "headwear": "Beanie",
+        "companion": "Mouse",
+        "era": "Expansion",
+        "origin": "Discord Queue",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Black"
+      },
+      "notes": "tier=0 sweep pair=1 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "seedHigh": "0x1111111111111111111111111111111111111111111111111111111111111111",
+      "minId": 1002,
+      "maxId": 1003,
+      "boostTier": 1,
+      "craftNonce": 11,
+      "entropy": "0x2f27b61ca0093182c9c5c5c487a01b677319e723784664a3b40987a959c08ffe",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "childSeed": "0x693b84675a826ba8bdaa4eab76271d70f44288ca516725c0ca6b4b24a63a310c",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Coat",
+        "hair": "Curly",
+        "eyes": "Explorer",
+        "nose": "Straight",
+        "mouth": "Smirk",
+        "eyewear": "USDC Lenses",
+        "headwear": "Beanie",
+        "companion": "Dog",
+        "era": "Season One",
+        "origin": "Community",
+        "quote": "Fees in the dollar",
+        "lore": "Faucet sent zero",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=1 sweep pair=1 choices=8"
+    },
+    {
+      "seedLow": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "seedHigh": "0x1111111111111111111111111111111111111111111111111111111111111111",
+      "minId": 1002,
+      "maxId": 1003,
+      "boostTier": 2,
+      "craftNonce": 12,
+      "entropy": "0x6edbe75361867c4cef06a8b83779a11095d32b3fe869c26d726a7cc0ac6e8846",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ]
+      ],
+      "childSeed": "0x137e36d4ecd6f84e48ab0bcc7320fa14f09eff8e2161190d5f171d785dcad7ef",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Coat",
+        "hair": "Curly",
+        "eyes": "Explorer",
+        "nose": "Straight",
+        "mouth": "Smirk",
+        "eyewear": "None",
+        "headwear": "Hard Hat",
+        "companion": "Robot",
+        "era": "House",
+        "origin": "LinkedIn Form",
+        "quote": "None",
+        "lore": "499 points then sleep",
+        "hair_color": "Black"
+      },
+      "notes": "tier=2 sweep pair=1 choices=10"
+    },
+    {
+      "seedLow": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "seedHigh": "0x1111111111111111111111111111111111111111111111111111111111111111",
+      "minId": 1002,
+      "maxId": 1003,
+      "boostTier": 3,
+      "craftNonce": 13,
+      "entropy": "0x87063e79b8d989f1a5547b4ea05c68ff5745237136d021cc7c6acf6004863913",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          11,
+          0
+        ]
+      ],
+      "childSeed": "0x0dc1c10cfd411cafb1e1bd6e22f518232553e22879b2e5a070dcbce4e2fdeee7",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Coat",
+        "hair": "Curly",
+        "eyes": "Explorer",
+        "nose": "Straight",
+        "mouth": "Smirk",
+        "eyewear": "Glasses",
+        "headwear": "Hard Hat",
+        "companion": "Robot",
+        "era": "Private Mainnet",
+        "origin": "Partner",
+        "quote": "500 points",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=3 sweep pair=1 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x1111111111111111111111111111111111111111111111111111111111111111",
+      "seedHigh": "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+      "minId": 1004,
+      "maxId": 1005,
+      "boostTier": 0,
+      "craftNonce": 20,
+      "entropy": "0x73ed108aa3ac4437ab56e40011274a6ff40556dcd0411f364f121c93e7700aa2",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "childSeed": "0x1f65ae83399eb2081a27153e7c11c4c3c73890f67232f616f61afc39f5b98e31",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Coat",
+        "hair": "Long",
+        "eyes": "Explorer",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "Glasses",
+        "headwear": "Cap",
+        "companion": "Flying Rat",
+        "era": "Season One",
+        "origin": "Community",
+        "quote": "Pending or Final",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=0 sweep pair=2 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x1111111111111111111111111111111111111111111111111111111111111111",
+      "seedHigh": "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+      "minId": 1004,
+      "maxId": 1005,
+      "boostTier": 1,
+      "craftNonce": 21,
+      "entropy": "0xf6e1351abd63cee55923aff6209041ea1c91de3d703b9418086004785ea9c48b",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "childSeed": "0xc9e69004f0f29566261e9b3322ccfa0890a7372e0799196d9ec1f71c0eb3f616",
+      "attributes": {
+        "background": "Space",
+        "head": "Pale",
+        "outfit": "Coat",
+        "hair": "Curly",
+        "eyes": "Explorer",
+        "nose": "Default",
+        "mouth": "Smirk",
+        "eyewear": "Glasses",
+        "headwear": "Hard Hat",
+        "companion": "Cat",
+        "era": "Day One",
+        "origin": "Early Wanderer",
+        "quote": "Fees in the dollar",
+        "lore": "None",
+        "hair_color": "Ice"
+      },
+      "notes": "tier=1 sweep pair=2 choices=8"
+    },
+    {
+      "seedLow": "0x1111111111111111111111111111111111111111111111111111111111111111",
+      "seedHigh": "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+      "minId": 1004,
+      "maxId": 1005,
+      "boostTier": 2,
+      "craftNonce": 22,
+      "entropy": "0xef315a112ab34fbf1fbf3b1d9397131f311d63e79959e7c9a9dfd2a3c1dd5849",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "childSeed": "0x1f307c1d285c719faf1f76d903b9649ce9fa54a09df055c5df1d1465d7391551",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Coat",
+        "hair": "Short",
+        "eyes": "Explorer",
+        "nose": "Default",
+        "mouth": "Smirk",
+        "eyewear": "Glasses",
+        "headwear": "Hard Hat",
+        "companion": "None",
+        "era": "Expansion",
+        "origin": "Discord Queue",
+        "quote": "Pending or Final",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=2 sweep pair=2 choices=10"
+    },
+    {
+      "seedLow": "0x1111111111111111111111111111111111111111111111111111111111111111",
+      "seedHigh": "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+      "minId": 1004,
+      "maxId": 1005,
+      "boostTier": 3,
+      "craftNonce": 23,
+      "entropy": "0xace327dcc7dd7a6504367888d04ebe4dff3c6061a0c774e5b9085196259898fd",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "childSeed": "0x899cbfcc5c7ec9a814ac182dc90871e62661aa3de43ed968bf7df6e0bcecee90",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Coat",
+        "hair": "Curly",
+        "eyes": "Explorer",
+        "nose": "Default",
+        "mouth": "Smirk",
+        "eyewear": "Glasses",
+        "headwear": "Hard Hat",
+        "companion": "None",
+        "era": "Private Mainnet",
+        "origin": "Community",
+        "quote": "I'm seated, Tim",
+        "lore": "None",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=3 sweep pair=2 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000042",
+      "minId": 1006,
+      "maxId": 1007,
+      "boostTier": 0,
+      "craftNonce": 30,
+      "entropy": "0x7c15eb1352f5f77f68676daa600f7661d4f3fbce0f020684e217922488825982",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "childSeed": "0xd8cef18bda82fc37e65ad4d6a994522a22f337b9aca0eb35e057acad12e3f6c7",
+      "attributes": {
+        "background": "City",
+        "head": "Default",
+        "outfit": "Hacker",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "None",
+        "headwear": "None",
+        "companion": "Dog",
+        "era": "Genesis",
+        "origin": "Arc House",
+        "quote": "I'm seated, Tim",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=0 sweep pair=3 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000042",
+      "minId": 1006,
+      "maxId": 1007,
+      "boostTier": 1,
+      "craftNonce": 31,
+      "entropy": "0x2ef8df6a13a7bd1fa3d7239322259d698715004c4a5317cc229c73f44e0e62dc",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "childSeed": "0xb321b0067795f0b877d44cc33ae9352b48f3dc79e5a06c9873760bb0b1cb510a",
+      "attributes": {
+        "background": "City",
+        "head": "Default",
+        "outfit": "Engineer",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "Glasses",
+        "headwear": "None",
+        "companion": "None",
+        "era": "Private Mainnet",
+        "origin": "Arc House",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=1 sweep pair=3 choices=8"
+    },
+    {
+      "seedLow": "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000042",
+      "minId": 1006,
+      "maxId": 1007,
+      "boostTier": 2,
+      "craftNonce": 32,
+      "entropy": "0xcd1ad9730b890e3fa62138ea8e67b907b0cb03c5c0ea52a7d9a6e833f4527367",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ]
+      ],
+      "childSeed": "0x8bf776af0824c750ff6e3dc188cc456f12458089408af9289b28236aa4d4e443",
+      "attributes": {
+        "background": "City",
+        "head": "Default",
+        "outfit": "Jacket",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "Glasses",
+        "headwear": "None",
+        "companion": "None",
+        "era": "Expansion",
+        "origin": "Discord Queue",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=2 sweep pair=3 choices=10"
+    },
+    {
+      "seedLow": "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000042",
+      "minId": 1006,
+      "maxId": 1007,
+      "boostTier": 3,
+      "craftNonce": 33,
+      "entropy": "0x35cd5130aa840c4501de2787d67cd049c527fd02992a46b97eeb8073e137163a",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          11,
+          0
+        ]
+      ],
+      "childSeed": "0xe48ba6ee3e012da99aaf4875a1f0e6739e32e41d26069b84994814a5dc03e12d",
+      "attributes": {
+        "background": "City",
+        "head": "Default",
+        "outfit": "Hacker",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "Glasses",
+        "headwear": "None",
+        "companion": "None",
+        "era": "Private Mainnet",
+        "origin": "Early Wanderer",
+        "quote": "None",
+        "lore": "Faucet sent zero",
+        "hair_color": "Black"
+      },
+      "notes": "tier=3 sweep pair=3 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000042",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000002",
+      "minId": 1008,
+      "maxId": 1009,
+      "boostTier": 0,
+      "craftNonce": 40,
+      "entropy": "0x91f7bb6421767e75e6315a165e801e7eb30c1377c41e8885c73d1abc9b377811",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "childSeed": "0xfe5dc30c7c740e5818b7176902e3d7b175bfe667eac104ecdeeb16bd6700ba55",
+      "attributes": {
+        "background": "City",
+        "head": "Default",
+        "outfit": "Hoodie",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Smile",
+        "eyewear": "USDC Lenses",
+        "headwear": "Halo",
+        "companion": "None",
+        "era": "Season One",
+        "origin": "Community",
+        "quote": "Pending or Final",
+        "lore": "First sub-second FINAL",
+        "hair_color": "Ginger"
+      },
+      "notes": "tier=0 sweep pair=4 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000042",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000002",
+      "minId": 1008,
+      "maxId": 1009,
+      "boostTier": 1,
+      "craftNonce": 41,
+      "entropy": "0x126390a72edb571427936706863f64e41e1c6e6e7a9810c72a296be10e4ace76",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "childSeed": "0xa3251ec1618a841c898c7eb6ee3dbcbecbd1f42618a9579aa761cd2f1f42efda",
+      "attributes": {
+        "background": "City",
+        "head": "Default",
+        "outfit": "Hoodie",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Smirk",
+        "eyewear": "None",
+        "headwear": "None",
+        "companion": "None",
+        "era": "Genesis",
+        "origin": "Discord Queue",
+        "quote": "Fees in the dollar",
+        "lore": "Faucet sent zero",
+        "hair_color": "Black"
+      },
+      "notes": "tier=1 sweep pair=4 choices=8"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000042",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000002",
+      "minId": 1008,
+      "maxId": 1009,
+      "boostTier": 2,
+      "craftNonce": 42,
+      "entropy": "0x92f250af670198cb8ee3706be0a3e86d92efc49c0a5d81ac4b071a7e3a7be290",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "childSeed": "0xe8305ff5ea26afd5aaa866dd738132f4c2960407b59309600b367cab741bb52a",
+      "attributes": {
+        "background": "City",
+        "head": "Default",
+        "outfit": "Hoodie",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "None",
+        "headwear": "Cap",
+        "companion": "None",
+        "era": "Day One",
+        "origin": "Community",
+        "quote": "Points have no monetary value",
+        "lore": "Minted while cats were live",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=2 sweep pair=4 choices=10"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000042",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000002",
+      "minId": 1008,
+      "maxId": 1009,
+      "boostTier": 3,
+      "craftNonce": 43,
+      "entropy": "0x3e1fac9f35698f708e8e558f3634f830c27cfd9db167a520344638fe4ad099a3",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "childSeed": "0x9ebd3a903fda7aa42c1f9f4c2da44cd691934f052278193138c24052c3f90cdb",
+      "attributes": {
+        "background": "City",
+        "head": "Default",
+        "outfit": "Hoodie",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Smile",
+        "eyewear": "None",
+        "headwear": "Beanie",
+        "companion": "None",
+        "era": "Private Mainnet",
+        "origin": "Community",
+        "quote": "Economic OS for the internet",
+        "lore": "Faucet sent zero",
+        "hair_color": "Ginger"
+      },
+      "notes": "tier=3 sweep pair=4 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000002",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000003",
+      "minId": 1010,
+      "maxId": 1011,
+      "boostTier": 0,
+      "craftNonce": 50,
+      "entropy": "0xb19d6e93bac83c567bbac345a59975c33997b9850dcb0dc5809e5abf41042717",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "childSeed": "0xe20f74a8966f1cadbbd8f122108d11306383776644b7fc6f08a244521bc3ea08",
+      "attributes": {
+        "background": "Lab",
+        "head": "Default",
+        "outfit": "Builder",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Straight",
+        "mouth": "Smile",
+        "eyewear": "USDC Lenses",
+        "headwear": "None",
+        "companion": "None",
+        "era": "Day One",
+        "origin": "Discord Queue",
+        "quote": "None",
+        "lore": "499 points then sleep",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=0 sweep pair=5 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000002",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000003",
+      "minId": 1010,
+      "maxId": 1011,
+      "boostTier": 1,
+      "craftNonce": 51,
+      "entropy": "0xd7e79c09ff0adb7505823a80a10fa27028902fd96a566802e3e79601922c368a",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "childSeed": "0x274e64d5e9f0529739e1b4103dd502da3e08cdbacdfcdc77d448c4acf292fb8f",
+      "attributes": {
+        "background": "Lab",
+        "head": "Default",
+        "outfit": "Builder",
+        "hair": "Curly",
+        "eyes": "Explorer",
+        "nose": "Button",
+        "mouth": "Smile",
+        "eyewear": "None",
+        "headwear": "Headphones",
+        "companion": "None",
+        "era": "Genesis",
+        "origin": "Partner",
+        "quote": "Burn, attest, mint",
+        "lore": "None",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=1 sweep pair=5 choices=8"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000002",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000003",
+      "minId": 1010,
+      "maxId": 1011,
+      "boostTier": 2,
+      "craftNonce": 52,
+      "entropy": "0x6ad1f89ca561ccc3ed252f77dcfdc9ded143d4e49c6cb25272f2017f942d47b5",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ]
+      ],
+      "childSeed": "0xcf0486cc08aec838365e970d12faf15fe263dc23a35e6083963ea7aaccebf452",
+      "attributes": {
+        "background": "Lab",
+        "head": "Default",
+        "outfit": "Builder",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Rounded",
+        "mouth": "Smile",
+        "eyewear": "None",
+        "headwear": "Cap",
+        "companion": "Drone",
+        "era": "Genesis",
+        "origin": "Early Wanderer",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Green"
+      },
+      "notes": "tier=2 sweep pair=5 choices=10"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000002",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000003",
+      "minId": 1010,
+      "maxId": 1011,
+      "boostTier": 3,
+      "craftNonce": 53,
+      "entropy": "0xebffcc3ebb4faf6755b14f7d097fc4e82ad0e3429770e37c17b183dbf331b0c0",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          11,
+          0
+        ]
+      ],
+      "childSeed": "0x01e8d061c03e9dfcec9046f1305469897a23190d1b14eb2ec9319dfd1d4db92a",
+      "attributes": {
+        "background": "Lab",
+        "head": "Scar",
+        "outfit": "Builder",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Smile",
+        "eyewear": "None",
+        "headwear": "Cap",
+        "companion": "Flying Rat",
+        "era": "Genesis",
+        "origin": "Community",
+        "quote": "None",
+        "lore": "Faucet sent zero",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=3 sweep pair=5 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000003",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000004",
+      "minId": 1012,
+      "maxId": 1013,
+      "boostTier": 0,
+      "craftNonce": 60,
+      "entropy": "0xc64dc6b742227936a98990d05bcf4be48ac944ebbb852ddaa101bf85f5e71340",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "childSeed": "0xa00a53eba63fbc71ebfe093010f9ee3720e474ebe95af459d68dabf503fde473",
+      "attributes": {
+        "background": "Lab",
+        "head": "Reptile",
+        "outfit": "Builder",
+        "hair": "Curly",
+        "eyes": "Explorer",
+        "nose": "Button",
+        "mouth": "Default",
+        "eyewear": "None",
+        "headwear": "Crown",
+        "companion": "Dog",
+        "era": "Expansion",
+        "origin": "Early Wanderer",
+        "quote": "None",
+        "lore": "First sub-second FINAL",
+        "hair_color": "Ginger"
+      },
+      "notes": "tier=0 sweep pair=6 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000003",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000004",
+      "minId": 1012,
+      "maxId": 1013,
+      "boostTier": 1,
+      "craftNonce": 61,
+      "entropy": "0x3eb6d50084feb5d1c713512d9c1c4af19a95e7306020bff6255f4b7e5db3df00",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "childSeed": "0x2ab9f47c0fcb396323ed3a25b943955732d0296e93646bbc7d50cb8b1019f033",
+      "attributes": {
+        "background": "Lab",
+        "head": "Reptile",
+        "outfit": "Builder",
+        "hair": "Long",
+        "eyes": "Explorer",
+        "nose": "Button",
+        "mouth": "Smile",
+        "eyewear": "None",
+        "headwear": "None",
+        "companion": "Dog",
+        "era": "Season One",
+        "origin": "LinkedIn Form",
+        "quote": "None",
+        "lore": "Discord not linked",
+        "hair_color": "Ice"
+      },
+      "notes": "tier=1 sweep pair=6 choices=8"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000003",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000004",
+      "minId": 1012,
+      "maxId": 1013,
+      "boostTier": 2,
+      "craftNonce": 62,
+      "entropy": "0x40212c58fbc1483b2d39d5dd2a7d23dc0825514500e026348feb0c0307f95cd4",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "childSeed": "0xc738081169cbbf5dfa677d03bd0a29d372800ec4e97d36ab0ed94d7518827cf7",
+      "attributes": {
+        "background": "Lab",
+        "head": "Reptile",
+        "outfit": "Builder",
+        "hair": "Long",
+        "eyes": "Explorer",
+        "nose": "Button",
+        "mouth": "Smile",
+        "eyewear": "None",
+        "headwear": "Cap",
+        "companion": "Drone",
+        "era": "Day One",
+        "origin": "Arc House",
+        "quote": "Architects are not employees",
+        "lore": "Wrong chain id 5042/5042002",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=2 sweep pair=6 choices=10"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000003",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000004",
+      "minId": 1012,
+      "maxId": 1013,
+      "boostTier": 3,
+      "craftNonce": 63,
+      "entropy": "0x91c2ccbeec4fb432c1a35586aa1547c45ac653cb419481386645d0092ca19c48",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "childSeed": "0xa4f85c560dcb650a0817da4994fdc1c887d14b1d349ba0c06d950a856430f62c",
+      "attributes": {
+        "background": "Lab",
+        "head": "Reptile",
+        "outfit": "Builder",
+        "hair": "Short",
+        "eyes": "Explorer",
+        "nose": "Button",
+        "mouth": "Smile",
+        "eyewear": "None",
+        "headwear": "Cap",
+        "companion": "Drone",
+        "era": "Genesis",
+        "origin": "Early Wanderer",
+        "quote": "Fees in the dollar",
+        "lore": "Discord not linked",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=3 sweep pair=6 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000004",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000005",
+      "minId": 1014,
+      "maxId": 1015,
+      "boostTier": 0,
+      "craftNonce": 70,
+      "entropy": "0x96708406c50c59ed73908dd348b9ef843fa728a3a535dcbc042e17935338ca16",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "childSeed": "0xb3107fbe00cb883046f0481148d63a330c9e8571cbb2e038c3fd427b6ac627f6",
+      "attributes": {
+        "background": "Office",
+        "head": "Reptile",
+        "outfit": "Engineer",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Button",
+        "mouth": "Default",
+        "eyewear": "None",
+        "headwear": "None",
+        "companion": "Drone",
+        "era": "Season One",
+        "origin": "Early Wanderer",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=0 sweep pair=7 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000004",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000005",
+      "minId": 1014,
+      "maxId": 1015,
+      "boostTier": 1,
+      "craftNonce": 71,
+      "entropy": "0x44f25264943ef50b05bb41a9132c51c9348118fd486df5aaf3f21b04363e8659",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "childSeed": "0x64d413681a3b403f1e684a30b3d2bc5e014aa860cd328cdccdff8bd98a82fa01",
+      "attributes": {
+        "background": "Office",
+        "head": "Reptile",
+        "outfit": "Engineer",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Button",
+        "mouth": "Smile",
+        "eyewear": "None",
+        "headwear": "None",
+        "companion": "Flying Rat",
+        "era": "Genesis",
+        "origin": "Early Wanderer",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Black"
+      },
+      "notes": "tier=1 sweep pair=7 choices=8"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000004",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000005",
+      "minId": 1014,
+      "maxId": 1015,
+      "boostTier": 2,
+      "craftNonce": 72,
+      "entropy": "0xaba35439b6816183093d13a85beb4aed18de6f7d35077a12459ba405d18b2805",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ]
+      ],
+      "childSeed": "0x29bc4ec8c3c2ad2ce5179dcedafe1ff13b208e7e5e894198eaf83eac1d8af474",
+      "attributes": {
+        "background": "Office",
+        "head": "Reptile",
+        "outfit": "Engineer",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Button",
+        "mouth": "Smile",
+        "eyewear": "None",
+        "headwear": "Hard Hat",
+        "companion": "Drone",
+        "era": "House",
+        "origin": "Discord Queue",
+        "quote": "500 points",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=2 sweep pair=7 choices=10"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000004",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000005",
+      "minId": 1014,
+      "maxId": 1015,
+      "boostTier": 3,
+      "craftNonce": 73,
+      "entropy": "0xfa6b1f7bd88c50587b2f5e7d0cda5e4510f3f02e2fca049469743242772ef4bf",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          11,
+          0
+        ]
+      ],
+      "childSeed": "0x95e094b84d4354fd85d0e763d7250aaf73c469543716108faebf54e1e7abc148",
+      "attributes": {
+        "background": "Office",
+        "head": "Reptile",
+        "outfit": "Engineer",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Button",
+        "mouth": "Smile",
+        "eyewear": "None",
+        "headwear": "Hard Hat",
+        "companion": "Drone",
+        "era": "Genesis",
+        "origin": "Early Wanderer",
+        "quote": "Pending or Final",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=3 sweep pair=7 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000005",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000006",
+      "minId": 1016,
+      "maxId": 1017,
+      "boostTier": 0,
+      "craftNonce": 80,
+      "entropy": "0xaaa42e926ca979c385bb6a3668650140a681ce4f252ded7410e4c0ef737053cb",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "childSeed": "0x402d965fbe340f5589e7cb4744217fc84344ca30ae6d257c796684bf91ac3aab",
+      "attributes": {
+        "background": "Office",
+        "head": "Scar",
+        "outfit": "Engineer",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Rounded",
+        "mouth": "Grin",
+        "eyewear": "USDC Lenses",
+        "headwear": "None",
+        "companion": "Dog",
+        "era": "Genesis",
+        "origin": "Early Wanderer",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=0 sweep pair=8 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000005",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000006",
+      "minId": 1016,
+      "maxId": 1017,
+      "boostTier": 1,
+      "craftNonce": 81,
+      "entropy": "0xec6e3d940740701e31de49a05a54d0ecc43f87f958445e0b543681695526188c",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "childSeed": "0x3ee52013dd2afae70379e9a1501fd6b2f9c49130d03f933bba94592837612536",
+      "attributes": {
+        "background": "City",
+        "head": "Scar",
+        "outfit": "Engineer",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Rounded",
+        "mouth": "Default",
+        "eyewear": "Sunglasses",
+        "headwear": "None",
+        "companion": "Robot",
+        "era": "House",
+        "origin": "Discord Queue",
+        "quote": "Points have no monetary value",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=1 sweep pair=8 choices=8"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000005",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000006",
+      "minId": 1016,
+      "maxId": 1017,
+      "boostTier": 2,
+      "craftNonce": 82,
+      "entropy": "0x0dc04868f7201d736bdae75d14503e107fe5e7d94ba9c32245765a34fd637174",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "childSeed": "0x32b5e713dd053a1931d436389e7ec548b8375bb5a98649b903941fab3480b12c",
+      "attributes": {
+        "background": "Construction",
+        "head": "Scar",
+        "outfit": "Engineer",
+        "hair": "Long",
+        "eyes": "Default",
+        "nose": "Rounded",
+        "mouth": "Default",
+        "eyewear": "None",
+        "headwear": "Hard Hat",
+        "companion": "None",
+        "era": "Season One",
+        "origin": "Discord Queue",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=2 sweep pair=8 choices=10"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000005",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000006",
+      "minId": 1016,
+      "maxId": 1017,
+      "boostTier": 3,
+      "craftNonce": 83,
+      "entropy": "0x940b9b15addbc3dff1903c63d5b92bf7ec45731e94ed4fcc0463567d2a39771d",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "childSeed": "0x68747cef84ae0d3f055aff84ae1763cb1c19f8eb5f521c70f46dc3f3f5501a8b",
+      "attributes": {
+        "background": "Snow",
+        "head": "Scar",
+        "outfit": "Engineer",
+        "hair": "Curly",
+        "eyes": "Explorer",
+        "nose": "Rounded",
+        "mouth": "Smirk",
+        "eyewear": "None",
+        "headwear": "Hard Hat",
+        "companion": "None",
+        "era": "Season One",
+        "origin": "Arc House",
+        "quote": "Points have no monetary value",
+        "lore": "None",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=3 sweep pair=8 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000006",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000007",
+      "minId": 1018,
+      "maxId": 1019,
+      "boostTier": 0,
+      "craftNonce": 90,
+      "entropy": "0x2231180df27b21bcab61b6cbbf87fe20c43135c2290a8e91dfbe429227daf4ce",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "childSeed": "0xf5a93ef4a0a8ca2d7b9729c5b7b23117bc915626a643a60a725fc4120642ed02",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Vest",
+        "hair": "Short",
+        "eyes": "Soft",
+        "nose": "Default",
+        "mouth": "Grin",
+        "eyewear": "Sunglasses",
+        "headwear": "Hard Hat",
+        "companion": "Cat",
+        "era": "Genesis",
+        "origin": "Early Wanderer",
+        "quote": "The queues are too slow",
+        "lore": "Faucet sent zero",
+        "hair_color": "Green"
+      },
+      "notes": "tier=0 sweep pair=9 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000006",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000007",
+      "minId": 1018,
+      "maxId": 1019,
+      "boostTier": 1,
+      "craftNonce": 91,
+      "entropy": "0xb6967f43c3447db95d86fb75e387370db6b919474e92dd08f57792c2fe1dd0a3",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "childSeed": "0x77b58aa163f84bd0dc4ee922faf344610379809337de2b75cf5e69c669bb3383",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Vest",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Grin",
+        "eyewear": "Sunglasses",
+        "headwear": "None",
+        "companion": "Cat",
+        "era": "House",
+        "origin": "Early Wanderer",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=1 sweep pair=9 choices=8"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000006",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000007",
+      "minId": 1018,
+      "maxId": 1019,
+      "boostTier": 2,
+      "craftNonce": 92,
+      "entropy": "0x1171d97432554d4e1a8dfaf44cbadd60d48f2bf49618389870f95adb466a5735",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ]
+      ],
+      "childSeed": "0xfeae424acd5f2d060b39a7bf16e858cfa94b4c58bb10934b81bba21a985afdab",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Vest",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Grin",
+        "eyewear": "Glasses",
+        "headwear": "Hard Hat",
+        "companion": "Flying Rat",
+        "era": "Day One",
+        "origin": "Community",
+        "quote": "The queues are too slow",
+        "lore": "Faucet sent zero",
+        "hair_color": "Black"
+      },
+      "notes": "tier=2 sweep pair=9 choices=10"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000006",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000007",
+      "minId": 1018,
+      "maxId": 1019,
+      "boostTier": 3,
+      "craftNonce": 93,
+      "entropy": "0x377c234a80d4dc613e3954be3bb67ef0784ab79a7adc9ac758c1510da86401db",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          11,
+          0
+        ]
+      ],
+      "childSeed": "0x299f4fe5d1c250d997db22710dee80e2ffc819c08856dc812293b4659ffdc09c",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Vest",
+        "hair": "Short",
+        "eyes": "Red",
+        "nose": "Default",
+        "mouth": "Smile",
+        "eyewear": "None",
+        "headwear": "Hard Hat",
+        "companion": "Flying Rat",
+        "era": "Day One",
+        "origin": "Arc House",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=3 sweep pair=9 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000007",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000008",
+      "minId": 1020,
+      "maxId": 1021,
+      "boostTier": 0,
+      "craftNonce": 100,
+      "entropy": "0xf765fa3de04ac3f1438bb5d32873d9d98e8a447009dadae501c95e4bf5f3418d",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "childSeed": "0x495cd4c16dd49d707f96b190ac17c4d913427a0f181a4c166cd2f8a55d5071a9",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Vest",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "Sunglasses",
+        "headwear": "Beanie",
+        "companion": "None",
+        "era": "Expansion",
+        "origin": "Partner",
+        "quote": "I'm seated, Tim",
+        "lore": "Discord not linked",
+        "hair_color": "Black"
+      },
+      "notes": "tier=0 sweep pair=10 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000007",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000008",
+      "minId": 1020,
+      "maxId": 1021,
+      "boostTier": 1,
+      "craftNonce": 101,
+      "entropy": "0xac3b00dfeeca41077079eb95113664318784bd088517bc13b345e5674db58f6a",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "childSeed": "0x6fd72343e59489951c0dcf53175688d9cb48f67d91d3aadb92ac400a96582c9f",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Vest",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Smile",
+        "eyewear": "Glasses",
+        "headwear": "None",
+        "companion": "Flying Rat",
+        "era": "Season One",
+        "origin": "Early Wanderer",
+        "quote": "None",
+        "lore": "Faucet sent zero",
+        "hair_color": "Green"
+      },
+      "notes": "tier=1 sweep pair=10 choices=8"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000007",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000008",
+      "minId": 1020,
+      "maxId": 1021,
+      "boostTier": 2,
+      "craftNonce": 102,
+      "entropy": "0xd361b06204b0a34e8511f55125e1bf4742933bc69787a7741c8c2d172bdbe3b4",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "childSeed": "0x6dfd03790262b6911c1a9043865fe256a6eda665da8571e9fc0e4d1261cc568a",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Vest",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Smile",
+        "eyewear": "Glasses",
+        "headwear": "Hard Hat",
+        "companion": "None",
+        "era": "Genesis",
+        "origin": "Arc House",
+        "quote": "None",
+        "lore": "499 points then sleep",
+        "hair_color": "Black"
+      },
+      "notes": "tier=2 sweep pair=10 choices=10"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000007",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000008",
+      "minId": 1020,
+      "maxId": 1021,
+      "boostTier": 3,
+      "craftNonce": 103,
+      "entropy": "0x5e3bdf32bf568c47000825fef7b710244e05e0e43708484a180f881e7e176cf2",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "childSeed": "0xa1cb4b7575d64ce9bb08555c756aa5a4f063cde5cf483fd17b68f84ee91f8c3d",
+      "attributes": {
+        "background": "Space",
+        "head": "Default",
+        "outfit": "Vest",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Smile",
+        "eyewear": "Glasses",
+        "headwear": "Hard Hat",
+        "companion": "None",
+        "era": "Genesis",
+        "origin": "LinkedIn Form",
+        "quote": "Türkiye, chapter one",
+        "lore": "Minted while cats were live",
+        "hair_color": "Black"
+      },
+      "notes": "tier=3 sweep pair=10 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000008",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000009",
+      "minId": 1022,
+      "maxId": 1023,
+      "boostTier": 0,
+      "craftNonce": 110,
+      "entropy": "0x94c63dcca19c961d9e12c4d80f739fa5fb4eed06e8748f83d81f0c5e99a5dbc9",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "childSeed": "0xd9ecb60a9d6735b3a92982350802988336270698f330b1f10c61d21eaebcd264",
+      "attributes": {
+        "background": "Beach",
+        "head": "Default",
+        "outfit": "Hoodie",
+        "hair": "Curly",
+        "eyes": "Laser",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "Sunglasses",
+        "headwear": "Hard Hat",
+        "companion": "Cat",
+        "era": "Season One",
+        "origin": "Discord Queue",
+        "quote": "500 points",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=0 sweep pair=11 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000008",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000009",
+      "minId": 1022,
+      "maxId": 1023,
+      "boostTier": 1,
+      "craftNonce": 111,
+      "entropy": "0x3c4a999dfde693bb94fd33515e4435fe317464e466e991a150757bdf69088800",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "childSeed": "0xfe95fae4bbba1f1b8492615f7bec0f4e75152b1cc2e5f1dbb0bb26b24f302548",
+      "attributes": {
+        "background": "Beach",
+        "head": "Default",
+        "outfit": "Hacker",
+        "hair": "Curly",
+        "eyes": "Laser",
+        "nose": "Default",
+        "mouth": "Smirk",
+        "eyewear": "Glasses",
+        "headwear": "Cap",
+        "companion": "Drone",
+        "era": "Genesis",
+        "origin": "Early Wanderer",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Black"
+      },
+      "notes": "tier=1 sweep pair=11 choices=8"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000008",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000009",
+      "minId": 1022,
+      "maxId": 1023,
+      "boostTier": 2,
+      "craftNonce": 112,
+      "entropy": "0xd87da87cdac7e7b9e8c96a7d7a5806b4272dcb1b9f5977b152b5b452022a6bca",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ]
+      ],
+      "childSeed": "0x869cfe9a842ded6d88acd87c6683f35426e07f22be335361d7304866b7e3d8ce",
+      "attributes": {
+        "background": "Beach",
+        "head": "Default",
+        "outfit": "Hoodie",
+        "hair": "Curly",
+        "eyes": "Laser",
+        "nose": "Default",
+        "mouth": "Smirk",
+        "eyewear": "Glasses",
+        "headwear": "Crown",
+        "companion": "Dog",
+        "era": "House",
+        "origin": "Community",
+        "quote": "500 points",
+        "lore": "None",
+        "hair_color": "Green"
+      },
+      "notes": "tier=2 sweep pair=11 choices=10"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000008",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000009",
+      "minId": 1022,
+      "maxId": 1023,
+      "boostTier": 3,
+      "craftNonce": 113,
+      "entropy": "0xf478513100c22965cedef6b76cc2adac4d12baae3369754c8625017475695c00",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          11,
+          0
+        ]
+      ],
+      "childSeed": "0x5895a1e09e5f1a608a63efbd6f0326f8ea3b22fb5faf52adc7461dbf2c28c5cc",
+      "attributes": {
+        "background": "Beach",
+        "head": "Default",
+        "outfit": "Lab Coat",
+        "hair": "Curly",
+        "eyes": "Laser",
+        "nose": "Default",
+        "mouth": "Smirk",
+        "eyewear": "Glasses",
+        "headwear": "Crown",
+        "companion": "Cat",
+        "era": "Private Mainnet",
+        "origin": "LinkedIn Form",
+        "quote": "None",
+        "lore": "Discord not linked",
+        "hair_color": "Black"
+      },
+      "notes": "tier=3 sweep pair=11 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000009",
+      "seedHigh": "0x000000000000000000000000000000000000000000000000000000000000000a",
+      "minId": 1024,
+      "maxId": 1025,
+      "boostTier": 0,
+      "craftNonce": 120,
+      "entropy": "0x181fb6bd0e64747e8f3c664f26645dff24f2f910452812e7dd87b1034c4b2a98",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "childSeed": "0x4380d9c94f4083273634bc95d6ea828bae7f09e9d6b4e926f555f99dbcea6525",
+      "attributes": {
+        "background": "Beach",
+        "head": "Default",
+        "outfit": "Hoodie",
+        "hair": "Long",
+        "eyes": "Laser",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "None",
+        "headwear": "Hard Hat",
+        "companion": "Bonkguy",
+        "era": "Season One",
+        "origin": "Community",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=0 sweep pair=12 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000009",
+      "seedHigh": "0x000000000000000000000000000000000000000000000000000000000000000a",
+      "minId": 1024,
+      "maxId": 1025,
+      "boostTier": 1,
+      "craftNonce": 121,
+      "entropy": "0x7dabd66f38e6acf4c7e3bc1725bdf510a59e2f2ae69b4d004258d9cfc7dcfc35",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "childSeed": "0x39287c91cb7f199dd5d393fc0aa5703eea05cf15363c4e3fed8b865857d9c725",
+      "attributes": {
+        "background": "Beach",
+        "head": "Default",
+        "outfit": "Hoodie",
+        "hair": "Long",
+        "eyes": "Laser",
+        "nose": "Default",
+        "mouth": "Smirk",
+        "eyewear": "None",
+        "headwear": "Cap",
+        "companion": "Drone",
+        "era": "Day One",
+        "origin": "Early Wanderer",
+        "quote": "Pending or Final",
+        "lore": "None",
+        "hair_color": "Ginger"
+      },
+      "notes": "tier=1 sweep pair=12 choices=8"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000009",
+      "seedHigh": "0x000000000000000000000000000000000000000000000000000000000000000a",
+      "minId": 1024,
+      "maxId": 1025,
+      "boostTier": 2,
+      "craftNonce": 122,
+      "entropy": "0x8a093e159c990c51b0af349fb0cf1dc19ac5207d89e192fdf38e1f8b96c6f494",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "childSeed": "0xaf6fd6cb63d9918aa741950c547a08cdd65de90a79fdea55bd3d09462e118ae5",
+      "attributes": {
+        "background": "Beach",
+        "head": "Default",
+        "outfit": "Hoodie",
+        "hair": "Long",
+        "eyes": "Laser",
+        "nose": "Default",
+        "mouth": "Smirk",
+        "eyewear": "None",
+        "headwear": "Crown",
+        "companion": "None",
+        "era": "Genesis",
+        "origin": "Community",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=2 sweep pair=12 choices=10"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000009",
+      "seedHigh": "0x000000000000000000000000000000000000000000000000000000000000000a",
+      "minId": 1024,
+      "maxId": 1025,
+      "boostTier": 3,
+      "craftNonce": 123,
+      "entropy": "0xfd9cba5e6e5650c26545b5a0b05de997fd00fe3161ac92173b79d6deef5a2526",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "childSeed": "0x5f67388d127e615d5edb9a80c7d4ceed728e294c162b233fad6a9dc024b4e084",
+      "attributes": {
+        "background": "Beach",
+        "head": "Ice",
+        "outfit": "Hoodie",
+        "hair": "Long",
+        "eyes": "Laser",
+        "nose": "Default",
+        "mouth": "Smirk",
+        "eyewear": "None",
+        "headwear": "Crown",
+        "companion": "Mouse",
+        "era": "Private Mainnet",
+        "origin": "Partner",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=3 sweep pair=12 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x000000000000000000000000000000000000000000000000000000000000000a",
+      "seedHigh": "0x000000000000000000000000000000000000000000000000000000000000000b",
+      "minId": 1026,
+      "maxId": 1027,
+      "boostTier": 0,
+      "craftNonce": 130,
+      "entropy": "0x6255ac19e8d74b394c8ff53177346059db9389ac8322e1958247c9ea16e6d2fa",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "childSeed": "0x8677f00326b4abff5aaa328d4893b03ebb2fd1a092e0125e0e2783224fd1ffdb",
+      "attributes": {
+        "background": "Night",
+        "head": "Ice",
+        "outfit": "Hacker",
+        "hair": "Long",
+        "eyes": "Explorer",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "None",
+        "headwear": "None",
+        "companion": "Dog",
+        "era": "Day One",
+        "origin": "Community",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Black"
+      },
+      "notes": "tier=0 sweep pair=13 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x000000000000000000000000000000000000000000000000000000000000000a",
+      "seedHigh": "0x000000000000000000000000000000000000000000000000000000000000000b",
+      "minId": 1026,
+      "maxId": 1027,
+      "boostTier": 1,
+      "craftNonce": 131,
+      "entropy": "0x6969dbf88355e3bfe3ea879b14330e7ac2ddacae37d23dc06e93aaba8a8364ae",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "childSeed": "0x9a856e9bc523407ab1492d239766b543dd8e8d340a1b91ac31c9be98c80cb100",
+      "attributes": {
+        "background": "Night",
+        "head": "Default",
+        "outfit": "Hacker",
+        "hair": "Long",
+        "eyes": "Soft",
+        "nose": "Default",
+        "mouth": "Fangs",
+        "eyewear": "None",
+        "headwear": "None",
+        "companion": "None",
+        "era": "Day One",
+        "origin": "Community",
+        "quote": "The queues are too slow",
+        "lore": "499 points then sleep",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=1 sweep pair=13 choices=8"
+    },
+    {
+      "seedLow": "0x000000000000000000000000000000000000000000000000000000000000000a",
+      "seedHigh": "0x000000000000000000000000000000000000000000000000000000000000000b",
+      "minId": 1026,
+      "maxId": 1027,
+      "boostTier": 2,
+      "craftNonce": 132,
+      "entropy": "0xa9b7341c3f4450470630ad77b47aeaa4743fc6d1375645a3f7a8b7a47fa87c8b",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ]
+      ],
+      "childSeed": "0x6cc5a087ffdc5d8e5fd900882737e811a43bb57627e50c1a1e83e90a189f8270",
+      "attributes": {
+        "background": "Night",
+        "head": "Default",
+        "outfit": "Hacker",
+        "hair": "Long",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "None",
+        "headwear": "None",
+        "companion": "None",
+        "era": "Expansion",
+        "origin": "Circle",
+        "quote": "I'm seated, Tim",
+        "lore": "First sub-second FINAL",
+        "hair_color": "Ice"
+      },
+      "notes": "tier=2 sweep pair=13 choices=10"
+    },
+    {
+      "seedLow": "0x000000000000000000000000000000000000000000000000000000000000000a",
+      "seedHigh": "0x000000000000000000000000000000000000000000000000000000000000000b",
+      "minId": 1026,
+      "maxId": 1027,
+      "boostTier": 3,
+      "craftNonce": 133,
+      "entropy": "0xe53e23734e7a1a644672d121d82db10970b2aede57c3409cf3f2682c2a4ee927",
+      "choices": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          0
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          11,
+          0
+        ]
+      ],
+      "childSeed": "0x59b0b5aaa43e730cc03bac937e7e88a2d1c512fada2127c1c76a3a0224c7a9ff",
+      "attributes": {
+        "background": "Night",
+        "head": "Default",
+        "outfit": "Hacker",
+        "hair": "Long",
+        "eyes": "Soft",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "None",
+        "headwear": "None",
+        "companion": "None",
+        "era": "Day One",
+        "origin": "Discord Queue",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=3 sweep pair=13 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x000000000000000000000000000000000000000000000000000000000000000b",
+      "seedHigh": "0x000000000000000000000000000000000000000000000000000000000000000c",
+      "minId": 1028,
+      "maxId": 1029,
+      "boostTier": 0,
+      "craftNonce": 140,
+      "entropy": "0xef42b4a2ad00259e3b9d0bac6f48c6e3c1ecffe8f3ae31cf94d473c1b53f9149",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "childSeed": "0xf8dd300e3e6f9488e330f2fe959043db1a1311a75c56e312217f3016af8ce38d",
+      "attributes": {
+        "background": "Beach",
+        "head": "Default",
+        "outfit": "Hacker",
+        "hair": "Short",
+        "eyes": "Red",
+        "nose": "Default",
+        "mouth": "Open",
+        "eyewear": "USDC Lenses",
+        "headwear": "None",
+        "companion": "Cat",
+        "era": "Season One",
+        "origin": "Community",
+        "quote": "The queues are too slow",
+        "lore": "Wrong chain id 5042/5042002",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=0 sweep pair=14 choices=6 max-choices (6)"
+    },
+    {
+      "seedLow": "0x000000000000000000000000000000000000000000000000000000000000000b",
+      "seedHigh": "0x000000000000000000000000000000000000000000000000000000000000000c",
+      "minId": 1028,
+      "maxId": 1029,
+      "boostTier": 1,
+      "craftNonce": 141,
+      "entropy": "0x29ca2e0908b75810233216a6350bc4151732e489f53124e4c96d9ce07783b8fe",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "childSeed": "0x8abfda020b45a4c8f98c0bcaf5e827278d073db25bceaa828b62e6a1c5787097",
+      "attributes": {
+        "background": "Night",
+        "head": "Default",
+        "outfit": "Hacker",
+        "hair": "Short",
+        "eyes": "Red",
+        "nose": "Default",
+        "mouth": "Grin",
+        "eyewear": "Glasses",
+        "headwear": "Beanie",
+        "companion": "Dog",
+        "era": "Genesis",
+        "origin": "LinkedIn Form",
+        "quote": "The queues are too slow",
+        "lore": "499 points then sleep",
+        "hair_color": "Brown"
+      },
+      "notes": "tier=1 sweep pair=14 choices=8"
+    },
+    {
+      "seedLow": "0x000000000000000000000000000000000000000000000000000000000000000b",
+      "seedHigh": "0x000000000000000000000000000000000000000000000000000000000000000c",
+      "minId": 1028,
+      "maxId": 1029,
+      "boostTier": 2,
+      "craftNonce": 142,
+      "entropy": "0xa13bc04ede9a0933e46447b9f0b4dcf51540cabd129f4f51e6a8dc94f22f890a",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "childSeed": "0x42c39bcf1bb26834f2ca12bae93af8f9ee5c1cae2ad2d35c4509712c44db75b5",
+      "attributes": {
+        "background": "Beach",
+        "head": "Reptile",
+        "outfit": "Hacker",
+        "hair": "Short",
+        "eyes": "Red",
+        "nose": "Default",
+        "mouth": "Grin",
+        "eyewear": "None",
+        "headwear": "None",
+        "companion": "None",
+        "era": "Day One",
+        "origin": "Discord Queue",
+        "quote": "Fees in the dollar",
+        "lore": "Minted while cats were live",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=2 sweep pair=14 choices=10"
+    },
+    {
+      "seedLow": "0x000000000000000000000000000000000000000000000000000000000000000b",
+      "seedHigh": "0x000000000000000000000000000000000000000000000000000000000000000c",
+      "minId": 1028,
+      "maxId": 1029,
+      "boostTier": 3,
+      "craftNonce": 143,
+      "entropy": "0x6d953d226b719c8b58bfe0ae6b52dd461ff7f077b0d2c5b5fc8dcef211136582",
+      "choices": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "childSeed": "0x4c2c99eb7eb88e100314dc6b8f01f89a0e5248c4fa801ddce7481041b27a41fc",
+      "attributes": {
+        "background": "Beach",
+        "head": "Female",
+        "outfit": "Hacker",
+        "hair": "Short",
+        "eyes": "Red",
+        "nose": "Default",
+        "mouth": "Grin",
+        "eyewear": "Sunglasses",
+        "headwear": "None",
+        "companion": "None",
+        "era": "Day One",
+        "origin": "LinkedIn Form",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Ginger"
+      },
+      "notes": "tier=3 sweep pair=14 choices=12 max-choices (12)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000001",
+      "seedHigh": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "minId": 3000,
+      "maxId": 4000,
+      "boostTier": 0,
+      "craftNonce": 900,
+      "entropy": "0x750bd9d6419fbdc7db163199f85e3f268ffc7ddfe575d5ed76cb53d3da655d4b",
+      "choices": [],
+      "childSeed": "0x2d16fff94cb4c28dca8c72094bf65495b519679a07f099979e1a923f29c9e212",
+      "attributes": {
+        "background": "City",
+        "head": "Default",
+        "outfit": "Jacket",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "USDC Lenses",
+        "headwear": "Cap",
+        "companion": "None",
+        "era": "Season One",
+        "origin": "Community",
+        "quote": "Fees in the dollar",
+        "lore": "None",
+        "hair_color": "Ginger"
+      },
+      "notes": "tier=0 empty-choices"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000002",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000003",
+      "minId": 3010,
+      "maxId": 4010,
+      "boostTier": 1,
+      "craftNonce": 901,
+      "entropy": "0xceb263288eaaffea381287c016f4f5662e35b04b8d2704275795cca64ce10388",
+      "choices": [],
+      "childSeed": "0x8429b0eb94eb1caf7bf430fb50ef62e856e36d8326349ebc66e557e13ebc5d6a",
+      "attributes": {
+        "background": "Lab",
+        "head": "Scar",
+        "outfit": "Tee",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "Sunglasses",
+        "headwear": "Beanie",
+        "companion": "Drone",
+        "era": "Season One",
+        "origin": "Discord Queue",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Ginger"
+      },
+      "notes": "tier=1 empty-choices"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000007",
+      "seedHigh": "0x0000000000000000000000000000000000000000000000000000000000000008",
+      "minId": 3020,
+      "maxId": 4020,
+      "boostTier": 2,
+      "craftNonce": 902,
+      "entropy": "0x75cc3ab90f736f7ecafe4e5ec41e84d72e97a4f0dc768650509338e0ed35148d",
+      "choices": [],
+      "childSeed": "0x7add591e7b6502e81e61a67c9c66db9950388f98182ca457ca41052417ace3bc",
+      "attributes": {
+        "background": "Forest",
+        "head": "Default",
+        "outfit": "Jacket",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "None",
+        "headwear": "Halo",
+        "companion": "Bonkguy",
+        "era": "Season One",
+        "origin": "LinkedIn Form",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Green"
+      },
+      "notes": "tier=2 empty-choices"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000001",
+      "seedHigh": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "minId": 5000,
+      "maxId": 5001,
+      "boostTier": 1,
+      "craftNonce": 4,
+      "entropy": "0xf769339782d0fea375fccc7f07a8bc825617c7b33a7574faa970ded4575520cd",
+      "choices": [
+        [
+          1,
+          0
+        ]
+      ],
+      "childSeed": "0x0e0b3ee2aea4e7b369e0089bfcb396852e3aa8cec646a2c6e4344607ba125e93",
+      "attributes": {
+        "background": "City",
+        "head": "Female",
+        "outfit": "Builder",
+        "hair": "Long",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "None",
+        "headwear": "Beanie",
+        "companion": "None",
+        "era": "Season One",
+        "origin": "Discord Queue",
+        "quote": "Economic OS for the internet",
+        "lore": "Faucet sent zero",
+        "hair_color": "Ice"
+      },
+      "notes": "tier=1 dup→wildcard slot=1 (head) parents agree: 'Default'"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000001",
+      "seedHigh": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "minId": 5000,
+      "maxId": 5001,
+      "boostTier": 1,
+      "craftNonce": 0,
+      "entropy": "0x83a8e7a2344d979af0ad7cd84c26941a1b09cba9496517086ac8865d9ac0750c",
+      "choices": [
+        [
+          3,
+          0
+        ]
+      ],
+      "childSeed": "0xfb8fa9d3886badb1ae1530ddf30fc8de3bd1c4675dcf240bde6a2c8bc5d38346",
+      "attributes": {
+        "background": "Night",
+        "head": "Default",
+        "outfit": "Hoodie",
+        "hair": "Short",
+        "eyes": "Soft",
+        "nose": "Rounded",
+        "mouth": "Frown",
+        "eyewear": "Glasses",
+        "headwear": "Cap",
+        "companion": "None",
+        "era": "Genesis",
+        "origin": "Partner",
+        "quote": "Pending or Final",
+        "lore": "None",
+        "hair_color": "Ice"
+      },
+      "notes": "tier=1 dup→wildcard slot=3 (hair) parents agree: 'Curly'"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000001",
+      "seedHigh": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "minId": 5000,
+      "maxId": 5001,
+      "boostTier": 1,
+      "craftNonce": 0,
+      "entropy": "0x83a8e7a2344d979af0ad7cd84c26941a1b09cba9496517086ac8865d9ac0750c",
+      "choices": [
+        [
+          4,
+          0
+        ]
+      ],
+      "childSeed": "0xfb8fa9d3886badb1ae1530ddf30fc8de3bd1c4675dcf240bde6a2c8bc5d38346",
+      "attributes": {
+        "background": "Night",
+        "head": "Default",
+        "outfit": "Hoodie",
+        "hair": "Short",
+        "eyes": "Soft",
+        "nose": "Rounded",
+        "mouth": "Frown",
+        "eyewear": "Glasses",
+        "headwear": "Cap",
+        "companion": "None",
+        "era": "Genesis",
+        "origin": "Partner",
+        "quote": "Pending or Final",
+        "lore": "None",
+        "hair_color": "Ice"
+      },
+      "notes": "tier=1 dup→wildcard slot=4 (eyes) parents agree: 'Default'"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000001",
+      "seedHigh": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "minId": 6000,
+      "maxId": 6001,
+      "boostTier": 0,
+      "craftNonce": 600,
+      "entropy": "0x5306929d6df50105030d65b3e25c68a0c2251d8550d7b7dae7373431702f845d",
+      "choices": [
+        [
+          8,
+          1
+        ]
+      ],
+      "childSeed": "0x563097d479d55489e49eabb84b375c92f2f55d0d43a91e7504d9586f83623136",
+      "attributes": {
+        "background": "Lab",
+        "head": "Default",
+        "outfit": "Engineer",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "Sunglasses",
+        "headwear": "None",
+        "companion": "None",
+        "era": "Season One",
+        "origin": "Community",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=0 inherited-None slot=8 (headwear) inherited from parent 1 (value=None)"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000001",
+      "seedHigh": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "minId": 7000,
+      "maxId": 7001,
+      "boostTier": 2,
+      "craftNonce": 712,
+      "entropy": "0x42119dd85393fc41e61a097fef9ddff601f6c065a8c4e1e514534ec771719def",
+      "choices": [],
+      "childSeed": "0xc0cd6c5ea73c683fd17e54c6e03265d049fc38285d1260d6dfdf24ede71d8672",
+      "attributes": {
+        "background": "Night",
+        "head": "Default",
+        "outfit": "Hoodie",
+        "hair": "Curly",
+        "eyes": "Default",
+        "nose": "Button",
+        "mouth": "Smirk",
+        "eyewear": "Glasses",
+        "headwear": "None",
+        "companion": "Flying Rat",
+        "era": "Private Mainnet",
+        "origin": "Early Wanderer",
+        "quote": "None",
+        "lore": "499 points then sleep",
+        "hair_color": "Blond"
+      },
+      "notes": "tier=2 wildcard-tail slot=12 (quote) always childSeed-derived"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000001",
+      "seedHigh": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "minId": 7000,
+      "maxId": 7001,
+      "boostTier": 2,
+      "craftNonce": 713,
+      "entropy": "0xf8713df600f677ca334cf6f04dc90ca8171b90095c11d0c1ecc0b1ba0ab473f3",
+      "choices": [],
+      "childSeed": "0x84f6a1e648306bf608103e55fba484a1e91b4f3f7ab7d5d69333e17f1b546c51",
+      "attributes": {
+        "background": "City",
+        "head": "Female",
+        "outfit": "Jacket",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Default",
+        "mouth": "Default",
+        "eyewear": "None",
+        "headwear": "None",
+        "companion": "Drone",
+        "era": "Season One",
+        "origin": "LinkedIn Form",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Black"
+      },
+      "notes": "tier=2 wildcard-tail slot=13 (lore) always childSeed-derived"
+    },
+    {
+      "seedLow": "0x0000000000000000000000000000000000000000000000000000000000000001",
+      "seedHigh": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+      "minId": 7000,
+      "maxId": 7001,
+      "boostTier": 2,
+      "craftNonce": 714,
+      "entropy": "0x1cb964958bf54f5c3f3bb21a34b1217bca30588f79d4a513ea008fd4d72dc73a",
+      "choices": [],
+      "childSeed": "0xacf6731c46f7763d59399e3f9131d859e78cf952554abe0d52c77254484bb59b",
+      "attributes": {
+        "background": "Construction",
+        "head": "Default",
+        "outfit": "Hoodie",
+        "hair": "Curly",
+        "eyes": "Soft",
+        "nose": "Default",
+        "mouth": "Smile",
+        "eyewear": "Glasses",
+        "headwear": "None",
+        "companion": "None",
+        "era": "Day One",
+        "origin": "Arc House",
+        "quote": "Points have no monetary value",
+        "lore": "None",
+        "hair_color": "Black"
+      },
+      "notes": "tier=2 wildcard-tail slot=14 (hair_color) always childSeed-derived"
+    }
+  ]
+}

@@ -27,12 +27,13 @@ import {
 } from "@/lib/walletconnect";
 import { useWalletRestore } from "@/lib/useWalletRestore";
 import { ERC721_APPROVAL_ABI } from "@/lib/staking";
-import { deriveHC2, maxChosen, type Hc2Choice } from "@/lib/hc2";
+import { deriveHC2, deriveHC2V2, maxChosen, type Hc2Choice } from "@/lib/hc2";
+import { IS_V2 } from "@/lib/traits-set";
 import { CardThumb } from "../card-thumb";
 import { rpcFetch } from "@/lib/rpc";
 import {
   BURNPOINTS_ABI,
-  CHOICE_SLOT_NAMES,
+  CRAFTED_SLOT_NAMES,
   CONTROLLER_ABI,
   CORE_CRAFT_ABI,
   CRAFT_ADDRESS,
@@ -1019,12 +1020,9 @@ export default function CraftPage() {
           let attributes: Record<string, string> | null = null;
           let golden: boolean | null = null;
           try {
-            const derived = deriveHC2(
-              seed,
-              stored.seedLow,
-              stored.seedHigh,
-              onChainChoices,
-            );
+            const derived = IS_V2
+              ? deriveHC2V2(seed, stored.seedLow, stored.seedHigh, onChainChoices)
+              : deriveHC2(seed, stored.seedLow, stored.seedHigh, onChainChoices);
             attributes = derived.attributes;
             golden = derived.golden;
           } catch {
@@ -1427,9 +1425,19 @@ export default function CraftPage() {
             <h2>2 · Inherited slots</h2>
             <p className="muted small">
               Choose up to <span className="mono">{cap}</span> slots to inherit
-              from a parent (tier {tier} → maxChosen = {cap}). Legendary, golden
-              and bug are <em>always</em> rolled from the child seed. A slot
-              where both parents agree becomes a wildcard anyway.
+              from a parent (tier {tier} → maxChosen = {cap}).{" "}
+              {IS_V2 ? (
+                <>
+                  Quote, lore and hair color are <em>always</em> rolled from the
+                  child seed.
+                </>
+              ) : (
+                <>
+                  Legendary, golden and bug are <em>always</em> rolled from the
+                  child seed.
+                </>
+              )}{" "}
+              A slot where both parents agree becomes a wildcard anyway.
             </p>
 
             <div
@@ -1834,11 +1842,7 @@ export default function CraftPage() {
                                       golden
                                     </span>
                                   )}
-                                  {CHOICE_SLOT_NAMES.concat([
-                                    "legendary",
-                                    "golden",
-                                    "bug",
-                                  ]).map((name) => (
+                                  {CRAFTED_SLOT_NAMES.map((name) => (
                                     <span key={name} className="trait-chip">
                                       <span className="k">{name}</span>{" "}
                                       <span className="mono">
@@ -1911,11 +1915,7 @@ export default function CraftPage() {
               </p>
             )}
             <div className="gacha-traits">
-              {CHOICE_SLOT_NAMES.concat([
-                "legendary",
-                "golden",
-                "bug",
-              ]).map((name) => (
+              {CRAFTED_SLOT_NAMES.map((name) => (
                 <span key={name} className="trait-chip">
                   <span className="k">{name}</span>{" "}
                   <span className="mono">{gacha.attributes?.[name] ?? "—"}</span>

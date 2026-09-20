@@ -10,6 +10,7 @@
     "check:traits": "tsx scripts/check-traits.mjs",
     "check:rarity": "tsx scripts/check-rarity.mjs",
     "check:hc2": "tsx scripts/check-hc2.mjs",
+    "check:hc2v2": "tsx scripts/check-hc2-v2.mjs",
     "check:traits2": "tsx scripts/check-traits-v2.mjs"
   },
   "dependencies": {
