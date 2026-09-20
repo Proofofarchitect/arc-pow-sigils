@@ -52,6 +52,8 @@ Mainnet addresses will be published after deployment. Contract suite: **333/333*
 - Website: https://proofofarchitect.builders
 - X: https://x.com/proof_of_arc
 - Docs: https://proofofarchitect.gitbook.io/proof-of-architect/
+- MCP server: https://github.com/Proofofarchitect/arc-pow-sigils-mcp
+- For agents: [AGENTS.md](AGENTS.md)
 
 ## Security
 

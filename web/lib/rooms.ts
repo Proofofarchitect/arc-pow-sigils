@@ -34,7 +34,7 @@ export type OpenRoom = {
 export const HUNT_X_URL = "https://x.com/proof_of_arc";
 
 export const ROOMS: Room[] = [
-  { n: 1, roman: "I", status: "open" },
+  { n: 1, roman: "I", status: "sealed" },
   { n: 2, roman: "II", status: "sealed" },
   { n: 3, roman: "III", status: "sealed" },
   { n: 4, roman: "IV", status: "sealed" },
@@ -48,14 +48,4 @@ export const ROOMS: Room[] = [
   { n: 12, roman: "XII", status: "sealed" },
 ];
 
-export const ROOM_CONTENT: Record<number, OpenRoom> = {
-  1: {
-    title: "The Threshold",
-    visibleHint: [
-      "The first Room is open. Its key was cut in three: one piece speaks in the house’s own code, one in the architect’s notes, one in the chain.",
-      "Assemble the phrase and hash it (keccak-256) — the door accepts the hash, never the phrase. Every new door opens in a post on @proof_of_arc.",
-    ],
-    sourceComment:
-      "Room I — door. The first stone is spoken elsewhere in the house: the mining face keeps the word and the measure. The second sleeps in the keeper’s warning among the architect’s notes. The third is carved from the block that birthed the House.",
-  },
-};
+export const ROOM_CONTENT: Record<number, OpenRoom> = {};

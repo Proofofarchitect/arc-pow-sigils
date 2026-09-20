@@ -1274,7 +1274,7 @@ export default function MinePage() {
         aria-hidden="true"
         dangerouslySetInnerHTML={{
           __html:
-            "<!-- the first stone is spoken here: write DOORWAY exactly (one word, uppercase), hash it with keccak-256, keep the first six hex characters. -->",
+            "<!-- house fragment: the door verifies. -->",
         }}
       />
     </>

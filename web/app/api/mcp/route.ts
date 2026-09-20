@@ -28,6 +28,7 @@ import { rarityForSeed } from "@/lib/rarity";
 import { rarityForSeedV2 } from "@/lib/rarity_v2";
 import { IS_V2 } from "@/lib/traits-set";
 import { SITE_URL } from "@/lib/site";
+import { guardMcpRequest } from "@/lib/mcp-guard";
 
 /**
  * Remote MCP server (streamable HTTP) for the Proof of Architect collection.
@@ -563,4 +564,10 @@ const handler = createMcpHandler(
   }
 );
 
-export { handler as GET, handler as POST };
+export async function GET(request: Request): Promise<Response> {
+  return guardMcpRequest(request, handler);
+}
+
+export async function POST(request: Request): Promise<Response> {
+  return guardMcpRequest(request, handler);
+}
