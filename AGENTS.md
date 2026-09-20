@@ -42,4 +42,8 @@ Arc testnet (chainId 5042002) — core `0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C
 - No spam registrations; the registry is curated if abused.
 - Questions: **@proof_of_arc** on X.
 
+## Contribution & identity
+- Commits in all project repositories use the project identity **`Proof of Architect <dev@proofofarchitect.builders>`**.
+- Contributions must not contain personal identifiers (personal emails, home paths, private infrastructure ids, non-project wallet addresses). Public chain data — contract addresses, nonces, seeds — is fine.
+
 *Tokens are collectibles with no promised value; nothing here is financial advice.*
