@@ -1,0 +1,16 @@
+{
+ "testnet-genesis": {
+  "source": "Testnet Genesis.png",
+  "seed": [60, 10, 104, 90],
+  "strategy": "color",
+  "color": "green",
+  "min_size": 60
+ },
+ "10b-mint": {
+  "source": "10B Mint.png",
+  "seed": [44, 0, 127, 40],
+  "strategy": "color",
+  "color": "neon",
+  "min_size": 200
+ }
+}

@@ -1,0 +1,15 @@
+/* =========================================================================
+   VARIANT 01 — GAMMA ONLY
+   Recolour + pixel type only. No renders, no images. The safest, most
+   conservative pass: the site looks on-brand but nothing structural moves.
+   -------------------------------------------------------------------------
+   Import order: tokens → base → surfaces (surfaces defaults to no images).
+   ========================================================================= */
+@import url("../poa-tokens.css");
+@import url("../poa-base.css");
+@import url("../poa-surfaces.css");
+
+:root {
+  --poa-hero-display: none;
+  --poa-page-img:     none;
+}

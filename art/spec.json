@@ -1,0 +1,818 @@
+{
+  "theme": "house card",
+  "version": "house-card/1",
+  "_note": "CANONICAL ART + METADATA SPEC for the House Card collection. Slot order, values, weights and the conditional golden/bug rules follow the v1 mechanics doc.md exactly. Weights are stored twice: 'weight' is the integer weight used by the PRNG (doc percent x10, units of 0.1%); 'percent' is the human/doc percentage. Each weighted slot's integer weights sum to 1000 (= 100%). Changing any slot, value, weight or their order changes traits for ALL tokens.",
+  "prng": {
+    "hash": "keccak256 (Ethereum keccak, NOT NIST SHA3)",
+    "payload": "seed_bytes32 || uint8(slotIndex) || uint16(repeatCounter)",
+    "words_per_digest": 16,
+    "word_encoding": "big-endian uint16",
+    "rejection": "acceptedRange = floor(65536 / totalWeight) * totalWeight; candidates >= acceptedRange are skipped",
+    "counter_reset": "repeatCounter resets to 0 for every slot (a rejection in one slot never affects another)"
+  },
+  "weight_units": "0.1% (doc percent x10); each weighted slot sums to 1000 = 100%",
+  "note_weight_scale": "the v1 mechanics doc.md gives percentages; several slots contain fractional values (2.5, 1.5, 0.5, 0.1, ...). The PRNG (web/lib/prng.ts) requires integer weights, so weights are scaled x10 (units of 0.1%). x10 is the smallest factor that makes every doc value an integer.",
+  "slots": [
+    {
+      "name": "background",
+      "index": 0,
+      "kind": "weighted",
+      "render": true,
+      "metadata": true,
+      "values": [
+        {
+          "name": "House Grid",
+          "weight": 140,
+          "percent": 14
+        },
+        {
+          "name": "Testnet Grid",
+          "weight": 130,
+          "percent": 13
+        },
+        {
+          "name": "Discord #dev",
+          "weight": 120,
+          "percent": 12
+        },
+        {
+          "name": "Faucet Screen",
+          "weight": 100,
+          "percent": 10
+        },
+        {
+          "name": "Blueprint",
+          "weight": 90,
+          "percent": 9
+        },
+        {
+          "name": "Block 0",
+          "weight": 80,
+          "percent": 8
+        },
+        {
+          "name": "Mainnet Blue",
+          "weight": 80,
+          "percent": 8
+        },
+        {
+          "name": "Validator Wall",
+          "weight": 70,
+          "percent": 7
+        },
+        {
+          "name": "Istanbul Night",
+          "weight": 60,
+          "percent": 6
+        },
+        {
+          "name": "Singapore Office",
+          "weight": 50,
+          "percent": 5
+        },
+        {
+          "name": "NYC Launch",
+          "weight": 50,
+          "percent": 5
+        },
+        {
+          "name": "404",
+          "weight": 30,
+          "percent": 3
+        }
+      ]
+    },
+    {
+      "name": "body",
+      "index": 1,
+      "kind": "weighted",
+      "render": true,
+      "metadata": true,
+      "values": [
+        {
+          "name": "Builder Frame",
+          "weight": 350,
+          "percent": 35
+        },
+        {
+          "name": "Clerk Frame",
+          "weight": 300,
+          "percent": 30
+        },
+        {
+          "name": "Architect Frame",
+          "weight": 220,
+          "percent": 22
+        },
+        {
+          "name": "Shadow Frame",
+          "weight": 130,
+          "percent": 13
+        }
+      ]
+    },
+    {
+      "name": "outfit",
+      "index": 2,
+      "kind": "weighted",
+      "render": true,
+      "metadata": true,
+      "values": [
+        {
+          "name": "House Hoodie",
+          "weight": 220,
+          "percent": 22
+        },
+        {
+          "name": "Teller Vest",
+          "weight": 180,
+          "percent": 18
+        },
+        {
+          "name": "Blueprint Coat",
+          "weight": 150,
+          "percent": 15
+        },
+        {
+          "name": "DevRel Jacket",
+          "weight": 130,
+          "percent": 13
+        },
+        {
+          "name": "LinkedIn Armor",
+          "weight": 110,
+          "percent": 11
+        },
+        {
+          "name": "Privacy Cloak",
+          "weight": 90,
+          "percent": 9
+        },
+        {
+          "name": "Validator Suit",
+          "weight": 70,
+          "percent": 7
+        },
+        {
+          "name": "Day One Sash",
+          "weight": 50,
+          "percent": 5
+        }
+      ]
+    },
+    {
+      "name": "face",
+      "index": 3,
+      "kind": "weighted",
+      "render": true,
+      "metadata": true,
+      "values": [
+        {
+          "name": "None",
+          "weight": 950,
+          "percent": 95
+        },
+        {
+          "name": "Tired Builder",
+          "weight": 50,
+          "percent": 5
+        }
+      ]
+    },
+    {
+      "name": "eyes",
+      "index": 4,
+      "kind": "weighted",
+      "render": true,
+      "metadata": true,
+      "values": [
+        {
+          "name": "Default",
+          "weight": 368,
+          "percent": 36.8
+        },
+        {
+          "name": "USDC Lenses",
+          "weight": 165,
+          "percent": 16.5
+        },
+        {
+          "name": "Explorer 404",
+          "weight": 101,
+          "percent": 10.1
+        },
+        {
+          "name": "Finality Eyes",
+          "weight": 55,
+          "percent": 5.5
+        },
+        {
+          "name": "Spectacles",
+          "weight": 183,
+          "percent": 18.3
+        },
+        {
+          "name": "Blank Visor",
+          "weight": 128,
+          "percent": 12.8
+        }
+      ]
+    },
+    {
+      "name": "headwear",
+      "index": 5,
+      "kind": "weighted",
+      "render": true,
+      "metadata": true,
+      "values": [
+        {
+          "name": "None",
+          "weight": 370,
+          "percent": 37
+        },
+        {
+          "name": "House Cap",
+          "weight": 150,
+          "percent": 15
+        },
+        {
+          "name": "Office Headphones",
+          "weight": 120,
+          "percent": 12
+        },
+        {
+          "name": "Reverse Cap 404",
+          "weight": 110,
+          "percent": 11
+        },
+        {
+          "name": "Muted Hood",
+          "weight": 90,
+          "percent": 9
+        },
+        {
+          "name": "Bandana",
+          "weight": 60,
+          "percent": 6
+        },
+        {
+          "name": "Kippah",
+          "weight": 50,
+          "percent": 5
+        },
+        {
+          "name": "500-Point Halo",
+          "weight": 50,
+          "percent": 5
+        }
+      ]
+    },
+    {
+      "name": "era",
+      "index": 6,
+      "kind": "weighted",
+      "render": false,
+      "metadata": true,
+      "values": [
+        {
+          "name": "Testnet",
+          "weight": 380,
+          "percent": 38
+        },
+        {
+          "name": "Day One",
+          "weight": 200,
+          "percent": 20
+        },
+        {
+          "name": "House",
+          "weight": 160,
+          "percent": 16
+        },
+        {
+          "name": "Pre-Testnet",
+          "weight": 120,
+          "percent": 12
+        },
+        {
+          "name": "Announcement",
+          "weight": 90,
+          "percent": 9
+        },
+        {
+          "name": "Private Mainnet",
+          "weight": 50,
+          "percent": 5
+        }
+      ]
+    },
+    {
+      "name": "origin",
+      "index": 7,
+      "kind": "weighted",
+      "render": false,
+      "metadata": true,
+      "values": [
+        {
+          "name": "Community",
+          "weight": 260,
+          "percent": 26
+        },
+        {
+          "name": "Discord Queue",
+          "weight": 200,
+          "percent": 20
+        },
+        {
+          "name": "Testnet Wanderer",
+          "weight": 160,
+          "percent": 16
+        },
+        {
+          "name": "Arc House",
+          "weight": 120,
+          "percent": 12
+        },
+        {
+          "name": "LinkedIn Form",
+          "weight": 100,
+          "percent": 10
+        },
+        {
+          "name": "Partner",
+          "weight": 80,
+          "percent": 8
+        },
+        {
+          "name": "Validator Desk",
+          "weight": 50,
+          "percent": 5
+        },
+        {
+          "name": "Circle",
+          "weight": 30,
+          "percent": 3
+        }
+      ]
+    },
+    {
+      "name": "quote",
+      "index": 8,
+      "kind": "weighted",
+      "render": false,
+      "metadata": true,
+      "values": [
+        {
+          "name": "None",
+          "weight": 450,
+          "percent": 45
+        },
+        {
+          "name": "Pending or Final",
+          "weight": 80,
+          "percent": 8
+        },
+        {
+          "name": "Points have no monetary value",
+          "weight": 70,
+          "percent": 7
+        },
+        {
+          "name": "Fees in the dollar",
+          "weight": 70,
+          "percent": 7
+        },
+        {
+          "name": "The queues are too slow",
+          "weight": 60,
+          "percent": 6
+        },
+        {
+          "name": "Architects are not employees",
+          "weight": 60,
+          "percent": 6
+        },
+        {
+          "name": "Economic OS for the internet",
+          "weight": 50,
+          "percent": 5
+        },
+        {
+          "name": "500 points",
+          "weight": 40,
+          "percent": 4
+        },
+        {
+          "name": "USDC is cool",
+          "weight": 40,
+          "percent": 4
+        },
+        {
+          "name": "Burn, attest, mint",
+          "weight": 30,
+          "percent": 3
+        },
+        {
+          "name": "Türkiye, chapter one",
+          "weight": 20,
+          "percent": 2
+        },
+        {
+          "name": "I'm seated, Tim",
+          "weight": 20,
+          "percent": 2
+        },
+        {
+          "name": "More consequential than USDC",
+          "weight": 10,
+          "percent": 1
+        }
+      ]
+    },
+    {
+      "name": "lore",
+      "index": 9,
+      "kind": "weighted",
+      "render": false,
+      "metadata": true,
+      "values": [
+        {
+          "name": "None",
+          "weight": 550,
+          "percent": 55
+        },
+        {
+          "name": "Discord not linked",
+          "weight": 100,
+          "percent": 10
+        },
+        {
+          "name": "Faucet sent zero",
+          "weight": 90,
+          "percent": 9
+        },
+        {
+          "name": "499 points then sleep",
+          "weight": 80,
+          "percent": 8
+        },
+        {
+          "name": "Wrong chain id 5042/5042002",
+          "weight": 70,
+          "percent": 7
+        },
+        {
+          "name": "Minted while cats were live",
+          "weight": 50,
+          "percent": 5
+        },
+        {
+          "name": "First sub-second FINAL",
+          "weight": 40,
+          "percent": 4
+        },
+        {
+          "name": "Waited until Silence opened posts",
+          "weight": 20,
+          "percent": 2
+        }
+      ]
+    },
+    {
+      "name": "tool",
+      "index": 10,
+      "kind": "weighted",
+      "render": true,
+      "metadata": true,
+      "values": [
+        {
+          "name": "Faucet",
+          "weight": 180,
+          "percent": 18
+        },
+        {
+          "name": "Terminal",
+          "weight": 160,
+          "percent": 16
+        },
+        {
+          "name": "Compass",
+          "weight": 130,
+          "percent": 13
+        },
+        {
+          "name": "USDC Coin",
+          "weight": 120,
+          "percent": 12
+        },
+        {
+          "name": "Office Hours Mic",
+          "weight": 100,
+          "percent": 10
+        },
+        {
+          "name": "Wrong Chain ID",
+          "weight": 90,
+          "percent": 9
+        },
+        {
+          "name": "Bridge Kit",
+          "weight": 80,
+          "percent": 8
+        },
+        {
+          "name": "18 Decimals",
+          "weight": 70,
+          "percent": 7
+        },
+        {
+          "name": "Circle CLI",
+          "weight": 50,
+          "percent": 5
+        },
+        {
+          "name": "Stamp FINAL",
+          "weight": 20,
+          "percent": 2
+        }
+      ]
+    },
+    {
+      "name": "companion",
+      "index": 11,
+      "kind": "weighted",
+      "render": true,
+      "metadata": true,
+      "values": [
+        {
+          "name": "None",
+          "weight": 390,
+          "percent": 39
+        },
+        {
+          "name": "House Cat",
+          "weight": 180,
+          "percent": 18
+        },
+        {
+          "name": "Empty Faucet",
+          "weight": 140,
+          "percent": 14
+        },
+        {
+          "name": "Cool Dollar",
+          "weight": 110,
+          "percent": 11
+        },
+        {
+          "name": "Bean Cat",
+          "weight": 80,
+          "percent": 8
+        },
+        {
+          "name": "Agent Drone",
+          "weight": 50,
+          "percent": 5
+        },
+        {
+          "name": "Malachite Beetle",
+          "weight": 25,
+          "percent": 2.5
+        },
+        {
+          "name": "Circle Bat",
+          "weight": 10,
+          "percent": 1
+        },
+        {
+          "name": "Golden Fly",
+          "weight": 10,
+          "percent": 1
+        },
+        {
+          "name": "Fat Rat",
+          "weight": 5,
+          "percent": 0.5
+        }
+      ]
+    },
+    {
+      "name": "legendary",
+      "index": 12,
+      "kind": "weighted",
+      "render": true,
+      "metadata": true,
+      "values": [
+        {
+          "name": "None",
+          "weight": 910,
+          "percent": 91
+        },
+        {
+          "name": "Sept 16",
+          "weight": 20,
+          "percent": 2
+        },
+        {
+          "name": "Gas is a Dollar",
+          "weight": 16,
+          "percent": 1.6
+        },
+        {
+          "name": "Queues Open",
+          "weight": 14,
+          "percent": 1.4
+        },
+        {
+          "name": "House Opens",
+          "weight": 12,
+          "percent": 1.2
+        },
+        {
+          "name": "Testnet Genesis",
+          "weight": 10,
+          "percent": 1
+        },
+        {
+          "name": "Economic OS",
+          "weight": 8,
+          "percent": 0.8
+        },
+        {
+          "name": "10B Mint",
+          "weight": 6,
+          "percent": 0.6
+        },
+        {
+          "name": "The Silence",
+          "weight": 3,
+          "percent": 0.3
+        },
+        {
+          "name": "Jeremy Drop-in",
+          "weight": 1,
+          "percent": 0.1
+        }
+      ]
+    },
+    {
+      "name": "golden",
+      "index": 13,
+      "kind": "golden",
+      "render": false,
+      "metadata": true,
+      "values": [
+        {
+          "name": "None",
+          "weight": 0,
+          "percent": 0
+        },
+        {
+          "name": "House Cat",
+          "weight": 0,
+          "percent": 0
+        },
+        {
+          "name": "Fat Rat",
+          "weight": 0,
+          "percent": 0
+        }
+      ],
+      "_note": "NOT a weighted slot. Rolled only when legendary == None. Sequential 3% checks on raw uint16 words from the slot-13 stream, one word consumed per ELIGIBLE check (short-circuit like the doc's Python pseudocode). First success wins. Values listed are the possible golden event names; weights are 0 / unused."
+    },
+    {
+      "name": "bug",
+      "index": 14,
+      "kind": "weighted",
+      "render": true,
+      "metadata": true,
+      "values": [
+        {
+          "name": "None",
+          "weight": 450,
+          "percent": 45
+        },
+        {
+          "name": "Faucet Cooldown",
+          "weight": 90,
+          "percent": 9
+        },
+        {
+          "name": "Queue Too Slow",
+          "weight": 80,
+          "percent": 8
+        },
+        {
+          "name": "Role Pending",
+          "weight": 80,
+          "percent": 8
+        },
+        {
+          "name": "RPC Down",
+          "weight": 70,
+          "percent": 7
+        },
+        {
+          "name": "Wallet Not Indexing",
+          "weight": 60,
+          "percent": 6
+        },
+        {
+          "name": "Faucet Empty",
+          "weight": 60,
+          "percent": 6
+        },
+        {
+          "name": "Wrong RPC",
+          "weight": 40,
+          "percent": 4
+        },
+        {
+          "name": "499 Points",
+          "weight": 30,
+          "percent": 3
+        },
+        {
+          "name": "Native vs ERC-20 USDC",
+          "weight": 20,
+          "percent": 2
+        },
+        {
+          "name": "Gasless But Broke",
+          "weight": 15,
+          "percent": 1.5
+        },
+        {
+          "name": "Explorer 404",
+          "weight": 5,
+          "percent": 0.5
+        }
+      ]
+    }
+  ],
+  "roll_order": [
+    "background",
+    "body",
+    "outfit",
+    "face",
+    "eyes",
+    "headwear",
+    "era",
+    "origin",
+    "quote",
+    "lore",
+    "tool",
+    "companion",
+    "legendary",
+    "golden",
+    "bug"
+  ],
+  "render_order": [
+    "background",
+    "body",
+    "outfit",
+    "face",
+    "eyes",
+    "headwear",
+    "tool",
+    "companion",
+    "bug",
+    "legendary"
+  ],
+  "golden": {
+    "kind": "conditional_override",
+    "only_when": {
+      "slot": "legendary",
+      "value": "None"
+    },
+    "chance_percent": 3,
+    "threshold": 1966,
+    "threshold_note": "3% of the 16-bit space: floor(0.03 * 65536) = 1966. Success when a raw uint16 word < 1966.",
+    "order": "first_success_wins",
+    "checks": [
+      {
+        "event": "House Cat",
+        "requires_slot": "companion",
+        "requires_value": "House Cat"
+      },
+      {
+        "event": "Fat Rat",
+        "requires_slot": "companion",
+        "requires_value": "Fat Rat"
+      }
+    ],
+    "_note": "Single first-success order (the v1 mechanics doc.md section 3 pseudocode): a check runs (and consumes one word) only when its prerequisite is met; the first success wins. Bat Hat was removed from the collection (session 27: hats cut, owner-approved), so its golden event is gone; both remaining events gate on the companion slot, hence at most one check can be eligible per token. Golden rendering mechanics remain a separate open item."
+  },
+  "bug": {
+    "kind": "conditional_weighted",
+    "only_when_legendary": "None",
+    "only_when_golden": false,
+    "_note": "Bug is only rolled when legendary == None AND golden == false. Otherwise bug is forced to 'None'."
+  },
+  "metadata_only_slots": [
+    "era",
+    "origin",
+    "quote",
+    "lore"
+  ]
+}

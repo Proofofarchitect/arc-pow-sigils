@@ -1,0 +1,78 @@
+/* =========================================================================
+   Proof of Architect — Theme Kit · TOKENS
+   Target: proofofarchitect-web (Next.js App Router)
+   -------------------------------------------------------------------------
+   Re-maps the site's existing CSS custom properties onto the LOCKED
+   Proof-of-Architect gamma ("pixel-blueprint on warm paper") and adds the
+   two pixel type stacks.
+
+   >>> Load this file AFTER the app's global stylesheet so it wins. <<<
+   In Next.js:  app/layout.tsx → import "./poa/poa-tokens.css"  (last import)
+
+   Only the values below need editing to re-tune the brand.
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   Fonts. Self-hosted (kit integration notes §5 prod path — done during
+   integration on theme/poa-kit): the Google Fonts @import became invalid in
+   the Next.js production bundle (external @import is emitted mid-file and is
+   ignored by browsers), so the two OFL fonts are vendored under
+   public/poa/fonts/ and declared locally instead.
+   ------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Press Start 2P";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/poa/fonts/press-start-2p-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Silkscreen";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/poa/fonts/silkscreen-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Silkscreen";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/poa/fonts/silkscreen-700.woff2") format("woff2");
+}
+
+:root {
+  /* ---- Locked brand gamma (paper ⇄ blueprint) ------------------------- */
+  --paper:      #ece4d0;   /* warm paper ground                (was #f5f0e4) */
+  --sheet:      #f7f1e2;   /* panel / card sheet               (was #fffaf0) */
+  --paper-blue: #dfe6e6;   /* neutral inset panel              (was #e4eff7) */
+
+  --ink:        #16222e;   /* primary text — deep blueprint    (was #11182b) */
+  --navy:       #0f1b28;   /* token-art backing                (was #091329) */
+  --navy-2:     #16263a;   /*                                  (was #101d3d) */
+
+  --blue:       #2f5d7c;   /* blueprint line + primary action  (was #2878e6) */
+  --blue-dark:  #24485f;   /* hover                            (was #1455b7) */
+  --sky:        #7ba7b8;   /*                                  (was #65b9ee) */
+  --sky-soft:   #dbe7ea;   /*                                  (was #d9effb) */
+
+  --yellow:     #c9a94a;   /* khaki-gold accent                (was #f5c84c) */
+  --orange:     #c4703a;   /* rust accent + focus ring         (was #f36c39) */
+  --pink:       #b0718f;   /* muted plum                       (was #ef70ad) */
+  --green:      #2e8c8c;   /* PoA teal                         (was #49c899) */
+
+  --muted:      #63707d;   /*                                  (was #667083) */
+  --line:       rgba(22, 34, 46, .22);              /*   (was #bbb9ae) */
+  --white:      #fbf7ec;   /*                                  (was #fff)   */
+
+  --shadow:     7px 7px 0 var(--ink);
+
+  /* ---- Type stacks ---------------------------------------------------- */
+  --poa-display: "Press Start 2P", ui-monospace, monospace;  /* h1 + brand */
+  --poa-pixel:   "Silkscreen", ui-monospace, monospace;      /* h2/h3 + UI */
+
+  /* The site keeps Space Grotesk for body copy (readability) and IBM Plex
+     Mono for data. Flip --poa-body to var(--mono) for an all-mono blueprint
+     feel — see variants/04-full.css. */
+  --poa-body:    var(--sans);
+}

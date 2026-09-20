@@ -1,0 +1,306 @@
+openapi: 3.0.3
+info:
+  title: Proof of Architect API
+  version: 3.0.0
+  description: >-
+    Metadata and image endpoints for Proof of Architect — a proof-of-work
+    minted NFT collection on Arc (Circle L1, chainId 5042002). Metadata is
+    OpenSea-compatible; images are deterministic PNG "House Cards" derived from
+    the on-chain token seed (the winning PoW work hash, or the claim hash for a
+    free claim).
+servers:
+  - url: /
+paths:
+  /api/meta/{id}:
+    get:
+      summary: OpenSea-compatible metadata JSON for a minted token
+      operationId: getTokenMetadata
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Token id (1-based, up to totalMinted)
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        "200":
+          description: Metadata JSON
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenMetadata"
+        "404":
+          description: Token not minted yet
+  /api/image/{id}:
+    get:
+      summary: Deterministic PNG House Card rendered from the token seed
+      operationId: getTokenImage
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+        - name: master
+          in: query
+          required: false
+          description: Pass 1 to render the 3072x3072 master (default 1024x1024)
+          schema:
+            type: string
+            enum: ["1"]
+      responses:
+        "200":
+          description: PNG image
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: Token not minted yet
+  /stats/current.json:
+    get:
+      summary: Latest collection snapshot (machine-readable stats)
+      operationId: getStatsCurrent
+      description: >-
+        Public, cacheable snapshot of the live collection state. Served without
+        JavaScript or any wallet gate.
+      responses:
+        "200":
+          description: Latest stats snapshot (public, Cache-Control public)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CollectionStats"
+  /stats/history.jsonl:
+    get:
+      summary: History of collection snapshots (newline-delimited JSON)
+      operationId: getStatsHistory
+      description: >-
+        Append-only stream served from the repo-seeded log: one JSON object per
+        line (NDJSON), each line the same shape as /stats/current.json. Returns
+        200 with an empty body and `X-Stats-History: empty` while no snapshot
+        has been recorded yet. Public, cacheable.
+      responses:
+        "200":
+          description: >-
+            One collection snapshot per line (public, Cache-Control public); an
+            empty body while no snapshot has been recorded yet.
+          content:
+            application/x-ndjson:
+              schema:
+                type: string
+                description: Newline-delimited JSON; each line is a CollectionStats object.
+  /api/points:
+    get:
+      summary: House Points (Season 1) dataset
+      operationId: getPoints
+      description: >-
+        Season 1 points derived from public on-chain events (mine / claim /
+        craft / burn), so every number is independently recomputable. Without a
+        query it returns totals plus the top 200 wallets; with ?address=0x… it
+        returns a single wallet. Cached about 60 s.
+      parameters:
+        - name: address
+          in: query
+          required: false
+          description: Optional 0x-prefixed wallet address for a single-wallet response.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Points dataset (public, Cache-Control public)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PointsDataset"
+        "502":
+          description: Unable to load the points snapshot (upstream RPC error)
+  /api/recent:
+    get:
+      summary: Recent on-chain activity feed
+      operationId: getRecentActivity
+      description: >-
+        The latest Claimed / Mined events of the core contract, for client
+        polling. Cached about 20 s server-side and safe to poll.
+      responses:
+        "200":
+          description: Recent activity events (public, Cache-Control public)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecentActivity"
+components:
+  schemas:
+    CollectionStats:
+      type: object
+      required:
+        - wave
+        - priceUsdc
+        - totalMinted
+        - maxSupply
+        - freeClaims
+        - claimsLeft
+        - baseBits
+        - currentRequiredBits
+        - mintPaused
+        - updatedAt
+        - contract
+        - chainId
+      properties:
+        wave:
+          type: integer
+          description: Current wave index (1-based).
+          example: 1
+        priceUsdc:
+          type: string
+          description: Current paid mint price in USDC (decimal string; x2 per wave, uncapped).
+          example: "1.0"
+        totalMinted:
+          type: integer
+          description: Tokens minted so far (free claims plus paid mints).
+        maxSupply:
+          type: integer
+          example: 15042
+        freeClaims:
+          type: integer
+          example: 42
+        claimsLeft:
+          type: integer
+          description: Free claim codes still unredeemed.
+        baseBits:
+          type: integer
+          description: Wave base difficulty in leading zero bits.
+          example: 30
+        currentRequiredBits:
+          type: integer
+          description: Current requiredBits including the load regulator.
+        mintPaused:
+          type: boolean
+        updatedAt:
+          type: string
+          format: date-time
+          description: Snapshot timestamp (UTC).
+        contract:
+          type: string
+          description: NFT contract address.
+        chainId:
+          type: integer
+          example: 5042002
+    TokenMetadata:
+      type: object
+      required: [name, description, image, attributes, rarity]
+      properties:
+        name:
+          type: string
+          example: "Proof of Architect #1"
+        description:
+          type: string
+        image:
+          type: string
+          description: Relative URL of the PNG image endpoint
+        external_url:
+          type: string
+          description: Relative URL of the token page
+        attributes:
+          type: array
+          description: >-
+            15 House Card slots derived deterministically from the seed (10
+            rendered layers, the golden overlay flag, and 4 metadata-only
+            slots). A "Golden" row is added only when a golden event fires.
+          items:
+            type: object
+            required: [trait_type, value]
+            properties:
+              trait_type:
+                type: string
+                enum:
+                  - background
+                  - body
+                  - outfit
+                  - face
+                  - eyes
+                  - headwear
+                  - era
+                  - origin
+                  - quote
+                  - lore
+                  - tool
+                  - companion
+                  - legendary
+                  - golden
+                  - bug
+                  - Golden
+              value:
+                type: string
+        rarity:
+          type: object
+          description: >-
+            Canonical rarity/1 score for the derived House Card. Served as a
+            sibling of `attributes` so the trait rows (and any marketplace
+            rarity ranking built on them) stay unchanged.
+          required: [score, tier]
+          properties:
+            score:
+              type: number
+              format: double
+              description: Information content in bits, rounded to 4 decimals.
+              example: 33.9512
+            tier:
+              type: string
+              description: Rarity tier from the score thresholds.
+              enum: [Standard, Notable, Rare, Epic, Mythic]
+    PointsDataset:
+      type: object
+      description: >-
+        Season 1 House Points. The whole-dataset response carries totals and the
+        top 200 wallets; the single-wallet response (?address=0x…) carries
+        address and wallet instead.
+      required: [domain, season, rules, updatedAt]
+      properties:
+        domain:
+          type: string
+          example: proofofarchitect.points/1
+        season:
+          type: integer
+          example: 1
+        rules:
+          type: object
+          description: Point weights per action (mine / claim / forge / burn).
+          additionalProperties: true
+        updatedAt:
+          type: string
+          format: date-time
+          description: Response timestamp (UTC).
+        computedAtBlock:
+          type: integer
+          description: Block height the snapshot was computed at (whole-dataset responses).
+        address:
+          type: string
+          description: Lower-cased wallet address (single-wallet responses only).
+        wallet:
+          type: object
+          description: Single-wallet points record (total and per-action breakdown).
+          additionalProperties: true
+        totals:
+          type: object
+          description: Aggregate totals across all wallets (whole-dataset responses).
+          additionalProperties: true
+        wallets:
+          type: array
+          description: Top 200 wallets by points (whole-dataset responses).
+          items:
+            type: object
+            additionalProperties: true
+    RecentActivity:
+      type: object
+      required: [events]
+      properties:
+        events:
+          type: array
+          description: Latest Claimed / Mined events of the core contract, newest first.
+          items:
+            type: object
+            additionalProperties: true

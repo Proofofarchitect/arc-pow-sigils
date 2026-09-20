@@ -1,0 +1,649 @@
+{
+ "source": "art/arc-traits/handoff-2026-09-18/current/layers",
+ "slots": {
+  "background": {
+   "category": "background",
+   "count": 10,
+   "values": [
+    {
+     "value": "beach",
+     "file": "01_background_beach.png",
+     "sha256": "d9a6d1b88e43915507ed419556b4756ce91e397d388f5f7bd118d061ad088078",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/beach.png"
+    },
+    {
+     "value": "city",
+     "file": "01_background_city.png",
+     "sha256": "1adf975eae3d3f33c0c8db743cc46c84264baec1ae5afce08bb921186266b902",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/city.png"
+    },
+    {
+     "value": "construction",
+     "file": "01_background_construction.png",
+     "sha256": "edd2f08d5a1ef8db01290757808184bac4b548ffe79510eebbd770f1eedebad0",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/construction.png"
+    },
+    {
+     "value": "forest",
+     "file": "01_background_forest.png",
+     "sha256": "a031e44c89a80c624efd50f413ecab4babc9d7e5018f099316fd453299092a77",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/forest.png"
+    },
+    {
+     "value": "lab",
+     "file": "01_background_lab.png",
+     "sha256": "9c0995cf08a1194f75d9ee0bffcf218a3f8b28f925267cec9b308b9eef1cd2c2",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/lab.png"
+    },
+    {
+     "value": "night",
+     "file": "01_background_night.png",
+     "sha256": "d59a0094e4bf8a4332468395e663847ffa5df332f18dc53cc41479c7528a1f3a",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/night.png"
+    },
+    {
+     "value": "office",
+     "file": "01_background_office.png",
+     "sha256": "52d534f5b7dedefeb501a63870e40a3fede881dbe33eb9feb46978c006464f30",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/office.png"
+    },
+    {
+     "value": "snow",
+     "file": "01_background_snow.png",
+     "sha256": "bf3b8e90d4f63d3be4539eaa5a5c2942e876f164c802395c18964ce9e88f205c",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/snow.png"
+    },
+    {
+     "value": "space",
+     "file": "01_background_space.png",
+     "sha256": "378cb0ae4222c73ecf4137857db61d7d42c02f59d5d84e5bc77ac8485b246019",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/space.png"
+    },
+    {
+     "value": "sunset",
+     "file": "01_background_sunset.png",
+     "sha256": "e8a7abdffdce0de738bfd7e457c3063af077f3eca16a4197128fdb8cfb5284bb",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/sunset.png"
+    }
+   ]
+  },
+  "outfit": {
+   "category": "body",
+   "count": 12,
+   "values": [
+    {
+     "value": "analyst",
+     "file": "02_body_analyst.png",
+     "sha256": "afe13240da654c66294a317474c049e87d594422769199b3ec424da10e0c306b",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/analyst.png"
+    },
+    {
+     "value": "architect",
+     "file": "02_body_architect.png",
+     "sha256": "00a431cd42486e58c2e4b34b87099a732021366ad987012bf30e1cfdff014efa",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/architect.png"
+    },
+    {
+     "value": "builder",
+     "file": "02_body_builder.png",
+     "sha256": "749308e23f7e00bd3f058b07afb2503f77b1e27f0f11565782c4da99e338a448",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/builder.png"
+    },
+    {
+     "value": "coat",
+     "file": "02_body_coat.png",
+     "sha256": "00fd3a4d0a1762b2db9d877bf0558b732c884464b62b89306788d11e320bc3d3",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/coat.png"
+    },
+    {
+     "value": "engineer",
+     "file": "02_body_engineer.png",
+     "sha256": "97402b870fa2004e0271362f72dae744e58c9310935ac0854166101531c62543",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/engineer.png"
+    },
+    {
+     "value": "hacker",
+     "file": "02_body_hacker.png",
+     "sha256": "c6bcba1108181497e8404f0a1cd2d69d5d81ffb371ee35afef0c6624706753c8",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/hacker.png"
+    },
+    {
+     "value": "hoodie",
+     "file": "02_body_hoodie.png",
+     "sha256": "78fd9af771493f6119afcb8cb872228d8a8360b00b49e0a301d6f57f8f394f8d",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/hoodie.png"
+    },
+    {
+     "value": "jacket",
+     "file": "02_body_jacket.png",
+     "sha256": "478de6c0340a0890b20ac8050947e09e2454660de9ab57cc2b3ccbdf9620449c",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/jacket.png"
+    },
+    {
+     "value": "lab-coat",
+     "file": "02_body_lab-coat.png",
+     "sha256": "c02db5169e222b48b828ad0e89e306bd2959a588664bd765c33b2545b5e3e26d",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/lab-coat.png"
+    },
+    {
+     "value": "techwear",
+     "file": "02_body_techwear.png",
+     "sha256": "b4ec5a7b2732ceed009b4c881312b770542dd9abfd419840ca525ca92c2536cd",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/techwear.png"
+    },
+    {
+     "value": "tee",
+     "file": "02_body_tee.png",
+     "sha256": "da12cf171d8ac33a160f6e7eb9f33e8d09aaa4a299fc85e23e55ad78390e036a",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/tee.png"
+    },
+    {
+     "value": "vest",
+     "file": "02_body_vest.png",
+     "sha256": "bc3699b2928e256b801617b0a56f37a0013da38e47c140da4139353d80db675e",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/vest.png"
+    }
+   ]
+  },
+  "head": {
+   "category": "head",
+   "count": 2,
+   "values": [
+    {
+     "value": "default",
+     "file": "03_head_default.png",
+     "sha256": "bfde1f4a2a7f964c58573bd3dc46cc2da1dc4db920fa74a1f78f2c074c1212ed",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/head/default.png"
+    },
+    {
+     "value": "scar",
+     "file": "03_head_scar.png",
+     "sha256": "951be025c8fda836aad3f8fd007b899de50c232dc5332ee8aae1513c8bb58cc9",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/head/scar.png"
+    }
+   ]
+  },
+  "hair": {
+   "category": "hair",
+   "count": 3,
+   "values": [
+    {
+     "value": "curly",
+     "file": "04_hair_curly.png",
+     "sha256": "448c09c38cb0dbea00de04f86a28db2f97af204af2afe2daff76aafc5d3183a8",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/hair/curly.png"
+    },
+    {
+     "value": "long",
+     "file": "04_hair_long.png",
+     "sha256": "08084eba47a6e75a11480769d685c1574c79b16dbbea0e2ae9cd2f410c879e1c",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/hair/long.png"
+    },
+    {
+     "value": "short",
+     "file": "04_hair_short.png",
+     "sha256": "f09e16739abe5bddf7940e0dd54d54a08d6b5d68f5bec05cc5f70bfc2086e2e5",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/hair/short.png"
+    }
+   ]
+  },
+  "eyes": {
+   "category": "eyes",
+   "count": 3,
+   "values": [
+    {
+     "value": "default",
+     "file": "05_eyes_default.png",
+     "sha256": "8a255a9ca89da7b8b1b102c77673303dc3df7fe79b7597e46d6796d564d9367b",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyes/default.png"
+    },
+    {
+     "value": "explorer",
+     "file": "05_eyes_explorer.png",
+     "sha256": "e0d636bdcb0f27c05caaab69b79ad5c4ef87335338776ae095f0a6bf5ca3ba04",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyes/explorer.png"
+    },
+    {
+     "value": "red",
+     "file": "05_eyes_red.png",
+     "sha256": "285456a4f104d257927172a478c6c5cef29753fc125affd611819b37f1010a4c",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyes/red.png"
+    }
+   ]
+  },
+  "eyewear": {
+   "category": "eyewear",
+   "count": 4,
+   "values": [
+    {
+     "value": "glasses",
+     "file": "06_eyewear_glasses.png",
+     "sha256": "2d02773ed1411fe2df597734aa894189f04b31e06e1bf8dfc2efeaba87502785",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyewear/glasses.png"
+    },
+    {
+     "value": "mono",
+     "file": "06_eyewear_mono.png",
+     "sha256": "6fba1d7e022b4ce6c4b8c75e07990c1ef0bb559c1d087a56693203629fc68673",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyewear/mono.png"
+    },
+    {
+     "value": "sunglasses",
+     "file": "06_eyewear_sunglasses.png",
+     "sha256": "e6a6ea2df52c4cdf9e091d4e6c799c6420132d04b89e14dba96742d809802780",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyewear/sunglasses.png"
+    },
+    {
+     "value": "usdc-lenses",
+     "file": "06_eyewear_usdc-lenses.png",
+     "sha256": "309551b8776d58d7ef59202fa37d7425a3aac21dc19dea97d23fadb34b7c57df",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyewear/usdc-lenses.png"
+    }
+   ]
+  },
+  "headwear": {
+   "category": "headwear",
+   "count": 6,
+   "values": [
+    {
+     "value": "beanie",
+     "file": "07_headwear_beanie.png",
+     "sha256": "364aaa34a3977e7e62516608b5ba3598fe62b05ee97ee93fc08c7ab669b0e147",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/headwear/beanie.png"
+    },
+    {
+     "value": "cap",
+     "file": "07_headwear_cap.png",
+     "sha256": "415435f94c3521922fe93c56c6f25f16e49a6d9252fdb109442f903ad4951508",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/headwear/cap.png"
+    },
+    {
+     "value": "crown",
+     "file": "07_headwear_crown.png",
+     "sha256": "485fbcf514eab7735baea9a3546f9e583e425fb6ceb61ff379ca9b678d73f693",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/headwear/crown.png"
+    },
+    {
+     "value": "halo",
+     "file": "07_headwear_halo.png",
+     "sha256": "7bf067f9f753ca01400238a240c0136c3d294f5a9b07e78ea005ff436a7d3360",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/headwear/halo.png"
+    },
+    {
+     "value": "hard-hat",
+     "file": "07_headwear_hard-hat.png",
+     "sha256": "e7bb57ace0f3e5b596a2945e53108ded690f5eb435588b387f49f3455f38cf4c",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/headwear/hard-hat.png"
+    },
+    {
+     "value": "headphones",
+     "file": "07_headwear_headphones.png",
+     "sha256": "aff4e03e2b1939ad95115970644104d907725debd3986459876739ca91f5c563",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/headwear/headphones.png"
+    }
+   ]
+  },
+  "companion": {
+   "category": "companion",
+   "count": 7,
+   "values": [
+    {
+     "value": "ai-orb",
+     "file": "08_companion_ai-orb.png",
+     "sha256": "baff6949a2f6bbf46a3b3e465803684e1f07e78bd303595fcb3dd9e3fc9f8054",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/ai-orb.png"
+    },
+    {
+     "value": "cat",
+     "file": "08_companion_cat.png",
+     "sha256": "67503033cb24639ebb4225ef001d6e9e06e4d9f7c2da8791d50630ca4b61ee1c",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/cat.png"
+    },
+    {
+     "value": "dog",
+     "file": "08_companion_dog.png",
+     "sha256": "1030a3ea1fb189823ef6e063a67621a38a27decddb2f0fdbcdfb76c944f0be60",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/dog.png"
+    },
+    {
+     "value": "drone",
+     "file": "08_companion_drone.png",
+     "sha256": "98dcdb82ec2172a88d5a9382450c5320757f5cebef16708b23fa7e3701147ccf",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/drone.png"
+    },
+    {
+     "value": "flying-rat",
+     "file": "08_companion_flying-rat.png",
+     "sha256": "ca6597e5dca7268e464cea458a0608ff0c39f14a1a6af4bf5702f0164e45eadb",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/flying-rat.png"
+    },
+    {
+     "value": "mouse",
+     "file": "08_companion_mouse.png",
+     "sha256": "28976d0ab0d4bcafca8b0ebc23d8eddb5215c5664ace11dc6d88993b89d46fab",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/mouse.png"
+    },
+    {
+     "value": "robot",
+     "file": "08_companion_robot.png",
+     "sha256": "25671f5c4a39185033f90ef12417d4c1ae818900c0e86676f169c67d8c3e35b8",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/robot.png"
+    }
+   ]
+  },
+  "nose": {
+   "category": "nose",
+   "count": 3,
+   "values": [
+    {
+     "value": "button",
+     "file": "14_nose_button.png",
+     "sha256": "10c538e14e9f2a43690fa3a572d1ce48cd7ef5428a70e87f406343011968a35b",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/nose/button.png"
+    },
+    {
+     "value": "default",
+     "file": "14_nose_default.png",
+     "sha256": "335e3d4607a855028948c8c99cd011e1ba77c55e0606919ab412abdf45214ffa",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/nose/default.png"
+    },
+    {
+     "value": "straight",
+     "file": "14_nose_straight.png",
+     "sha256": "6915d1394fcdbdeb8f59386d9b3abb08efd37b5e40000651b165ed13ba7000e1",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/nose/straight.png"
+    }
+   ]
+  },
+  "mouth": {
+   "category": "mouth",
+   "count": 3,
+   "values": [
+    {
+     "value": "default",
+     "file": "15_mouth_default.png",
+     "sha256": "1ae0684925dfa3f34115e7bfed1f474ba3ce1719017ab2812681250370ad37af",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/mouth/default.png"
+    },
+    {
+     "value": "smile",
+     "file": "15_mouth_smile.png",
+     "sha256": "7f80decbe9c81153dd5617f550f740a058fc48eb633526353083ef10dbaa0c58",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/mouth/smile.png"
+    },
+    {
+     "value": "smirk",
+     "file": "15_mouth_smirk.png",
+     "sha256": "0b9f6b8fe3f606c547a8da0191d24b0ba188d0d89771a834029496df1454a922",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/mouth/smirk.png"
+    }
+   ]
+  }
+ },
+ "problems": []
+}

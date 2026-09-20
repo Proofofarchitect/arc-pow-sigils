@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "note": "Curated seed agents live here; self-serve registrations are stored in Vercel KV and merged into the leaderboard at runtime from /api/agents.",
+  "agents": []
+}

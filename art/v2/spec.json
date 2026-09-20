@@ -1,0 +1,763 @@
+{
+ "theme": "arc-traits-v2",
+ "version": "2.2",
+ "_note": "v2.2 (\u043f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u043e 20.09.2026, \u043e\u0434\u043e\u0431\u0440\u0435\u043d\u043e \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0435\u043c): \u0432\u0435\u0441\u0430 \u0440\u0435\u0431\u0430\u043b\u0430\u043d\u0441\u0438\u0440\u043e\u0432\u0430\u043d\u044b \u043f\u043e\u0434 best-practice \u2014 chase-\u0442\u0438\u0440 <=1% (11 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0439, ~75-150 \u043a\u043e\u043f\u0438\u0439 \u043f\u0440\u0438 15 042), \u0445\u0432\u043e\u0441\u0442\u044b \u0433\u043b\u0443\u0431\u0436\u0435, \u0431\u0430\u0437\u044b \u0447\u0443\u0442\u044c \u0432\u044b\u0448\u0435; \u044d\u0440\u0430 \u043f\u0435\u0440\u0435\u0432\u0435\u0434\u0435\u043d\u0430 \u043d\u0430 \u043c\u0435\u0439\u043d\u043d\u0435\u0442-\u043f\u0430\u043b\u0438\u0442\u0440\u0443 (Genesis/Day One/Season One/House/Expansion/Private Mainnet), origin: Testnet Wanderer -> Early Wanderer; quote/lore \u2014 \u0431\u0435\u0437 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u0439 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0439. \u041e\u0441\u043d\u043e\u0432\u0430\u043d\u0438\u0435: weights rationale.md + rarity rationale.md. \u0421\u043b\u043e\u0442\u044b/\u043f\u043e\u0440\u044f\u0434\u043e\u043a \u2014 append-only.",
+ "_source": "art/v2/layers_png (\u0438\u043c\u043f\u043e\u0440\u0442 \u0438\u0437 art/arc-traits/handoff-2026-09-19)",
+ "prng": {
+  "hash": "keccak256 (Ethereum keccak, NOT NIST SHA3)",
+  "payload": "seed_bytes32 || uint8(slotIndex) || uint16(repeatCounter)",
+  "words_per_digest": 16,
+  "word_encoding": "big-endian uint16",
+  "rejection": "acceptedRange = floor(65536 / totalWeight) * totalWeight; candidates >= acceptedRange are skipped",
+  "counter_reset": "repeatCounter resets to 0 for every slot (a rejection in one slot never affects another)"
+ },
+ "weight_units": "doc percent x10 (sum 1000 per weighted slot)",
+ "slots": [
+  {
+   "name": "background",
+   "index": 0,
+   "kind": "weighted",
+   "render": true,
+   "metadata": true,
+   "values": [
+    {
+     "name": "City",
+     "weight": 140,
+     "percent": 14.0
+    },
+    {
+     "name": "Night",
+     "weight": 130,
+     "percent": 13.0
+    },
+    {
+     "name": "Forest",
+     "weight": 120,
+     "percent": 12.0
+    },
+    {
+     "name": "Beach",
+     "weight": 110,
+     "percent": 11.0
+    },
+    {
+     "name": "Office",
+     "weight": 100,
+     "percent": 10.0
+    },
+    {
+     "name": "Construction",
+     "weight": 90,
+     "percent": 9.0
+    },
+    {
+     "name": "Snow",
+     "weight": 90,
+     "percent": 9.0
+    },
+    {
+     "name": "Lab",
+     "weight": 80,
+     "percent": 8.0
+    },
+    {
+     "name": "Space",
+     "weight": 80,
+     "percent": 8.0
+    },
+    {
+     "name": "Sunset",
+     "weight": 60,
+     "percent": 6.0
+    }
+   ]
+  },
+  {
+   "name": "head",
+   "index": 1,
+   "kind": "weighted",
+   "render": true,
+   "metadata": true,
+   "values": [
+    {
+     "name": "Default",
+     "weight": 700,
+     "percent": 70.0
+    },
+    {
+     "name": "Scar",
+     "weight": 80,
+     "percent": 8.0
+    },
+    {
+     "name": "Female",
+     "weight": 110,
+     "percent": 11.0
+    },
+    {
+     "name": "Ice",
+     "weight": 60,
+     "percent": 6.0
+    },
+    {
+     "name": "Pale",
+     "weight": 40,
+     "percent": 4.0
+    },
+    {
+     "name": "Reptile",
+     "weight": 10,
+     "percent": 1.0
+    }
+   ]
+  },
+  {
+   "name": "outfit",
+   "index": 2,
+   "kind": "weighted",
+   "render": true,
+   "metadata": true,
+   "values": [
+    {
+     "name": "Tee",
+     "weight": 140,
+     "percent": 14.0
+    },
+    {
+     "name": "Hoodie",
+     "weight": 130,
+     "percent": 13.0
+    },
+    {
+     "name": "Jacket",
+     "weight": 120,
+     "percent": 12.0
+    },
+    {
+     "name": "Builder",
+     "weight": 100,
+     "percent": 10.0
+    },
+    {
+     "name": "Engineer",
+     "weight": 100,
+     "percent": 10.0
+    },
+    {
+     "name": "Vest",
+     "weight": 90,
+     "percent": 9.0
+    },
+    {
+     "name": "Hacker",
+     "weight": 85,
+     "percent": 8.5
+    },
+    {
+     "name": "Analyst",
+     "weight": 75,
+     "percent": 7.5
+    },
+    {
+     "name": "Techwear",
+     "weight": 70,
+     "percent": 7.0
+    },
+    {
+     "name": "Coat",
+     "weight": 50,
+     "percent": 5.0
+    },
+    {
+     "name": "Lab Coat",
+     "weight": 30,
+     "percent": 3.0
+    },
+    {
+     "name": "Architect",
+     "weight": 10,
+     "percent": 1.0
+    }
+   ]
+  },
+  {
+   "name": "hair",
+   "index": 3,
+   "kind": "weighted",
+   "render": true,
+   "metadata": true,
+   "values": [
+    {
+     "name": "Short",
+     "weight": 450,
+     "percent": 45.0
+    },
+    {
+     "name": "Curly",
+     "weight": 350,
+     "percent": 35.0
+    },
+    {
+     "name": "Long",
+     "weight": 200,
+     "percent": 20.0
+    }
+   ]
+  },
+  {
+   "name": "eyes",
+   "index": 4,
+   "kind": "weighted",
+   "render": true,
+   "metadata": true,
+   "values": [
+    {
+     "name": "Default",
+     "weight": 580,
+     "percent": 58.0
+    },
+    {
+     "name": "Explorer",
+     "weight": 200,
+     "percent": 20.0
+    },
+    {
+     "name": "Red",
+     "weight": 90,
+     "percent": 9.0
+    },
+    {
+     "name": "Laser",
+     "weight": 10,
+     "percent": 1.0
+    },
+    {
+     "name": "Soft",
+     "weight": 120,
+     "percent": 12.0
+    }
+   ]
+  },
+  {
+   "name": "nose",
+   "index": 5,
+   "kind": "weighted",
+   "render": true,
+   "metadata": true,
+   "values": [
+    {
+     "name": "Default",
+     "weight": 650,
+     "percent": 65.0
+    },
+    {
+     "name": "Straight",
+     "weight": 160,
+     "percent": 16.0
+    },
+    {
+     "name": "Button",
+     "weight": 90,
+     "percent": 9.0
+    },
+    {
+     "name": "Rounded",
+     "weight": 90,
+     "percent": 9.0
+    },
+    {
+     "name": "Angular",
+     "weight": 10,
+     "percent": 1.0
+    }
+   ]
+  },
+  {
+   "name": "mouth",
+   "index": 6,
+   "kind": "weighted",
+   "render": true,
+   "metadata": true,
+   "values": [
+    {
+     "name": "Default",
+     "weight": 420,
+     "percent": 42.0
+    },
+    {
+     "name": "Smile",
+     "weight": 185,
+     "percent": 18.5
+    },
+    {
+     "name": "Smirk",
+     "weight": 100,
+     "percent": 10.0
+    },
+    {
+     "name": "Fangs",
+     "weight": 60,
+     "percent": 6.0
+    },
+    {
+     "name": "Frown",
+     "weight": 70,
+     "percent": 7.0
+    },
+    {
+     "name": "Grin",
+     "weight": 90,
+     "percent": 9.0
+    },
+    {
+     "name": "Open",
+     "weight": 37,
+     "percent": 3.7
+    },
+    {
+     "name": "Soft",
+     "weight": 30,
+     "percent": 3.0
+    },
+    {
+     "name": "Surprised",
+     "weight": 8,
+     "percent": 0.8
+    }
+   ]
+  },
+  {
+   "name": "eyewear",
+   "index": 7,
+   "kind": "weighted",
+   "render": true,
+   "metadata": true,
+   "values": [
+    {
+     "name": "None",
+     "weight": 370,
+     "percent": 37.0
+    },
+    {
+     "name": "Glasses",
+     "weight": 250,
+     "percent": 25.0
+    },
+    {
+     "name": "Sunglasses",
+     "weight": 220,
+     "percent": 22.0
+    },
+    {
+     "name": "USDC Lenses",
+     "weight": 150,
+     "percent": 15.0
+    },
+    {
+     "name": "Mono",
+     "weight": 10,
+     "percent": 1.0
+    }
+   ]
+  },
+  {
+   "name": "headwear",
+   "index": 8,
+   "kind": "weighted",
+   "render": true,
+   "metadata": true,
+   "values": [
+    {
+     "name": "None",
+     "weight": 340,
+     "percent": 34.0
+    },
+    {
+     "name": "Cap",
+     "weight": 180,
+     "percent": 18.0
+    },
+    {
+     "name": "Beanie",
+     "weight": 165,
+     "percent": 16.5
+    },
+    {
+     "name": "Hard Hat",
+     "weight": 145,
+     "percent": 14.5
+    },
+    {
+     "name": "Headphones",
+     "weight": 120,
+     "percent": 12.0
+    },
+    {
+     "name": "Halo",
+     "weight": 40,
+     "percent": 4.0
+    },
+    {
+     "name": "Crown",
+     "weight": 10,
+     "percent": 1.0
+    }
+   ]
+  },
+  {
+   "name": "companion",
+   "index": 9,
+   "kind": "weighted",
+   "render": true,
+   "metadata": true,
+   "values": [
+    {
+     "name": "None",
+     "weight": 330,
+     "percent": 33.0
+    },
+    {
+     "name": "Dog",
+     "weight": 125,
+     "percent": 12.5
+    },
+    {
+     "name": "Cat",
+     "weight": 105,
+     "percent": 10.5
+    },
+    {
+     "name": "Mouse",
+     "weight": 95,
+     "percent": 9.5
+    },
+    {
+     "name": "Drone",
+     "weight": 85,
+     "percent": 8.5
+    },
+    {
+     "name": "Robot",
+     "weight": 75,
+     "percent": 7.5
+    },
+    {
+     "name": "AI Orb",
+     "weight": 60,
+     "percent": 6.0
+    },
+    {
+     "name": "Flying Rat",
+     "weight": 45,
+     "percent": 4.5
+    },
+    {
+     "name": "Bonkguy",
+     "weight": 70,
+     "percent": 7.0
+    },
+    {
+     "name": "Winged Rat",
+     "weight": 10,
+     "percent": 1.0
+    }
+   ]
+  },
+  {
+   "name": "era",
+   "index": 10,
+   "kind": "weighted",
+   "render": false,
+   "metadata": true,
+   "values": [
+    {
+     "name": "Genesis",
+     "weight": 380,
+     "percent": 38.0
+    },
+    {
+     "name": "Day One",
+     "weight": 200,
+     "percent": 20.0
+    },
+    {
+     "name": "Season One",
+     "weight": 160,
+     "percent": 16.0
+    },
+    {
+     "name": "House",
+     "weight": 120,
+     "percent": 12.0
+    },
+    {
+     "name": "Expansion",
+     "weight": 90,
+     "percent": 9.0
+    },
+    {
+     "name": "Private Mainnet",
+     "weight": 50,
+     "percent": 5.0
+    }
+   ]
+  },
+  {
+   "name": "origin",
+   "index": 11,
+   "kind": "weighted",
+   "render": false,
+   "metadata": true,
+   "values": [
+    {
+     "name": "Community",
+     "weight": 260,
+     "percent": 26.0
+    },
+    {
+     "name": "Discord Queue",
+     "weight": 200,
+     "percent": 20.0
+    },
+    {
+     "name": "Early Wanderer",
+     "weight": 160,
+     "percent": 16.0
+    },
+    {
+     "name": "Arc House",
+     "weight": 120,
+     "percent": 12.0
+    },
+    {
+     "name": "LinkedIn Form",
+     "weight": 100,
+     "percent": 10.0
+    },
+    {
+     "name": "Partner",
+     "weight": 80,
+     "percent": 8.0
+    },
+    {
+     "name": "Validator Desk",
+     "weight": 50,
+     "percent": 5.0
+    },
+    {
+     "name": "Circle",
+     "weight": 30,
+     "percent": 3.0
+    }
+   ]
+  },
+  {
+   "name": "quote",
+   "index": 12,
+   "kind": "weighted",
+   "render": false,
+   "metadata": true,
+   "values": [
+    {
+     "name": "None",
+     "weight": 455,
+     "percent": 45.5
+    },
+    {
+     "name": "Pending or Final",
+     "weight": 80,
+     "percent": 8.0
+    },
+    {
+     "name": "Points have no monetary value",
+     "weight": 70,
+     "percent": 7.0
+    },
+    {
+     "name": "Fees in the dollar",
+     "weight": 70,
+     "percent": 7.0
+    },
+    {
+     "name": "The queues are too slow",
+     "weight": 60,
+     "percent": 6.0
+    },
+    {
+     "name": "Architects are not employees",
+     "weight": 60,
+     "percent": 6.0
+    },
+    {
+     "name": "Economic OS for the internet",
+     "weight": 50,
+     "percent": 5.0
+    },
+    {
+     "name": "500 points",
+     "weight": 40,
+     "percent": 4.0
+    },
+    {
+     "name": "USDC is cool",
+     "weight": 40,
+     "percent": 4.0
+    },
+    {
+     "name": "Burn, attest, mint",
+     "weight": 30,
+     "percent": 3.0
+    },
+    {
+     "name": "T\u00fcrkiye, chapter one",
+     "weight": 20,
+     "percent": 2.0
+    },
+    {
+     "name": "I'm seated, Tim",
+     "weight": 20,
+     "percent": 2.0
+    },
+    {
+     "name": "More consequential than USDC",
+     "weight": 5,
+     "percent": 0.5
+    }
+   ]
+  },
+  {
+   "name": "lore",
+   "index": 13,
+   "kind": "weighted",
+   "render": false,
+   "metadata": true,
+   "values": [
+    {
+     "name": "None",
+     "weight": 560,
+     "percent": 56.0
+    },
+    {
+     "name": "Discord not linked",
+     "weight": 100,
+     "percent": 10.0
+    },
+    {
+     "name": "Faucet sent zero",
+     "weight": 90,
+     "percent": 9.0
+    },
+    {
+     "name": "499 points then sleep",
+     "weight": 80,
+     "percent": 8.0
+    },
+    {
+     "name": "Wrong chain id 5042/5042002",
+     "weight": 70,
+     "percent": 7.0
+    },
+    {
+     "name": "Minted while cats were live",
+     "weight": 50,
+     "percent": 5.0
+    },
+    {
+     "name": "First sub-second FINAL",
+     "weight": 40,
+     "percent": 4.0
+    },
+    {
+     "name": "Waited until Silence opened posts",
+     "weight": 10,
+     "percent": 1.0
+    }
+   ]
+  },
+  {
+   "name": "hair_color",
+   "index": 14,
+   "kind": "weighted",
+   "render": true,
+   "metadata": true,
+   "values": [
+    {
+     "name": "Brown",
+     "weight": 310,
+     "percent": 31.0
+    },
+    {
+     "name": "Black",
+     "weight": 235,
+     "percent": 23.5
+    },
+    {
+     "name": "Blond",
+     "weight": 175,
+     "percent": 17.5
+    },
+    {
+     "name": "Ginger",
+     "weight": 115,
+     "percent": 11.5
+    },
+    {
+     "name": "Ice",
+     "weight": 95,
+     "percent": 9.5
+    },
+    {
+     "name": "Green",
+     "weight": 60,
+     "percent": 6.0
+    },
+    {
+     "name": "White",
+     "weight": 10,
+     "percent": 1.0
+    }
+   ]
+  }
+ ],
+ "roll_order": [
+  "background",
+  "head",
+  "outfit",
+  "hair",
+  "eyes",
+  "nose",
+  "mouth",
+  "eyewear",
+  "headwear",
+  "companion",
+  "era",
+  "origin",
+  "quote",
+  "lore",
+  "hair_color"
+ ],
+ "render_order": [
+  "background",
+  "head",
+  "outfit",
+  "hair",
+  "eyes",
+  "nose",
+  "mouth",
+  "eyewear",
+  "headwear",
+  "companion"
+ ],
+ "metadata_only_slots": [
+  "era",
+  "origin",
+  "quote",
+  "lore"
+ ],
+ "render_rules": {
+  "hair": "asset = hair-colors/<slug(hair_color)>/<slug(hair)>.png; fallback = hair/<slug(hair)>.png. hair_color \u2014 \u0440\u0435\u043d\u0434\u0435\u0440-\u043c\u043e\u0434\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440, \u0441\u0432\u043e\u0435\u0433\u043e \u0441\u043b\u043e\u044f \u043d\u0435 \u0438\u043c\u0435\u0435\u0442.",
+  "nose_mouth": "\u0435\u0441\u043b\u0438 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442 head-variants/<slug(head)>/<slot>/<slug(value)>.png \u2014 \u043e\u043d \u0417\u0410\u041c\u0415\u041d\u042f\u0415\u0422 \u0431\u0430\u0437\u043e\u0432\u044b\u0439 <slot>/<slug(value)>.png (\u0433\u043e\u043b\u043e\u0432\u044b Ice/Pale/Reptile, \u0442\u043e\u043b\u044c\u043a\u043e \u043f\u0435\u0440\u0435\u0447\u0438\u0441\u043b\u0435\u043d\u043d\u044b\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f); \u0438\u043d\u0430\u0447\u0435 \u0431\u0430\u0437\u043e\u0432\u044b\u0439 \u0441\u043b\u043e\u0439.",
+  "none_value": "\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435 None \u043d\u0435 \u0440\u0435\u043d\u0434\u0435\u0440\u0438\u0442\u0441\u044f.",
+  "zorder": "source-over \u0432 (0,0) \u043f\u043e render_order; \u0431\u0435\u0437 \u043f\u0435\u0440\u0435\u043c\u0435\u0449\u0435\u043d\u0438\u0439 \u0438 \u043c\u0430\u0441\u0448\u0442\u0430\u0431\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0439."
+ }
+}

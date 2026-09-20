@@ -1,0 +1,62 @@
+/* =========================================================================
+   VARIANT 04 — FULL
+   Everything: gamma + pixel type + character hero + ghosted collection grid
+   + blueprint slabs (corner ticks), dashed divider, denser pixel chrome.
+   The maximal, most "designed" pass. Everything below is additive and can be
+   deleted line-by-line if a piece is unwanted.
+   ========================================================================= */
+@import url("../poa-tokens.css");
+@import url("../poa-base.css");
+@import url("../poa-surfaces.css");
+
+:root {
+  --poa-hero-display: block;
+  /* hero-wide.jpg: sheet extended 1280->2200px to fill the plate full-width
+     (repo-side change 2026-09-18; original hero.jpg kept untouched) */
+  --poa-hero-img:     url("/poa/hero-wide.jpg?v=2");
+  --poa-hero-size:    cover;
+  --poa-hero-h:       clamp(210px, 36vw, 430px);
+
+  --poa-page-img:     url("/poa/collection-grid-v2.jpg");
+  --poa-page-veil:    rgba(236, 228, 208, .95);
+
+  /* all-mono blueprint body for the full pass */
+  --poa-body: var(--mono);
+}
+
+/* body copy falls in line with the mono blueprint look */
+body,
+p, li, dd { font-family: var(--poa-body); }
+
+/* --- Blueprint corner ticks on plain panels ------------------------------ */
+.panel { position: relative; }
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
+  width: 12px; height: 12px;
+  border: 2px solid var(--blue);
+  pointer-events: none;
+}
+.panel::before { top: 8px;  left: 8px;  border-right: 0; border-bottom: 0; }
+.panel::after  { right: 8px; bottom: 8px; border-left: 0; border-top: 0; }
+
+/* --- Dashed blueprint divider band --------------------------------------- */
+.view-divider {
+  background: var(--blue);
+  letter-spacing: .18em;
+}
+.view-divider::after {
+  background: repeating-linear-gradient(90deg, var(--white) 0 6px, transparent 6px 12px);
+}
+
+/* --- Slightly heavier, chunkier chrome ----------------------------------- */
+.site-header        { border-bottom-width: 3px; }
+.view-divider       { border-block-width: 3px; }
+.button, button     { box-shadow: 4px 4px 0 var(--ink); }
+.panel, .stat, .onchain, .stats-band { box-shadow: 7px 7px 0 rgba(22, 34, 46, .18); }
+
+/* --- Gallery cards get the pixel-card treatment -------------------------- */
+.collectible-art { border-width: 3px; }
+.collectible-art::before,
+.collectible-art::after { border-width: 2px; }

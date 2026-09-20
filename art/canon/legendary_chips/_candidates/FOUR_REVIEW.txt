@@ -1,0 +1,25 @@
+FOUR_REVIEW — undecided LEGENDARY emblem-chip candidates
+all candidate chips are 40x40 pre-cut corner crops (tl/tr/br) of the full 128x128 legendary art
+
+slug             cand size      opaque    cov%  bbox(px)  lum min/max  note
+---------------------------------------------------------------------------
+economic-os      TR   40x40        456   28.5%     36x28        0/188  has content
+economic-os      BR   40x40        803   50.2%     36x40        0/151  has content
+economic-os      TL   40x40        579   36.2%     33x32        0/151  has content
+                 -> highest coverage: BR (50.2%)
+
+testnet-genesis  TR   40x40        260   16.2%     15x28        0/219  sparse fragment
+testnet-genesis  BR   40x40        641   40.1%     25x40         0/90  has content
+testnet-genesis  TL   40x40        549   34.3%     24x32         0/75  has content
+                 -> highest coverage: BR (40.1%)
+
+queues-open      TR   40x40        675   42.2%     25x37        0/146  has content
+queues-open      BR   40x40       1449   90.6%     40x40         0/87  has content
+queues-open      TL   40x40        140    8.8%      8x27         0/69  NEAR-EMPTY scrap
+                 -> highest coverage: BR (90.6%)
+
+the-silence      TR   40x40         28    1.8%       4x7         0/16  NEAR-EMPTY scrap
+the-silence      BR   40x40        132    8.2%      4x33          0/6  NEAR-EMPTY scrap
+the-silence      TL   40x40         70    4.4%      10x7          0/4  NEAR-EMPTY scrap
+                 -> highest coverage: BR (8.2%)
+

@@ -1,0 +1,123 @@
+{
+ "domain": "arc-traits/2",
+ "generated_by": "art/arc-traits/tools/v2lib.py --vectors",
+ "slot_order": [
+  "background",
+  "head",
+  "outfit",
+  "hair",
+  "eyes",
+  "nose",
+  "mouth",
+  "eyewear",
+  "headwear",
+  "companion",
+  "era",
+  "origin",
+  "quote",
+  "lore",
+  "hair_color"
+ ],
+ "vectors": [
+  {
+   "seed": "0x0000000000000000000000000000000000000000000000000000000000000001",
+   "attrs": {
+    "background": "Construction",
+    "head": "Default",
+    "outfit": "Coat",
+    "hair": "Curly",
+    "eyes": "Default",
+    "nose": "Default",
+    "mouth": "Default",
+    "eyewear": "None",
+    "headwear": "Hard Hat",
+    "companion": "None",
+    "era": "Genesis",
+    "origin": "Discord Queue",
+    "quote": "None",
+    "lore": "None",
+    "hair_color": "Brown"
+   }
+  },
+  {
+   "seed": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+   "attrs": {
+    "background": "Forest",
+    "head": "Default",
+    "outfit": "Jacket",
+    "hair": "Curly",
+    "eyes": "Default",
+    "nose": "Straight",
+    "mouth": "Surprised",
+    "eyewear": "None",
+    "headwear": "None",
+    "companion": "Robot",
+    "era": "Season One",
+    "origin": "Partner",
+    "quote": "Fees in the dollar",
+    "lore": "None",
+    "hair_color": "Ginger"
+   }
+  },
+  {
+   "seed": "0x1111111111111111111111111111111111111111111111111111111111111111",
+   "attrs": {
+    "background": "Space",
+    "head": "Default",
+    "outfit": "Coat",
+    "hair": "Short",
+    "eyes": "Explorer",
+    "nose": "Button",
+    "mouth": "Smirk",
+    "eyewear": "None",
+    "headwear": "Hard Hat",
+    "companion": "Dog",
+    "era": "Private Mainnet",
+    "origin": "Early Wanderer",
+    "quote": "Economic OS for the internet",
+    "lore": "None",
+    "hair_color": "Brown"
+   }
+  },
+  {
+   "seed": "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+   "attrs": {
+    "background": "Night",
+    "head": "Default",
+    "outfit": "Hoodie",
+    "hair": "Short",
+    "eyes": "Default",
+    "nose": "Default",
+    "mouth": "Frown",
+    "eyewear": "Glasses",
+    "headwear": "Cap",
+    "companion": "None",
+    "era": "Genesis",
+    "origin": "Early Wanderer",
+    "quote": "None",
+    "lore": "None",
+    "hair_color": "Blond"
+   }
+  },
+  {
+   "seed": "0x0000000000000000000000000000000000000000000000000000000000000042",
+   "attrs": {
+    "background": "City",
+    "head": "Female",
+    "outfit": "Hoodie",
+    "hair": "Long",
+    "eyes": "Default",
+    "nose": "Straight",
+    "mouth": "Default",
+    "eyewear": "Sunglasses",
+    "headwear": "None",
+    "companion": "AI Orb",
+    "era": "Private Mainnet",
+    "origin": "Discord Queue",
+    "quote": "Burn, attest, mint",
+    "lore": "None",
+    "hair_color": "Black"
+   }
+  }
+ ]
+}

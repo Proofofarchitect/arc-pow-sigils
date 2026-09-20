@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Keccak PoW Miner Test</title>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      background: #111;
+      color: #eee;
+      font: 14px/1.45 system-ui, sans-serif;
+    }
+    h1 { font-size: 1.5rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: .8rem;
+    }
+    label { display: grid; gap: .3rem; }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: .6rem;
+      color: #eee;
+      background: #1c1c1c;
+      border: 1px solid #444;
+      border-radius: 4px;
+      font: inherit;
+    }
+    button {
+      padding: .65rem .9rem;
+      margin: 1rem .4rem 1rem 0;
+      color: white;
+      background: #285ea8;
+      border: 0;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:disabled { opacity: .55; cursor: default; }
+    pre {
+      padding: 1rem;
+      overflow: auto;
+      background: #1b1b1b;
+      border: 1px solid #333;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .good { color: #7ee787; }
+    .bad { color: #ff7b72; }
+  </style>
+</head>
+<body>
+  <h1>Dependency-free Keccak-256 PoW miner</h1>
+
+  <div class="grid">
+    <label>
+      Chain ID
+      <input id="chainId" value="5042002">
+    </label>
+
+    <label>
+      Contract address
+      <input id="contract" value="0x1111111111111111111111111111111111111111">
+    </label>
+
+    <label>
+      Miner address
+      <input id="miner" value="0x2222222222222222222222222222222222222222">
+    </label>
+
+    <label>
+      Start nonce
+      <input id="startNonce" value="0">
+    </label>
+
+    <label>
+      Keep best candidates
+      <input id="keep" type="number" min="1" max="1000" value="16">
+    </label>
+
+    <label>
+      Hashes per event-loop batch
+      <input id="batchSize" type="number" min="128" max="262144" value="4096">
+    </label>
+  </div>
+
+  <button id="start">Start</button>
+  <button id="stop" disabled>Stop</button>
+  <button id="selftest">Run self-test</button>
+
+  <h2>Stats</h2>
+  <pre id="stats">Idle</pre>
+
+  <h2>Best candidates</h2>
+  <pre id="candidates">No candidates yet.</pre>
+
+  <h2>Self-test output</h2>
+  <pre id="selftestOutput">Not run.</pre>
+
+  <script type="module">
+    import { PowMiner, formatRate, formatAttempts } from "./miner.js";
+
+    const $ = (id) => document.getElementById(id);
+    const startButton = $("start");
+    const stopButton = $("stop");
+    const stats = $("stats");
+    const candidates = $("candidates");
+    const selftestOutput = $("selftestOutput");
+
+    const pow = new PowMiner("./miner-worker.js");
+    let latestBest = [];
+    let selftestLines = [];
+
+    function drawCandidates(list) {
+      latestBest = list;
+      candidates.textContent = list.length
+        ? list.map((item, index) =>
+            `${index + 1}. ${item.bits} leading zero bits
+   nonce: ${item.nonce}
+   hash:  ${item.hash}`
+          ).join("\n\n")
+        : "No candidates yet.";
+    }
+
+    pow.onStarted = ({ startNonce }) => {
+      latestBest = [];
+      drawCandidates([]);
+      stats.textContent = `Mining from nonce ${startNonce}`;
+      startButton.disabled = true;
+      stopButton.disabled = false;
+    };
+
+    pow.onProgress = (data) => {
+      stats.textContent = [
+        `Attempts: ${formatAttempts(data.attempts)}`,
+        `Hash rate: ${formatRate(data.hashesPerSecond)}`,
+        `Best: ${data.bestBits} leading zero bits`,
+        `Stored: ${data.best.length} candidate(s)`
+      ].join("\n");
+
+      drawCandidates(data.best);
+    };
+
+    pow.onDone = (data) => {
+      stats.textContent += `\nStopped: ${data.reason}\nFinal attempts: ${formatAttempts(data.attempts)}`;
+      drawCandidates(data.best || latestBest);
+      startButton.disabled = false;
+      stopButton.disabled = true;
+    };
+
+    pow.onError = ({ message }) => {
+      stats.innerHTML = `<span class="bad">Error: ${message}</span>`;
+      startButton.disabled = false;
+      stopButton.disabled = true;
+    };
+
+    pow.onSelfTest = (data) => {
+      const cls = data.result === "PASS" ? "good" : "bad";
+      selftestLines.push(
+        `<span class="${cls}">${data.result}</span> ${data.name}\n` +
+        `expected: ${data.expected}\nactual:   ${data.actual}\n`
+      );
+      selftestOutput.innerHTML = selftestLines.join("\n");
+    };
+
+    pow.onSelfTestSummary = (data) => {
+      const cls = data.result === "PASS" ? "good" : "bad";
+      selftestLines.push(`<span class="${cls}">${data.result}: ${data.passed}/${data.total}</span>`);
+      selftestOutput.innerHTML = selftestLines.join("\n");
+    };
+
+    startButton.onclick = () => {
+      pow.start({
+        chainId: $("chainId").value.trim(),
+        contract: $("contract").value.trim(),
+        miner: $("miner").value.trim(),
+        startNonce: $("startNonce").value.trim() || "0",
+        keep: Number($("keep").value),
+        batchSize: Number($("batchSize").value)
+      });
+    };
+
+    stopButton.onclick = () => pow.stop();
+
+    $("selftest").onclick = () => {
+      selftestLines = [];
+      selftestOutput.textContent = "Running...";
+      pow.selfTest();
+    };
+  </script>
+</body>
+</html>

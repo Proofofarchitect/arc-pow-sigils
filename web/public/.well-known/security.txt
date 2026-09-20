@@ -1,0 +1,7 @@
+# Security contact for the Proof of Architect web property (RFC 9116).
+# Please report suspected vulnerabilities privately before public disclosure.
+
+Contact: mailto:team@proofofarchitect.builders
+Expires: 2027-09-18T00:00:00.000Z
+Preferred-Languages: en, ru
+Canonical: https://proofofarchitect.builders/.well-known/security.txt

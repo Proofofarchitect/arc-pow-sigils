@@ -1,0 +1,51 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Proofofarchitect/arc-pow-sigils",
+  "title": "Proof of Architect",
+  "description": "Read-only MCP tools for Proof of Architect — a proof-of-work NFT collection on Arc: nonce verification, deterministic rarity, live collection stats, and craft-commit verification.",
+  "version": "0.1.0",
+  "websiteUrl": "https://proofofarchitect.builders",
+  "repository": {
+    "url": "https://github.com/Proofofarchitect/arc-pow-sigils",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "arc-pow-sigils-mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "CONTRACT_ADDRESS",
+          "description": "PowMintNFTv3 contract address (defaults to the deployed v3 testnet address).",
+          "isRequired": false
+        },
+        {
+          "name": "CRAFT_ADDRESS",
+          "description": "CraftingController v1 address for the craft tools (defaults to the deployed testnet controller).",
+          "isRequired": false
+        },
+        {
+          "name": "ARC_RPC_URL",
+          "description": "Arc testnet RPC endpoint (defaults to https://rpc.testnet.arc.io).",
+          "isRequired": false
+        },
+        {
+          "name": "SITE_URL",
+          "description": "Base site URL used to build image/metadata links (default https://proofofarchitect.builders).",
+          "isRequired": false
+        }
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://proofofarchitect.builders/api/mcp"
+    }
+  ]
+}

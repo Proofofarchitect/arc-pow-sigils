@@ -1,0 +1,27 @@
+{
+ "economic-os": {
+  "source": "Economic OS.png",
+  "seed": [84, 0, 128, 64],
+  "strategy": "diff",
+  "min_size": 120
+ },
+ "testnet-genesis": {
+  "source": "Testnet Genesis.png",
+  "seed": [40, 8, 104, 72],
+  "strategy": "diff",
+  "min_size": 150
+ },
+ "queues-open": {
+  "source": "Queues Open.png",
+  "seed": [80, 52, 128, 116],
+  "strategy": "diff",
+  "min_size": 250
+ },
+ "10b-mint": {
+  "source": "10B Mint.png",
+  "seed": [44, 0, 127, 40],
+  "strategy": "color",
+  "color": "neon",
+  "min_size": 200
+ }
+}

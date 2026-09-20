@@ -1,0 +1,41 @@
+{
+  "name": "arc-pow-sigils-mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol server exposing read-only tools for the Proof of Architect NFT collection on Arc testnet.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "arc-pow-sigils-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "server.json"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "smoke": "node smoke.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "mcpName": "io.github.Proofofarchitect/arc-pow-sigils",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "arc",
+    "nft",
+    "proof-of-work",
+    "viem"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "viem": "^2.21.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}

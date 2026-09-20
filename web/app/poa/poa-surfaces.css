@@ -1,0 +1,64 @@
+/* =========================================================================
+   Proof of Architect — Theme Kit · SURFACES
+   Mechanism for placing the renders. No markup change: the hero banner is
+   injected with ::before, the faint full-page blueprint with a background
+   layer on <body>.
+
+   Variants only need to set these custom properties:
+     --poa-hero-display : block | none
+     --poa-hero-img     : url("/poa/hero.jpg") | none
+     --poa-hero-h       : banner height
+     --poa-page-img     : url("/poa/onchain-traits.jpg") | none
+     --poa-page-veil    : paper veil colour over the page render
+   Replace /poa/ with wherever you host public/poa assets (integration notes §2).
+   ========================================================================= */
+
+:root {
+  --poa-hero-display: none;
+  --poa-hero-img:     none;
+  --poa-hero-h:       clamp(180px, 30vw, 360px);
+  --poa-hero-size:    contain;  /* variants 03/04 set cover for the wide sheet */
+  --poa-page-img:     none;
+  --poa-page-veil:    rgba(236, 228, 208, .94);
+}
+
+/* --- Hero banner, injected above page content (home + mine console) ------- */
+main.container::before,
+main > .container::before,
+section.console > .container::before {
+  content: "";
+  display: var(--poa-hero-display);
+  height: var(--poa-hero-h);
+  margin: -8px 0 30px;
+  border: 3px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--ink);
+  background-color: var(--sheet);
+  background-image: var(--poa-hero-img);
+  background-position: center;
+  background-size: var(--poa-hero-size, contain);   /* whole plate visible, letterboxed on paper */
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* --- Faint full-page blueprint render (paper-veiled) --------------------- */
+body {
+  background:
+    linear-gradient(rgba(47, 93, 124, .10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47, 93, 124, .10) 1px, transparent 1px),
+    linear-gradient(var(--poa-page-veil), var(--poa-page-veil)),
+    var(--poa-page-img) center / cover no-repeat,
+    var(--paper);
+  background-size: 24px 24px, 24px 24px, auto, cover, auto;
+  background-repeat: repeat, repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment: fixed, fixed, fixed, fixed, fixed;
+}
+
+@media (max-width: 600px) {
+  main.container::before,
+  main > .container::before,
+  section.console > .container::before {
+    height: clamp(150px, 44vw, 240px);
+    margin-bottom: 22px;
+  }
+}

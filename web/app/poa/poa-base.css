@@ -1,0 +1,256 @@
+/* =========================================================================
+   Proof of Architect — Theme Kit · BASE
+   Component re-skin + pixel crispness, driven entirely by poa-tokens.css.
+   No markup changes required. Load after the app's global stylesheet.
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   0. Pixel crispness — keep every bitmap square, never blurred
+   ------------------------------------------------------------------------- */
+img, svg,
+.thumb,
+.token-image,
+.collectible-art,
+.card-art,
+.arch-mark,
+.arch-mark i {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* -------------------------------------------------------------------------
+   1. Page ground — warm paper + blueprint measurement grid
+   ------------------------------------------------------------------------- */
+html { background: var(--paper); }
+
+body {
+  color: var(--ink);
+  background:
+    linear-gradient(rgba(47, 93, 124, .10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47, 93, 124, .10) 1px, transparent 1px),
+    var(--paper);
+  background-size: 24px 24px, 24px 24px, auto;
+}
+
+/* -------------------------------------------------------------------------
+   2. Type — pixel display + pixel UI, readable body, mono data
+   ------------------------------------------------------------------------- */
+h1,
+.brand {
+  font-family: var(--poa-display);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Press Start 2P is wide + tall: pull h1 back to a sane optical size */
+h1 {
+  font-size: clamp(1.25rem, 3.4vw, 2.3rem);
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+.brand { letter-spacing: 0; gap: 14px; }
+
+h2, h3,
+.console-kicker,
+.eyebrow,
+.view-divider,
+.subtle-head,
+.button, button,
+.chip,
+.badge, .tier-badge,
+.pill,
+.trait-chip,
+.stat .label,
+.wallet-cell .k, .wallet-cell small,
+.card-meta h3,
+.rarity-contrib-head,
+.chain-item dt,
+.trait dt,
+.tier-table th,
+.panel-heading span {
+  font-family: var(--poa-pixel);
+}
+
+/* Data voice (mono) for values/addresses — card ids and owner lines fall
+   through to the globals.css mono rules; keep them out of the pixel list. */
+
+h2 { letter-spacing: 0; }
+h3 { letter-spacing: 0; }
+
+/* -------------------------------------------------------------------------
+   3. Header / nav
+   ------------------------------------------------------------------------- */
+.site-header {
+  background: rgba(236, 228, 208, .94);
+  border-bottom: 2px solid var(--ink);
+}
+
+.site-nav a { color: var(--muted); }
+.site-nav a:hover { color: var(--ink); border-color: var(--blue); }
+
+.arch-mark {
+  border-color: var(--ink);
+  background: var(--sheet);
+  box-shadow: 3px 3px 0 var(--blue);
+}
+.arch-mark i { background: var(--blue); }
+
+/* -------------------------------------------------------------------------
+   4. Buttons — sharper pixel edges
+   ------------------------------------------------------------------------- */
+.button, button {
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: var(--sheet);
+  color: var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.button:hover, button:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+.button:active, button:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+.button-primary, button.primary { color: var(--white); background: var(--blue); }
+.button-primary:hover, button.primary:hover:not(:disabled) { background: var(--blue-dark); }
+
+/* -------------------------------------------------------------------------
+   5. Panels / stat blocks — blueprint slabs
+   ------------------------------------------------------------------------- */
+.panel,
+.stats-band,
+.stat,
+.onchain,
+.tier-table,
+.choice-row, .commit-row, .stake-row,
+.banner,
+.wallet-row {
+  background: var(--sheet);
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  box-shadow: 6px 6px 0 rgba(22, 34, 46, .16);
+}
+
+.stat .label,
+.wallet-cell .k,
+.wallet-cell small,
+.chain-item dt,
+.trait dt,
+.tier-table th,
+.subtle-head,
+.rarity-contrib-head {
+  color: var(--muted);
+}
+
+.row { border-bottom-color: var(--line); }
+
+/* -------------------------------------------------------------------------
+   6. Banners — khaki / teal / rust tints from the palette
+   ------------------------------------------------------------------------- */
+.banner.warn  { background: #f0e6c8; color: #6b4a2b; }
+.banner.error { background: #f3ddd4; color: #7a3520; }
+.banner.ok    { background: #d7e9e6; color: #1f5d57; }
+
+/* -------------------------------------------------------------------------
+   7. Cards + token art
+   ------------------------------------------------------------------------- */
+.card .card-art,
+.collectible-art {
+  border: 3px solid var(--ink);
+  background: var(--navy);
+  box-shadow: 6px 6px 0 rgba(22, 34, 46, .18);
+}
+
+.nft-stage {
+  background:
+    linear-gradient(rgba(47, 93, 124, .12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47, 93, 124, .12) 1px, transparent 1px),
+    var(--sheet);
+  background-size: 16px 16px, 16px 16px, auto;
+  border: 2px solid var(--ink);
+  box-shadow: 10px 10px 0 var(--ink);
+}
+
+.token-image { border: 3px solid var(--ink); background: var(--navy); }
+
+/* -------------------------------------------------------------------------
+   8. Chips / badges / tiers
+   ------------------------------------------------------------------------- */
+.chip { border: 2px solid var(--ink); background: var(--sheet); color: var(--muted); }
+.chip.active, .chip:hover:not(:disabled):not(.active) { }
+.chip.active { background: var(--blue); border-color: var(--blue); color: var(--white); }
+
+.tier-standard { color: #50596a; background: #e6dfce; }
+.tier-notable  { color: #1f5d57; background: #d7e9e6; }
+.tier-rare     { color: var(--blue-dark); background: var(--sky-soft); }
+.tier-epic     { color: #7a3f5f; background: #efdde6; }
+.tier-mythic   { color: #8a6412; background: #f2e8c6; }
+
+.badge-crafted { border-color: var(--blue-dark); background: var(--sky-soft); color: var(--blue-dark); }
+.badge-preview { color: var(--muted); background: #e6dfce; border-color: var(--muted); }
+.badge-golden  { color: #8a6412; background: #f2e8c6; border-color: #8a6412; }
+
+.pill.ok  { color: #1f5d57; background: #d7e9e6; }
+.pill.off { color: var(--muted); background: #e6dfce; }
+
+.trait.special { background: #f2e8c6; color: #7a5a12; }
+.trait.special dt { color: #8a6412; }
+
+/* -------------------------------------------------------------------------
+   9. Divider band + accents
+   ------------------------------------------------------------------------- */
+.view-divider {
+  background: var(--blue);
+  border-block: 2px solid var(--ink);
+  color: var(--white);
+}
+
+.choice-row.on {
+  border-color: var(--blue);
+  background: var(--sky-soft);
+  box-shadow: 4px 4px 0 rgba(47, 93, 124, .35);
+}
+.choice-head input[type=checkbox] { accent-color: var(--blue); }
+.tier-table tr.active { background: var(--sky-soft); }
+
+input[type=text] { background: var(--sheet); border-color: var(--ink); color: var(--ink); }
+:focus-visible { outline-color: var(--orange); }
+::selection { background: var(--blue); color: var(--white); }
+
+/* -------------------------------------------------------------------------
+   10. Optional helpers the integrator can apply by hand (no JS)
+   .poa-art        — framed render slab
+   .poa-art--16x9 / --16x7 / --banner
+   .poa-slab       — blueprint paper panel with corner ticks
+   ------------------------------------------------------------------------- */
+.poa-art {
+  width: 100%;
+  border: 3px solid var(--ink);
+  background: var(--sheet) center / cover no-repeat;
+  box-shadow: 8px 8px 0 var(--ink);
+  image-rendering: pixelated;
+}
+.poa-art--16x9    { aspect-ratio: 16 / 9; }
+.poa-art--16x7    { aspect-ratio: 16 / 7; }
+.poa-art--banner  { aspect-ratio: 1280 / 420; }
+.poa-art--hero-dim { max-height: min(46vh, 420px); }
+
+.poa-slab {
+  position: relative;
+  background: var(--sheet);
+  border: 2px solid var(--ink);
+  box-shadow: 6px 6px 0 rgba(22, 34, 46, .16);
+}
+.poa-slab::before,
+.poa-slab::after {
+  content: "";
+  position: absolute;
+  width: 12px; height: 12px;
+  border: 2px solid var(--blue);
+  background: transparent;
+}
+.poa-slab::before { top: 8px; left: 8px; border-right: 0; border-bottom: 0; }
+.poa-slab::after  { right: 8px; bottom: 8px; border-left: 0; border-top: 0; }

@@ -1,0 +1,18 @@
+/* =========================================================================
+   VARIANT 02 — NO CHARACTERS
+   Gamma + blueprint DIAGRAM renders only (no people). Hero uses the
+   mine → mint → own blueprint plate; a faded "TRAITS" diagram runs behind
+   the whole page. Text/logo art stays untouched.
+   ========================================================================= */
+@import url("../poa-tokens.css");
+@import url("../poa-base.css");
+@import url("../poa-surfaces.css");
+
+:root {
+  --poa-hero-display: block;
+  --poa-hero-img:     url("/poa/hero-plain.jpg");
+  --poa-hero-h:       clamp(190px, 34vw, 400px);
+
+  --poa-page-img:     url("/poa/onchain-traits.jpg");
+  --poa-page-veil:    rgba(236, 228, 208, .93);
+}

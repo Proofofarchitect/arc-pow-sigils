@@ -1,0 +1,263 @@
+{
+  "schema_version": "1.0",
+  "canvas": {
+    "w": 128,
+    "h": 128,
+    "grid": "integer",
+    "svg_render": "crispEdges",
+    "alpha_policy": "binary_0_255"
+  },
+  "palette_policy": {
+    "card_max_colors": 64,
+    "scene_max_colors": 112,
+    "v3_elements_note": "Tool/Companion/Bug are 48-56 colors (within 64)",
+    "quantizer": "mediancut_no_dither"
+  },
+  "paths": {
+    "master": "art/canon/master.png",
+    "layers_png": "art/svg/catalog/layers_png",
+    "layers_svg": "art/svg/catalog/layers_svg",
+    "cards": "art/svg/catalog/cards",
+    "traits_source": "art/ai/out/traits",
+    "bodies_source": "art/ai/out/bodies_v2/final",
+    "legendary_chips": "art/canon/legendary_chips"
+  },
+  "zorder": [
+    "background",
+    "body",
+    "outfit",
+    "face",
+    "hair",
+    "eyes",
+    "headwear",
+    "tool",
+    "companion",
+    "bug",
+    "legendary"
+  ],
+  "rules": {
+    "diff_threshold": 18,
+    "diff_alpha_threshold": 16,
+    "diff_morph_min_neighbors": 2,
+    "headwear_region_max_y": 120,
+    "g6_service_slots": [
+      "hair"
+    ],
+    "g6_metadata_slots": [
+      "era",
+      "origin",
+      "quote",
+      "lore"
+    ],
+    "face_eyes_suppress": {
+      "faces": [],
+      "suppressed_layer": "eyes",
+      "metadata_unchanged": true
+    },
+    "legendary_mode": "emblem_chip",
+    "inpaint_rule": "outside_mask_pixels_equal_master",
+    "null_traits": [
+      "applicant",
+      "default",
+      "none",
+      "nothing"
+    ]
+  },
+  "slots": {
+    "background": {
+      "kind": "full",
+      "native_256_allowed": true,
+      "delivery": 128
+    },
+    "body": {
+      "kind": "full",
+      "source": "art/ai/out/bodies_v2/final",
+      "values": [
+        "guy",
+        "girl",
+        "reptile",
+        "alien"
+      ],
+      "value_aliases": {
+        "builder-frame": "guy",
+        "clerk-frame": "girl",
+        "architect-frame": "reptile",
+        "shadow-frame": "alien"
+      },
+      "note": "решение 17.09 (v2): приняты guy/girl/reptile/alien (repaint-in-place); ratman-перерисовка отклонена и удалена — вернём позже в высоком разрешении. value_aliases: spec-имена фреймов -> файлы видов (G6)",
+      "offsets": {
+        "reptile": [
+          0,
+          -3
+        ]
+      }
+    },
+    "outfit": {
+      "kind": "sparse",
+      "patch_mode": "file",
+      "source_dir": "art/ai/out/outfits_v2/goods",
+      "mask": "art/canon/masks/body_silhouette.png",
+      "note": "17.09 v2: НОВЫЕ garments (repaint-in-place от тела, вырезаны diff-методом, клип к силуэту тела). Файлы = source_dir/<slug>.png. Легаси mask_filter по старым traits/Outfit — fallback."
+    },
+    "face": {
+      "kind": "patch",
+      "patch_mode": "sparse",
+      "sparse_min_size": 6,
+      "skin_filter": true,
+      "region": {
+        "y0": 30,
+        "y1": 88,
+        "x0": 56,
+        "x1": 128
+      },
+      "mask": "art/canon/masks/face.png",
+      "source_dir": "art/ai/out/head_final/face"
+    },
+    "hair": {
+      "kind": "masked",
+      "mask": "art/canon/masks/hair_front.png",
+      "back_mask": "art/canon/masks/hair_back.png",
+      "hair_none": true,
+      "status": "WIP mask — clarify"
+    },
+    "eyes": {
+      "kind": "patch",
+      "patch_mode": "sparse",
+      "sparse_min_size": 6,
+      "skin_filter": true,
+      "region": {
+        "y0": 40,
+        "y1": 70,
+        "x0": 52,
+        "x1": 128
+      },
+      "mask": "art/canon/masks/eyes.png",
+      "source_dir": "art/ai/out/head_final/eyes"
+    },
+    "headwear": {
+      "kind": "patch",
+      "patch_mode": "sparse",
+      "sparse_min_size": 25,
+      "skin_filter": true,
+      "hair_filter": true,
+      "component_rule": {
+        "keep_top_y": 22,
+        "keep_min_size": 450
+      },
+      "value_exclude": {
+        "house-cap": [
+          [
+            43,
+            72,
+            16,
+            78
+          ],
+          [
+            44,
+            72,
+            78,
+            98
+          ]
+        ],
+        "blue-hard-hat": [
+          [
+            47,
+            64,
+            0,
+            128
+          ],
+          [
+            39,
+            60,
+            8,
+            17
+          ],
+          [
+            46,
+            64,
+            18,
+            62
+          ]
+        ]
+      },
+      "region": {
+        "y0": 0,
+        "y1": 120,
+        "x0": 0,
+        "x1": 128
+      },
+      "mask": "art/canon/masks/headwear.png",
+      "source_dir": "art/ai/out/head_final/headwear"
+    },
+    "tool": {
+      "kind": "sprite",
+      "zone": {
+        "x0": 80,
+        "y0": 74,
+        "x1": 126,
+        "y1": 127
+      },
+      "anchor": "bottom-right",
+      "div": 3
+    },
+    "companion": {
+      "kind": "sprite",
+      "zone": {
+        "x0": 2,
+        "y0": 72,
+        "x1": 48,
+        "y1": 127
+      },
+      "anchor": "bottom-left",
+      "div": 3
+    },
+    "bug": {
+      "kind": "sprite",
+      "zone": {
+        "x0": 2,
+        "y0": 2,
+        "x1": 46,
+        "y1": 46
+      },
+      "anchor": "top-left",
+      "div": 3
+    },
+    "legendary": {
+      "kind": "chip",
+      "mode": "emblem_chip",
+      "zone": {
+        "x0": 44,
+        "y0": 2,
+        "x1": 124,
+        "y1": 66
+      },
+      "zone_status": "provisional v3 (session 30) — поле чипа 80×64; факт: max 79×36, 53×56, 40×58, 28×64",
+      "place": {
+        "anchor": "top-right",
+        "x": 124,
+        "y": 2
+      },
+      "source": "art/canon/legendary_chips/<trait-id>.png"
+    },
+    "golden": {
+      "kind": "full",
+      "note": "override-слой (render_override: bat-hat→headwear, house-cat→companion, fat-rat→bug); в микс НЕ входит"
+    }
+  },
+  "golden": {
+    "enabled_when": {
+      "legendary": "none"
+    },
+    "chance": 0.03,
+    "threshold": 1966,
+    "order": [
+      "house-cat",
+      "fat-rat"
+    ],
+    "render_override": {
+      "house-cat": "companion",
+      "fat-rat": "bug"
+    },
+    "status": "rules only (session 30: bat-hat event removed — order/override почищены); override-слои в traits/Golden; демо-карты в art/ai/out/golden_demo"
+  }
+}

@@ -1,0 +1,21 @@
+/* =========================================================================
+   VARIANT 03 — WITH CHARACTERS
+   Gamma + RENDER plates that feature the architects (characters). Hero uses
+   the standing-architect blueprint; the collection grid ghosts behind the
+   page. Warmest, most "collection-brand" pass.
+   ========================================================================= */
+@import url("../poa-tokens.css");
+@import url("../poa-base.css");
+@import url("../poa-surfaces.css");
+
+:root {
+  --poa-hero-display: block;
+  /* hero-wide.jpg: sheet extended 1280->2200px to fill the plate full-width
+     (repo-side change 2026-09-18; original hero.jpg kept untouched) */
+  --poa-hero-img:     url("/poa/hero-wide.jpg?v=2");
+  --poa-hero-size:    cover;
+  --poa-hero-h:       clamp(190px, 34vw, 400px);
+
+  --poa-page-img:     url("/poa/collection-grid-v2.jpg");
+  --poa-page-veil:    rgba(236, 228, 208, .94);
+}
