@@ -44,8 +44,9 @@ MINER = "0x1111111111111111111111111111111111111111"
 NONCE = 1024085
 EXPECTED_HASH = "0x00000d2c7a16b7b38b3ffa61dca7d4f810f84ae52b031a74dad6f8c73d715bde"
 
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ARC_CAST = os.environ.get(
-    "ARC_CAST", "<repo>/tools/bin/arc-cast")
+    "ARC_CAST", os.path.join(_REPO_ROOT, "tools", "bin", "arc-cast"))
 RPC_TESTNET = os.environ.get("ARC_RPC", "https://rpc.testnet.arc.io")
 
 # ------------------------------------------------------------------ keccak

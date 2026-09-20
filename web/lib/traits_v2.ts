@@ -26,7 +26,7 @@ import type { Hex } from "viem";
  * `head-variants/<head>/<slot>/<value>.png` when present (see renderer_v2.ts).
  *
  * Spec v2.2 (applied 2026-09-20): weight rebalance — chase tier <=1% (~75-150
- * copies at 15 042 supply, see weights rationale.md); era switched to the
+ * copies at 15 042 supply, see weights rationale); era switched to the
  * mainnet palette (Genesis / Day One / Season One / House / Expansion / Private
  * Mainnet); origin "Testnet Wanderer" -> "Early Wanderer"; quote/lore values
  * unchanged.

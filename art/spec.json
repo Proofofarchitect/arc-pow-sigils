@@ -1,7 +1,7 @@
 {
   "theme": "house card",
   "version": "house-card/1",
-  "_note": "CANONICAL ART + METADATA SPEC for the House Card collection. Slot order, values, weights and the conditional golden/bug rules follow the v1 mechanics doc.md exactly. Weights are stored twice: 'weight' is the integer weight used by the PRNG (doc percent x10, units of 0.1%); 'percent' is the human/doc percentage. Each weighted slot's integer weights sum to 1000 (= 100%). Changing any slot, value, weight or their order changes traits for ALL tokens.",
+  "_note": "CANONICAL ART + METADATA SPEC for the House Card collection. Slot order, values, weights and the conditional golden/bug rules follow the v1 mechanics doc exactly. Weights are stored twice: 'weight' is the integer weight used by the PRNG (doc percent x10, units of 0.1%); 'percent' is the human/doc percentage. Each weighted slot's integer weights sum to 1000 (= 100%). Changing any slot, value, weight or their order changes traits for ALL tokens.",
   "prng": {
     "hash": "keccak256 (Ethereum keccak, NOT NIST SHA3)",
     "payload": "seed_bytes32 || uint8(slotIndex) || uint16(repeatCounter)",
@@ -11,7 +11,7 @@
     "counter_reset": "repeatCounter resets to 0 for every slot (a rejection in one slot never affects another)"
   },
   "weight_units": "0.1% (doc percent x10); each weighted slot sums to 1000 = 100%",
-  "note_weight_scale": "the v1 mechanics doc.md gives percentages; several slots contain fractional values (2.5, 1.5, 0.5, 0.1, ...). The PRNG (web/lib/prng.ts) requires integer weights, so weights are scaled x10 (units of 0.1%). x10 is the smallest factor that makes every doc value an integer.",
+  "note_weight_scale": "the v1 mechanics doc gives percentages; several slots contain fractional values (2.5, 1.5, 0.5, 0.1, ...). The PRNG (web/lib/prng.ts) requires integer weights, so weights are scaled x10 (units of 0.1%). x10 is the smallest factor that makes every doc value an integer.",
   "slots": [
     {
       "name": "background",
@@ -801,7 +801,7 @@
         "requires_value": "Fat Rat"
       }
     ],
-    "_note": "Single first-success order (the v1 mechanics doc.md section 3 pseudocode): a check runs (and consumes one word) only when its prerequisite is met; the first success wins. Bat Hat was removed from the collection (session 27: hats cut, owner-approved), so its golden event is gone; both remaining events gate on the companion slot, hence at most one check can be eligible per token. Golden rendering mechanics remain a separate open item."
+    "_note": "Single first-success order (the v1 mechanics doc section 3 pseudocode): a check runs (and consumes one word) only when its prerequisite is met; the first success wins. Bat Hat was removed from the collection (session 27: hats cut, owner-approved), so its golden event is gone; both remaining events gate on the companion slot, hence at most one check can be eligible per token. Golden rendering mechanics remain a separate open item."
   },
   "bug": {
     "kind": "conditional_weighted",

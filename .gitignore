@@ -10,3 +10,7 @@ broadcast/
 *.log
 .DS_Store
 Thumbs.db
+
+# python artifacts
+__pycache__/
+*.pyc

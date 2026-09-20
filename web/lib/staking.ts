@@ -79,7 +79,7 @@ export type StakeTier = {
 };
 
 /**
- * Tier table — staking spec.md §2 (frozen):
+ * Tier table — staking spec §2 (frozen):
  * | tier | lock          | weight | ×10 | bits |
  * | 0    | flexible (0d) | 0.1×   | 1   | 2    |
  * | 1    | 7 days        | 0.5×   | 5   | 2    |
@@ -225,7 +225,7 @@ export function cardWeightX10(lockTier: number, rarityTier: number): number {
 }
 
 /**
- * StakingVault v1 ABI — verbatim from staking spec.md §3 (hard-lock revision).
+ * StakingVault v1 ABI — verbatim from staking spec §3 (hard-lock revision).
  * `stakeInfo` is a public mapping of a struct, so its getter exposes the five
  * fields in declaration order (owner, tier, stakedAt, accrued, lastAccrual).
  *

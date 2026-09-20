@@ -32,7 +32,7 @@ export const GOLDEN_THRESHOLD = 1966;
  * Golden checks, evaluated in this exact order (first success wins). A check
  * only runs — and only consumes one raw uint16 word from the golden stream
  * (slot index 13) — when its prerequisite is met. Mirrors the short-circuit
- * `and` in the the v1 mechanics doc.md §3 pseudocode.
+ * `and` in the the v1 mechanics doc §3 pseudocode.
  */
 export const GOLDEN_CHECKS: readonly {
   event: string;
@@ -353,7 +353,7 @@ function slotByName(name: string): SlotDef {
  * Deterministically derives the full House Card trait set from a bytes32 seed,
  * exactly like `art/pipeline.py::derive`.
  *
- * Rules (the v1 mechanics doc.md §2/§3):
+ * Rules (the v1 mechanics doc §2/§3):
  * 1. Roll every weighted slot except `bug`; each slot resets its own counter.
  * 2. If `legendary != None` → golden and bug are both forced to "None".
  * 3. Else roll golden: sequential 3% checks in spec order (House Cat → Fat Rat)

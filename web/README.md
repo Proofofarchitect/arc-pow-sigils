@@ -142,6 +142,6 @@ composition lives in `lib/renderer.ts` (server-side `sharp`).
   `https://<deployment>/api/meta/` so marketplaces resolve metadata here.
 - **AI-discoverability**: set `NEXT_PUBLIC_SITE_URL` before deploying, then run
   `bash repo tooling https://<domain> [--send]` (probe 10/10 + IndexNow).
-  Full launch order — `launch runbook` §4; design notes — `discovery notes.md`.
+  Full launch order — `launch runbook` §4; design notes — `discovery notes`.
 
 [viem]: https://viem.sh

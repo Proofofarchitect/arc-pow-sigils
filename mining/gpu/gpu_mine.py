@@ -12,7 +12,7 @@ which is exactly ONE Keccak rate block (rate = 136), so the kernel hashes a sing
 absorption round — same speed profile as the original hashcats kernel.
 
 Differences vs the original hashcats gpu_mine.py are listed in README.md §"Diff vs hashcats".
-The two silent GPU-port traps from Arc research notes.md §3.2 both APPLY here and are
+The two silent GPU-port traps from Arc research notes §3.2 both APPLY here and are
 handled exactly as in the original: the nonce words are byte-swapped into the little-endian
 Keccak lanes, and the leading-zero test runs on the byte-swapped top lane (bswap64).
 
