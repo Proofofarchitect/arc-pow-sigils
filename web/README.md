@@ -141,7 +141,7 @@ composition lives in `lib/renderer.ts` (server-side `sharp`).
 - Once live, point the contract's `setBaseURI` at
   `https://<deployment>/api/meta/` so marketplaces resolve metadata here.
 - **AI-discoverability**: set `NEXT_PUBLIC_SITE_URL` before deploying, then run
-  `bash repo tooling https://<domain> [--send]` (probe 10/10 + IndexNow).
+  the AI-discovery activation script (probe + IndexNow, run from repo tooling).
   Full launch order — `launch runbook` §4; design notes — `discovery notes`.
 
 [viem]: https://viem.sh

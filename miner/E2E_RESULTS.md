@@ -117,7 +117,7 @@ MATCH
 
 ## 6. Real E2E mint (step 4)
 
-* Private key read from `repo tooling` (`PRIVATE_KEY=` line) into a shell variable;
+* Private key read from the local key file (`PRIVATE_KEY=` line) into a shell variable;
   **never printed** (only its length/prefix was echoed).
 * Pre-mint: `requiredBits(wallet)=22`, `totalMinted=1`, `currentPrice()=0` (free phase).
 * Mined nonce (node, target 22 bits, start 0):
@@ -172,4 +172,4 @@ All post-conditions match. No `--value` (free wave; `totalMinted < freeSupply=25
 * Only `mint()` was exercised; no paid-phase mint, no `withdraw`, no pause/admin,
   no negative/revert paths (e.g. `BelowFloor`, `NonceUsed`, `WrongPayment`).
 * Difficulty beyond 22 bits and multi-worker `SharedArrayBuffer` scaling untested.
-* `repo tooling`, `contracts/`, `web/`, `art/` were read-only and untouched.
+* all project directories were read-only and untouched.
