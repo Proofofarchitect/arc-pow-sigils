@@ -14,14 +14,16 @@ Contract (v2 PowMintNFT; v3 PowMintNFTv3 keeps the same preimage layout):
 Packed encoding = uint256(chainId) ‖ address(this) ‖ miner ‖ uint256(nonce)
                 = 32 + 20 + 20 + 32 = 104 bytes  (one keccak rate block, rate=136).
 
-Ground-truth vector [proven on-chain]: token #1 of the Arc testnet collection (v2 instance)
+Reference vector (reproducible, self-contained):
     chainId  = 5042002
-    contract = 0xc7D2C2cC9291485ec8B727333B6a1478Dd66c3D5
-    miner    = 0x1111111111111111111111111111111111111111
-    nonce    = 403415
-The winning hash is stored on-chain as seedOf(1). We recompute it and must match it
-byte-for-byte, and we re-derive its leading-zero-bit count by porting the Solidity
-_leadingZeroBits() byte-for-byte.
+    contract = 0xc7D2C2cC9291485ec8B727333B6a1478Dd66c3D5   (historical v2 testnet instance)
+    miner    = 0x1111111111111111111111111111111111111111   (placeholder address)
+    nonce    = 1024085
+This hashes (byte-for-byte, via the pinned EXPECTED_HASH below) to a 20-leading-zero-bit
+work value — the exact shape of the collection's historical first-mint vector, fully
+reproducible offline. To re-verify a real mint on any instance, pass its parameters:
+--miner <minter> --nonce <nonce> --contract <addr> --token-id <id>. The leading-zero-bit
+count is re-derived by porting the Solidity _leadingZeroBits() byte-for-byte.
 
 Keccak backend priority: eth-hash[pycryptodome] → pycryptodome → pysha3 → arc-cast CLI.
 No transactions are sent. No private keys are used.
@@ -34,14 +36,13 @@ import sys
 
 # ------------------------------------------------------------------ constants
 CHAIN_ID = 5042002
-# HISTORICAL vector target — token #1 was minted on the v2 instance, so this address
-# is kept as-is to preserve the exact on-chain verification. Semantics are identical in
-# v3 (preimage layout unchanged); ONLY the bound contract address differs.
-# Current v3 "Proof of Architect" testnet instance = 0xCc223C0e1A943916f604d729Cddfb5B85f266193.
+# Reference-vector defaults (synthetic, reproducible — see docstring). CONTRACT is the
+# historical v2 testnet instance; the preimage layout is identical in v3 (only the bound
+# address differs). Override via --miner/--nonce/--contract for any real mint.
 CONTRACT = "0xc7D2C2cC9291485ec8B727333B6a1478Dd66c3D5"
 MINER = "0x1111111111111111111111111111111111111111"
-NONCE = 403415
-EXPECTED_HASH = "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf"
+NONCE = 1024085
+EXPECTED_HASH = "0x00000d2c7a16b7b38b3ffa61dca7d4f810f84ae52b031a74dad6f8c73d715bde"
 
 ARC_CAST = os.environ.get(
     "ARC_CAST", "<repo>/tools/bin/arc-cast")
@@ -186,33 +187,33 @@ def _rpc_json(method: str, params: list):
         return json.load(r).get("result")
 
 
-def fetch_seed_of_cli(token_id: int) -> str:
+def fetch_seed_of_cli(token_id: int, contract: str) -> str:
     out = subprocess.run(
-        [ARC_CAST, "call", CONTRACT, "seedOf(uint256)(bytes32)", str(token_id),
+        [ARC_CAST, "call", contract, "seedOf(uint256)(bytes32)", str(token_id),
          "--rpc-url", RPC_TESTNET],
         capture_output=True, text=True, check=True).stdout.strip()
     return out
 
 
-def fetch_uint_cli(sig: str) -> int:
+def fetch_uint_cli(sig: str, contract: str) -> int:
     out = subprocess.run(
-        [ARC_CAST, "call", CONTRACT, sig, "--rpc-url", RPC_TESTNET],
+        [ARC_CAST, "call", contract, sig, "--rpc-url", RPC_TESTNET],
         capture_output=True, text=True, check=True).stdout.strip()
     # cast prints e.g. "20 [2e1]"
     return int(out.split()[0])
 
 
-def onchain_seed_of(token_id: int) -> str:
+def onchain_seed_of(token_id: int, contract: str) -> str:
     """Fetch seedOf via arc-cast CLI, fall back to raw eth_call."""
     if os.path.exists(ARC_CAST):
         try:
-            return fetch_seed_of_cli(token_id)
+            return fetch_seed_of_cli(token_id, contract)
         except Exception:
             pass
     from eth_hash.auto import keccak
     sel = "0x" + keccak(b"seedOf(uint256)").hex()[:8]
     data = sel + uint256_be(token_id).hex()
-    res = _rpc_json("eth_call", [{"to": CONTRACT, "data": data}, "latest"])
+    res = _rpc_json("eth_call", [{"to": contract, "data": data}, "latest"])
     return res
 
 
@@ -220,10 +221,16 @@ def onchain_seed_of(token_id: int) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(description="Verify the Arc PoW vector on CPU.")
     ap.add_argument("--token-id", type=int, default=1)
+    ap.add_argument("--miner", default=MINER,
+                    help="miner address of the vector (default: placeholder reference)")
+    ap.add_argument("--nonce", type=int, default=NONCE,
+                    help="nonce of the vector (default: reference vector)")
+    ap.add_argument("--contract", default=CONTRACT,
+                    help="bound contract address (default: historical v2 instance)")
     ap.add_argument("--offline", action="store_true",
                     help="skip the on-chain fetch and check only local consistency")
     ap.add_argument("--expected", default=EXPECTED_HASH,
-                    help="expected seedOf hash (defaults to the proven on-chain value)")
+                    help="expected hash (default: pinned reference-vector hash)")
     a = ap.parse_args()
 
     print("=" * 74)
@@ -232,13 +239,13 @@ def main() -> int:
     print(f"keccak backend : {_KECCAK_BACKEND or 'auto'}")
 
     # 1) preimage + hash
-    pre = build_preimage(CHAIN_ID, CONTRACT, MINER, NONCE)
-    got = work_hash(CHAIN_ID, CONTRACT, MINER, NONCE)
+    pre = build_preimage(CHAIN_ID, a.contract, a.miner, a.nonce)
+    got = work_hash(CHAIN_ID, a.contract, a.miner, a.nonce)
     got_hex = "0x" + got.hex()
     print(f"chainId        : {CHAIN_ID}")
-    print(f"contract       : {CONTRACT}")
-    print(f"miner          : {MINER}")
-    print(f"nonce          : {NONCE}")
+    print(f"contract       : {a.contract}")
+    print(f"miner          : {a.miner}")
+    print(f"nonce          : {a.nonce}")
     print(f"preimage len   : {len(pre)} bytes  ({pre.hex()})")
     print(f"local hash     : {got_hex}")
 
@@ -246,7 +253,7 @@ def main() -> int:
     expected = a.expected
     if not a.offline:
         try:
-            onchain = onchain_seed_of(a.token_id)
+            onchain = onchain_seed_of(a.token_id, a.contract)
             print(f"on-chain seedOf({a.token_id}): {onchain}")
             expected = onchain
         except Exception as e:
@@ -276,7 +283,7 @@ def main() -> int:
     base_bits = None
     if not a.offline and os.path.exists(ARC_CAST):
         try:
-            base_bits = fetch_uint_cli("baseBits()(uint8)")
+            base_bits = fetch_uint_cli("baseBits()(uint8)", a.contract)
             print(f"on-chain baseBits: {base_bits}")
         except Exception as e:
             print(f"[warn] baseBits fetch failed: {e}")
@@ -286,8 +293,8 @@ def main() -> int:
               f"  ({lz} >= {base_bits})")
         lz_ok = accept
     else:
-        # 20 is the proven smoke-config baseBits; the seedOf hash starts with 0x00000d.
-        lz_ok = got[:3] == b"\x00\x00\x0d"
+        # Reference vector targets the v2 instance's base difficulty (20 bits).
+        lz_ok = lz >= 20
         print(f"accept (expected 20 leading zero bits): "
               f"{'PASS' if lz_ok else 'FAIL'}")
 

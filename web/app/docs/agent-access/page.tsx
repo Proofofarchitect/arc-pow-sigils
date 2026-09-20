@@ -177,7 +177,7 @@ export default function AgentAccessPage() {
           "name": "verify_nonce",
           "arguments": {
             "miner": "0x1111111111111111111111111111111111111111",
-            "nonce": "403415"
+            "nonce": "1024085"
           }
         }
       }'`}</Code>
@@ -321,7 +321,7 @@ export default function AgentAccessPage() {
           "name": "verify_nonce",
           "arguments": {
             "miner": "0x1111111111111111111111111111111111111111",
-            "nonce": "403415"
+            "nonce": "1024085"
           }
         }
       }'`}</Code>

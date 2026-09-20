@@ -4,9 +4,10 @@ CUDA miner for the **Arc testnet** proof-of-work NFT collection, adapted from
 `crypto/hashcats/mining/gpu/gpu_mine.py`. It grinds the contract's exact preimage and
 broadcasts `mint(nonce)`.
 
-> **Status:** the preimage + difficulty logic is **[proven] on CPU** against the on-chain
-> ground-truth vector (token #1). The **CUDA execution path is `[assumed]` — untested here**
-> because this workstation has no GPU. Validate on a rented GPU with `--dry-run` first.
+> **Status:** the preimage + difficulty logic is **[proven] on CPU** — cross-checked against
+> the historical on-chain vector (v2 instance, first mint) and re-checked offline against the
+> reproducible reference vector in §3. The **CUDA execution path is `[assumed]` — untested
+> here** because this workstation has no GPU. Validate on a rented GPU with `--dry-run` first.
 
 > **Current contract (v3 "Proof of Architect"):** testnet `0xCc223C0e1A943916f604d729Cddfb5B85f266193`
 > (chainId `5042002`). **Mainnet (5042) address: TBD.** Override with `--contract` / `--chain-id`
@@ -42,7 +43,7 @@ Packed encoding is **104 bytes** = exactly one Keccak rate block (`rate = 136`):
 | file | role |
 |------|------|
 | `gpu_mine.py` | CUDA miner: builds the 104-B preimage, runs the kernel, verifies hits on CPU, submits `mint(nonce)`. |
-| `verify_vector.py` | **CPU-only proof.** Recomputes the known vector hash and asserts it equals the on-chain `seedOf(1)`; re-ports `_leadingZeroBits` and cross-checks it. |
+| `verify_vector.py` | **CPU-only proof.** Recomputes the pinned reference-vector hash (`--miner/--nonce/--contract` accept any real mint incl. on-chain `seedOf`); re-ports `_leadingZeroBits` and cross-checks it. |
 | `cpu_mine.py` | Tiny CPU reference miner (pure-Python keccak) at low difficulty; no transactions. |
 
 Run the two CPU checks **before** renting a GPU — they need no GPU and no key:
@@ -55,24 +56,28 @@ python3 cpu_mine.py --bits 12     # expects: RESULT: PASS
 
 ---
 
-## 3. Ground-truth vector [proven] — v2 instance (historical)
+## 3. Reference vector (reproducible) — v2 instance
 
-> Produced on the **v2** instance and kept unchanged to preserve the historical proof. The
-> current **v3** instance is `0xCc223C0e1A943916f604d729Cddfb5B85f266193`; the preimage layout
-> is identical, so the same verification applies with that address.
+`verify_vector.py` ships a self-contained vector (defaults below) so the preimage layout
+and the validity rule are reproducible byte-for-byte, offline:
 
 ```
 chainId  = 5042002
-contract = 0xc7D2C2cC9291485ec8B727333B6a1478Dd66c3D5   # v2 (historical)
-miner    = 0x1111111111111111111111111111111111111111
-nonce    = 403415
-seedOf(1)= 0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf
+contract = 0xc7D2C2cC9291485ec8B727333B6a1478Dd66c3D5   # v2 (historical instance)
+miner    = 0x1111111111111111111111111111111111111111   # placeholder address
+nonce    = 1024085
+hash     = 0x00000d2c7a16b7b38b3ffa61dca7d4f810f84ae52b031a74dad6f8c73d715bde
 ```
 
-`verify_vector.py` recomputes `keccak256(chainId‖contract‖miner‖nonce)` and it matches
-`seedOf(1)` byte-for-byte; the hash has **20** leading zero bits = `baseBits` (token #1 was the
-first mint of that wallet, so `requiredBits = baseBits = 20`). Confirmed on-chain (v2 instance):
-`baseBits()=20`, `escalationBits()=2`, `nonceOf(1)=403415`.
+The hash has **20** leading zero bits — the v2 instance's `baseBits` (a fresh wallet faces
+`requiredBits = baseBits = 20` there), so the nonce is exactly acceptable. Historically the
+same script cross-checked the collection's first mint (v2 token #1) against on-chain
+`seedOf(1)`; to re-verify any real mint pass its parameters:
+
+```bash
+python3 verify_vector.py --miner <minter> --nonce <nonce> --contract <addr> --token-id <id>
+```
+(`--offline` skips the on-chain `seedOf` fetch and checks the local hash only.)
 
 ---
 

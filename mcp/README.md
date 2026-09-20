@@ -95,23 +95,26 @@ preimage hash locally as
 `keccak256(abi.encodePacked(chainId, contract, miner, nonce))` and counts leading
 zero bits itself, so it does not trust the RPC for the PoW verdict.
 
-### Example: verify a mined nonce (v2 instance — historical)
+### Example: verify a mined nonce
+
+Sample response for a placeholder wallet on the current testnet core
+(`CONTRACT_ADDRESS`, as of 2026-09):
 
 ```json
 {
   "miner": "0x1111111111111111111111111111111111111111",
-  "nonce": "403415",
-  "work": "0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf",
+  "nonce": "1024085",
+  "work": "0x23be0254d49b31835f9f7316f513ccfdc45d8b69e2e1650ae02c446e8a2d3834",
   "workMatchesOnChain": true,
-  "leadingZeroBits": 20,
-  "requiredBits": 24,
+  "leadingZeroBits": 2,
+  "requiredBits": 30,
   "valid": false
 }
 ```
 
-Call it as `verify_nonce(miner = "0x1111111111111111111111111111111111111111", nonce = "403415")`.
-The PoW formula is unchanged in v3 — the contract address only binds the preimage, so the
-same call works against v3 with nonces mined for that address.
+Call it as `verify_nonce(miner = "0x1111111111111111111111111111111111111111", nonce = "1024085")`.
+The PoW formula is the same across instances — the contract address binds the preimage, so
+pass nonces mined for the contract you query.
 
 ---
 

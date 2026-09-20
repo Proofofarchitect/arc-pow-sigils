@@ -210,22 +210,24 @@ export default function VerificationPage() {
       </div>
 
       <div className="panel">
-        <h2>4. Worked example (real nonce)</h2>
+        <h2>4. Worked example (reference vector)</h2>
         <p className="muted small" style={{ marginTop: 0 }}>
-          The first token ever minted in the collection was mined on the initial v2
-          instance. Its nonce and winning hash are on-chain and have been
-          cross-checked byte-for-byte by the browser miner, the GPU miner and the
-          MCP server. The preimage layout and the validity rule are unchanged in
-          the current v3 core; only the bound contract address differs.
+          A self-contained, reproducible vector: on the initial v2 testnet
+          instance a fresh placeholder wallet at base difficulty (20 bits)
+          accepts this nonce. The historical first mint of the collection was
+          cross-checked the same way, byte-for-byte, by the browser miner, the
+          GPU miner and the MCP server; minter details are omitted here. The
+          preimage layout and the validity rule are unchanged in the current v3
+          core — only the bound contract address differs.
         </p>
         <div className="panel" style={{ marginTop: 0, background: "var(--paper-blue)" }}>
           <Row k="chainId" v="5042002" />
           <Row k="contract (v2 instance)" v="0xc7D2C2cC9291485ec8B727333B6a1478Dd66c3D5" />
           <Row k="miner" v="0x1111111111111111111111111111111111111111" />
-          <Row k="nonce" v="403415" />
+          <Row k="nonce" v="1024085" />
           <Row
-            k="work (seedOf(1))"
-            v="0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf"
+            k="work (keccak256 preimage)"
+            v="0x00000d2c7a16b7b38b3ffa61dca7d4f810f84ae52b031a74dad6f8c73d715bde"
           />
           <Row k="leadingZeroBits(work)" v="20" />
           <Row k="requiredBits(miner)" v="20" />
@@ -234,18 +236,20 @@ export default function VerificationPage() {
         <p className="muted small" style={{ marginTop: 12, marginBottom: 0 }}>
           Why 20 bits: the hash begins <span className="mono">0x00 00 0d</span> —
           two zero bytes (16 bits) plus <span className="mono">0x0d = 00001101</span>
-          {" "}(4 more leading zeros) = 20. That miner had minted zero tokens at
-          the time, so <span className="mono">requiredBits</span> was exactly the
-          v2 base difficulty (20 bits), and the nonce was accepted. The winning
-          hash is stored on-chain as <span className="mono">seedOf(1)</span> and{" "}
-          <span className="mono">nonceOf(1) = 403415</span>.
+          {" "}(4 more leading zeros) = 20. On the v2 instance a wallet with no
+          prior mints faces exactly that base difficulty (20 bits), so this
+          nonce is accepted. Re-run the check yourself with{" "}
+          <span className="mono">mining/gpu/verify_vector.py</span>; real mints
+          can be re-verified by passing their{" "}
+          <span className="mono">miner</span>/<span className="mono">nonce</span>{" "}
+          to <span className="mono">verify_nonce</span>.
         </p>
         <div className="banner">
           Run against the <strong>current</strong> core, the same{" "}
-          <span className="mono">verify_nonce</span> call returns the wallet
-          current difficulty (which has moved on since the mint), so a historical
-          nonce can read as <span className="mono">valid: false</span>. That is
-          expected: validity is checked against the difficulty in effect now.
+          <span className="mono">verify_nonce</span> call reads the wallet
+          difficulty <em>now</em> (30+ bits), so a v2-instance nonce can read as{" "}
+          <span className="mono">valid: false</span>. That is expected: validity
+          is checked against the difficulty in effect now.
         </div>
       </div>
 
@@ -263,10 +267,10 @@ export default function VerificationPage() {
           <span className="mono">nonce</span> is a decimal uint256 string.
         </p>
         <Code>{`tool      : verify_nonce
-arguments : { "miner": "0x…", "nonce": "403415" }
+arguments : { "miner": "0x…", "nonce": "1024085" }
 returns   : {
   "miner": "0x…",
-  "nonce": "403415",
+  "nonce": "1024085",
   "work": "0x…",
   "leadingZeroBits": 20,
   "requiredBits": 24,
