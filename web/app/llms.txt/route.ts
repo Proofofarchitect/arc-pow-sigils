@@ -20,7 +20,7 @@ export function GET() {
 > Proof-of-work minted NFT collection on Arc (Circle L1, chainId ${ARC_CHAIN_ID}). Mine a keccak-256 nonce in the browser or on GPU — the mined hash is recorded on-chain as the token's seed (seedOf), and the Architector art seed derives post-inclusion from it plus a later block hash (keccak256(seedOf ‖ blockhash(mintBlockOf(id) + 2))), so traits are not knowable before the mint. 42 free claim codes and 15,000 paid mints across 15 waves; the paid price is 1.0 USDC at wave 1, doubling every wave with no cap, paid as native gas token USDC (a 2.5% mint fee is added on top; total due = currentMintDue()).
 
 Key facts:
-- Contract (ERC-721, symbol PARC): 0x8f5795343C10b316296f6767a10e87CC40E62491 (Arc, v3.4, verified on arcscan; a 2.5% mint fee is added on top of the wave price at mint)
+- Contract (ERC-721, symbol PARC): 0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4 (Arc, v3.4, verified on arcscan; a 2.5% mint fee is added on top of the wave price at mint)
 - Mining formula: work = keccak256(abi.encodePacked(chainId, contract, miner, nonce)); valid when uint256(work) < targetFor(miner) (fractional difficulty in milli-bits; requiredBits is the display value)
 - Post-inclusion entropy: the art seed is keccak256(seedOf ‖ blockhash(mintBlockOf + 2)), a block that does not exist at submit time, so traits cannot be previewed or ground for before minting (claim tokens keep a deterministic seed)
 - Difficulty has three layers: a wave base (baseBits 30 + 2 per wave), a load regulator, and a per-wallet streak

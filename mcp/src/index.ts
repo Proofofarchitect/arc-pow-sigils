@@ -2,7 +2,7 @@
 /**
  * arc-pow-sigils-mcp — stdio MCP server for the "Proof of Architect" NFT collection.
  *
- * Read-only tools over the deployed PowMintNFTv3 contract on Arc testnet.
+ * Read-only tools over the deployed PowMintNFTv3_4 contract on Arc mainnet (env-switchable).
  * All tools return JSON encoded as a single text content block.
  */
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

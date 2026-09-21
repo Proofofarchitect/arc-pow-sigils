@@ -173,7 +173,7 @@ export default function StatsDocsPage() {
   "domain": "proofofarchitect.stats/1",
   "updatedAt": "2026-09-16T21:08:56.181Z",
   "chainId": ${ARC_CHAIN_ID},
-  "contract": "0x8f5795343C10b316296f6767a10e87CC40E62491",
+  "contract": "0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4",
   "site": "${SITE_URL}",
   "wave": 1,
   "priceUsdc": "1",
@@ -280,7 +280,7 @@ export default function StatsDocsPage() {
           Quote the URL, the dataset id and the <span className="mono">updatedAt</span>{" "}
           timestamp so the number is reproducible:
         </p>
-        <Code>{`Proof of Architect stats — chainId ${ARC_CHAIN_ID}, contract 0x8f5795343C10b316296f6767a10e87CC40E62491,
+        <Code>{`Proof of Architect stats — chainId ${ARC_CHAIN_ID}, contract 0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4,
 dataset proofofarchitect.stats/1, ${SITE_URL}/stats/current.json, updatedAt <ISO-8601 UTC>.`}</Code>
         <ul className="small" style={{ margin: "10px 0 0", paddingLeft: 20 }}>
           <li>

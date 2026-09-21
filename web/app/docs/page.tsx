@@ -226,10 +226,10 @@ export default function DocsIndexPage() {
       <p className="small muted" style={{ marginTop: 18 }}>
         Contract (Arc):{" "}
         <span className="mono">
-          0x8f5795343C10b316296f6767a10e87CC40E62491
+          0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4
         </span>
         . Explorer:{" "}
-        <a href="https://testnet.arcscan.app/address/0x8f5795343C10b316296f6767a10e87CC40E62491">
+        <a href="https://explorer.arc.io/address/0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4">
           arcscan
         </a>
         . This is the live collection contract.

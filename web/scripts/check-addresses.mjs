@@ -33,7 +33,7 @@ const CANON = new Set(
     a.toLowerCase(),
   ),
 );
-const CANON_CORE = "0x8f5795343C10b316296f6767a10e87CC40E62491";
+const CANON_CORE = "0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4";
 
 // --- superseded deployment addresses: must NOT appear in active files ------
 const STALE = [
@@ -47,6 +47,12 @@ const STALE = [
   "0xF3E861085D5569d3eb376277a3F3D87579E94b09", // old craft (v1)
   "0x801e10dAa6C38996226aA9D5C61741A491ccf89b", // v3.1 vault
   "0x520a710099badd2e6cc07832cbbac032470160cf", // v3.1 vault v2
+  "0x8f5795343C10b316296f6767a10e87CC40E62491", // v3.4 core (testnet — superseded by mainnet 2026-09-21)
+  "0xb19391b0Ce967f473665691295F2846C424c720a", // v3.4 vault (testnet)
+  "0x5F7f7D3E641D09565Cf6f81D461bA09910f6685F", // v3.4 craft (testnet)
+  "0x9Ce1cD8d4Bdcba89A2be6E0021FD073DDDa3CD47", // registry (testnet)
+  "0x593973Ce94A82282a7d6f4bbf384CCd852d160a1", // rewards (testnet)
+  "0xD964C910DDa776Da55A900F85b019f48C237EA8b", // points (testnet)
 ].map((a) => a.toLowerCase());
 
 // --- active surfaces to scan ----------------------------------------------
@@ -54,6 +60,7 @@ const TARGETS = [
   "web/lib",
   "web/app",
   "web/public",
+  "web/.env.local.example",
   "mcp/src",
   "miner",
   "gitbook",
@@ -63,6 +70,7 @@ const TARGETS = [
   "domain_fork/app",
   "domain_fork/public",
   "domain_fork/deploy",
+  "domain_fork/.env.local.example",
   "domain_fork/README.md",
 ];
 const opsDir = join(ROOT, "ops");
@@ -100,7 +108,7 @@ const MUST_CONTAIN_CORE = [
 ];
 
 const EXTS = new Set([
-  ".ts", ".tsx", ".mjs", ".js", ".md", ".json", ".yaml", ".yml", ".txt", ".py", ".html",
+  ".ts", ".tsx", ".mjs", ".js", ".md", ".json", ".yaml", ".yml", ".txt", ".py", ".html", ".example",
 ]);
 
 function allowed(rel) {

@@ -62,9 +62,9 @@ const client = createPublicClient({
 
 /**
  * First block of the current v3.4 contract stack (earliest v3.4 deploy tx,
- * 63236723). Override with POINTS_FROM_BLOCK if the core is redeployed.
+ * 22030776). Override with POINTS_FROM_BLOCK if the core is redeployed.
  */
-const FROM_BLOCK = Number(process.env.POINTS_FROM_BLOCK ?? "63236723");
+const FROM_BLOCK = Number(process.env.POINTS_FROM_BLOCK ?? "22030776");
 // Arc testnet RPC: ~10k-block ranges are accepted (larger are rejected) and
 // the log budget is roughly 2 requests/second — measured 2026-09-18.
 const CHUNK_SIZE = 10_000;

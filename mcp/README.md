@@ -2,14 +2,14 @@
 
 A standalone [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server
 for the **Proof of Architect** NFT collection (House Card art) — a proof-of-work
-minted NFT on **Arc testnet** (chainId `5042002`, native gas token **USDC**, 18 decimals).
+minted NFT on **Arc mainnet** (chainId `5042`, native gas token **USDC**, 18 decimals).
 
 The server exposes **read-only** tools over the deployed `PowMintNFTv3` contract so an
 LLM agent can inspect collection stats, token data, PoW difficulty and pricing — and
 even **verify a mined nonce without sending a transaction**.
 
-- Contract (v3.4 testnet): `0x8f5795343C10b316296f6767a10e87CC40E62491` (mainnet TBD; override via `CONTRACT_ADDRESS`)
-- RPC: `https://rpc.testnet.arc.io` (override via `ARC_RPC_URL`)
+- Contract (v3.4 mainnet): `0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4` (Arc mainnet; override via `CONTRACT_ADDRESS`)
+- RPC: `https://rpc.mainnet.arc.io` (override via `ARC_RPC_URL`)
 - Transport: **stdio** (newline-delimited JSON-RPC)
 
 ---
@@ -65,8 +65,8 @@ Or, pointing at a local build:
       "command": "node",
       "args": ["/absolute/path/to/mcp/dist/index.js"],
       "env": {
-        "CONTRACT_ADDRESS": "0x8f5795343C10b316296f6767a10e87CC40E62491",
-        "ARC_RPC_URL": "https://rpc.testnet.arc.io",
+        "CONTRACT_ADDRESS": "0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4",
+        "ARC_RPC_URL": "https://rpc.mainnet.arc.io",
         "SITE_URL": "https://proofofarchitect.builders"
       }
     }
@@ -96,7 +96,7 @@ zero bits itself, so it does not trust the RPC for the PoW verdict.
 
 ### Example: verify a mined nonce
 
-Sample response for a placeholder wallet on the current testnet core
+Sample response for a placeholder wallet on the current mainnet core
 (`CONTRACT_ADDRESS`, as of 2026-09):
 
 ```json
@@ -121,9 +121,9 @@ pass nonces mined for the contract you query.
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `CONTRACT_ADDRESS` | `0x8f5795343C10b316296f6767a10e87CC40E62491` | PowMintNFTv3_4 address (mainnet TBD) |
-| `CRAFT_ADDRESS` | `0x5F7f7D3E641D09565Cf6f81D461bA09910f6685F` | CraftingControllerV2 address (one-shot crafting) |
-| `ARC_RPC_URL` | `https://rpc.testnet.arc.io` | Arc testnet RPC endpoint |
+| `CONTRACT_ADDRESS` | `0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4` | PowMintNFTv3_4 address (Arc mainnet canon) |
+| `CRAFT_ADDRESS` | `0xb7f32811F19579D9FC6F0e5ac925473554091a91` | CraftingControllerV2 address (one-shot crafting) |
+| `ARC_RPC_URL` | `https://rpc.mainnet.arc.io` | Arc RPC endpoint |
 | `SITE_URL` | `https://proofofarchitect.builders` | Base site for `/api/image/{id}` and `/api/meta/{id}` links |
 
 All variables are optional. No secrets are read or stored.

@@ -19,32 +19,32 @@ import {
  * IMPORTANT: the native gas token is USDC with 18 decimals (NOT ETH, NOT 6).
  * Kept local to this package on purpose — do not import across packages.
  */
-const ARC_CHAIN_ID_ENV = Number(process.env.ARC_CHAIN_ID?.trim() || 5042002);
+const ARC_CHAIN_ID_ENV = Number(process.env.ARC_CHAIN_ID?.trim() || 5042);
 /**
  * RPC endpoints (comma-separated list, first = primary). Official alternates:
  * Blockdaemon / dRPC / QuickNode (see Arc docs). Failover via viem `fallback`.
  */
 const ARC_RPC_URLS_ENV = (
-  process.env.ARC_RPC_URL?.trim() || "https://rpc.testnet.arc.io"
+  process.env.ARC_RPC_URL?.trim() || "https://rpc.mainnet.arc.io"
 )
   .split(",")
   .map((url) => url.trim())
   .filter((url) => url.length > 0);
-const ARC_RPC_ENV = ARC_RPC_URLS_ENV[0] ?? "https://rpc.testnet.arc.io";
+const ARC_RPC_ENV = ARC_RPC_URLS_ENV[0] ?? "https://rpc.mainnet.arc.io";
 const ARC_EXPLORER_ENV =
-  process.env.ARC_EXPLORER_URL?.trim() || "https://testnet.arcscan.app";
-const ARC_IS_TESTNET_ENV = (process.env.ARC_IS_TESTNET ?? "true") !== "false";
+  process.env.ARC_EXPLORER_URL?.trim() || "https://explorer.arc.io";
+const ARC_IS_TESTNET_ENV = (process.env.ARC_IS_TESTNET ?? "false") !== "false";
 
 /**
- * Arc chain definition (env-driven: testnet 5042002 by default, mainnet 5042
- * with `ARC_CHAIN_ID=5042`).
+ * Arc chain definition (env-driven: mainnet 5042 by default since 2026-09-21;
+ * testnet via `ARC_CHAIN_ID=5042002` + `ARC_RPC_URL=https://rpc.testnet.arc.io`).
  *
  * IMPORTANT: the native gas token is USDC with 18 decimals (NOT ETH, NOT 6).
  * Kept local to this package on purpose — do not import across packages.
  */
 export const arcTestnet = defineChain({
   id: ARC_CHAIN_ID_ENV,
-  name: "Arc Testnet",
+  name: "Arc",
   nativeCurrency: {
     name: "USDC",
     symbol: "USDC",
@@ -70,10 +70,10 @@ export const CHAIN_ID = ARC_CHAIN_ID_ENV;
 /** USDC native decimals on Arc. */
 export const USDC_DECIMALS = 18;
 
-/** Deployed PowMintNFTv3_4 core (v3.4 canon, Arc testnet) address; override with CONTRACT_ADDRESS. */
+/** Deployed PowMintNFTv3_4 core (v3.4 canon, Arc mainnet) address; override with CONTRACT_ADDRESS. */
 export const CONTRACT_ADDRESS: Address =
   (process.env.CONTRACT_ADDRESS?.trim() as Address | undefined) ||
-  "0x8f5795343C10b316296f6767a10e87CC40E62491";
+  "0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4";
 
 /** Primary RPC endpoint (list override via comma-separated ARC_RPC_URL). */
 export const ARC_RPC_URL: string = ARC_RPC_ENV;
@@ -84,7 +84,7 @@ export const ARC_RPC_URL: string = ARC_RPC_ENV;
  */
 export const CRAFT_ADDRESS: Address =
   (process.env.CRAFT_ADDRESS?.trim() as Address | undefined) ||
-  "0x5F7f7D3E641D09565Cf6f81D461bA09910f6685F";
+  "0xb7f32811F19579D9FC6F0e5ac925473554091a91";
 
 const rawSite = process.env.SITE_URL?.trim() || "https://proofofarchitect.builders";
 /** Site base (no trailing slash) used to build off-chain image/metadata urls. */

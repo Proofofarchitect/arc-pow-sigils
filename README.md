@@ -12,6 +12,8 @@ has a required number of leading zero bits. The winning hash becomes the token's
 
 **Collection:** 15,042 cards — 42 free claim codes + 15,000 paid mints across 15 waves of 1,000 (base price starts at 1 USDC and doubles every wave; +2.5% mint fee).
 
+**Status:** LIVE on Arc mainnet since 2026-09-21 (chainId 5042). Website: https://proofofarchitect.builders
+
 **Mechanics:** mining (CPU/GPU), claim codes, staking (hard-lock), crafting (one-shot 2→1, fixed 5 USDC fee — no commit–reveal).
 
 ## Repository layout
@@ -27,18 +29,18 @@ has a required number of leading zero bits. The winning hash becomes the token's
 | `art/canon/` | Frozen art anchors + legendary chips |
 | `examples/` | Agent/crafting examples |
 
-## Contracts (Arc testnet, chainId 5042002)
+## Contracts (Arc mainnet, chainId 5042)
 
 | Role | Address |
 |---|---|
-| Core — `PowMintNFTv3_4` | `0x8f5795343C10b316296f6767a10e87CC40E62491` |
-| `StakingVaultV2` | `0xb19391b0Ce967f473665691295F2846C424c720a` |
-| `CraftingControllerV2` | `0x5F7f7D3E641D09565Cf6f81D461bA09910f6685F` |
-| `RarityRegistry` | `0x9Ce1cD8d4Bdcba89A2be6E0021FD073DDDa3CD47` |
-| `StakeRewards` | `0x593973Ce94A82282a7d6f4bbf384CCd852d160a1` |
-| `BurnPoints` | `0xD964C910DDa776Da55A900F85b019f48C237EA8b` |
+| Core — `PowMintNFTv3_4` | `0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4` |
+| `StakingVaultV2` | `0xEa9dD5BD05922878A93e2F67bd457D2bBad5BE83` |
+| `CraftingControllerV2` | `0xb7f32811F19579D9FC6F0e5ac925473554091a91` |
+| `RarityRegistry` | `0x09699f496572a4288b0d9e3b436936f89142624b` |
+| `StakeRewards` | `0xbe1bb857d3653beacd2f56e395b1ada3f4f4a49e` |
+| `BurnPoints` | `0x7bb5fa517745302b1d44eac458f55c1eeb6675b5` |
 
-Mainnet addresses will be published after launch (Arc mainnet, chainId 5042). Contract suite: **350/350** (unit + fuzz + invariant tests).
+Live on Arc mainnet since 2026-09-21 (core deployed at block 22030776, craft at 22030850); explorer: https://explorer.arc.io. The single source of truth for these addresses is `web/lib/canonical.ts`. Contract suite: **350/350** (unit + fuzz + invariant tests).
 
 ## Quick start
 

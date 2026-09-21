@@ -18,7 +18,7 @@ Copy `.env.local.example` to `.env.local` and adjust if needed:
 | Variable | Default | Purpose |
 |---|---|---|
 | `NEXT_PUBLIC_ARC_RPC_URL` | `https://rpc.testnet.arc.io` | Arc testnet JSON-RPC endpoint |
-| `NEXT_PUBLIC_CONTRACT_ADDRESS` | `0x8f5795343C10b316296f6767a10e87CC40E62491` | PowMintNFT v3.4 address override |
+| `NEXT_PUBLIC_CONTRACT_ADDRESS` | `0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4` | PowMintNFT v3.4 address override |
 | `NEXT_PUBLIC_MIN_MAX_FEE_GWEI` | `50` | Minimum `maxFeePerGas` in gwei (floor is 20; Arc drops txs below) |
 | `NEXT_PUBLIC_SITE_URL` | `https://proofofarchitect.builders` | Canonical public URL for sitemap/llms.txt/JSON-LD/OpenAPI — **set before deploy** |
 

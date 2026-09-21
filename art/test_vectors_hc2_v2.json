@@ -1,7 +1,7 @@
 {
   "domain": "hc2/2",
   "generated_by": "art/hc2_v2.py --vectors-v2",
-  "spec_version": "2.2",
+  "spec_version": "2.3",
   "coverage": {
     "total": 70,
     "tiers": {
@@ -51,23 +51,24 @@
           1
         ]
       ],
-      "childSeed": "0x6dece0a6d881be0d81404a9bb68d0345d26e146f1f2ec256b4a478735b616fe4",
+      "childSeed": "0x74e001094a2ad832bfb28325084207608ffdcd4e785b7bcc91603a68d0e0e6a4",
+      "displaySeed": "0x42a50522a86c363b6b16c63f0e2243dc3cb0bc60ec18c72823e8346f6b9dd953",
       "attributes": {
         "background": "Construction",
-        "head": "Female",
+        "head": "Default",
         "outfit": "Coat",
-        "hair": "Long",
+        "hair": "Curly",
         "eyes": "Explorer",
         "nose": "Straight",
-        "mouth": "Default",
+        "mouth": "Smirk",
         "eyewear": "USDC Lenses",
         "headwear": "None",
         "companion": "Drone",
-        "era": "Genesis",
-        "origin": "Discord Queue",
+        "era": "Day One",
+        "origin": "Early Wanderer",
         "quote": "None",
         "lore": "None",
-        "hair_color": "Blond"
+        "hair_color": "Black"
       },
       "notes": "tier=0 sweep pair=0 choices=6 max-choices (6)"
     },
@@ -113,23 +114,24 @@
           1
         ]
       ],
-      "childSeed": "0xdbdc70b06c006ff5eb1180d369ab5cec34e305cb4bc4c859d614e07bea21042c",
+      "childSeed": "0xc906bdf9d59c0a1aac17ea4eb21dba74581e4363288e6c21c09c8051690176ce",
+      "displaySeed": "0x82011c5ba90034c87a3c2f2f38289a3be1d705bb914c8341df226dc6b5a6fe18",
       "attributes": {
         "background": "Construction",
-        "head": "Scar",
+        "head": "Default",
         "outfit": "Coat",
         "hair": "Short",
         "eyes": "Default",
         "nose": "Straight",
         "mouth": "Default",
-        "eyewear": "Glasses",
-        "headwear": "Hard Hat",
-        "companion": "AI Orb",
-        "era": "House",
-        "origin": "Partner",
-        "quote": "None",
+        "eyewear": "None",
+        "headwear": "Beanie",
+        "companion": "Winged Rat",
+        "era": "Day One",
+        "origin": "Community",
+        "quote": "Fees in the dollar",
         "lore": "Faucet sent zero",
-        "hair_color": "Ice"
+        "hair_color": "Black"
       },
       "notes": "tier=1 sweep pair=0 choices=8"
     },
@@ -183,23 +185,24 @@
           1
         ]
       ],
-      "childSeed": "0x566bb8030ffed2c0e317ed342809220ebbf86fdab515349d9f7565fbde722675",
+      "childSeed": "0x168405ca1ebb8be1c99468d3f76fc332469f7c89e26b8963f0cc69052d3d7c99",
+      "displaySeed": "0x19db8b260b7d38654fcb4ea6db122fec2c8b5e766cb1741abdd39d996ceed014",
       "attributes": {
         "background": "Construction",
-        "head": "Default",
+        "head": "Female",
         "outfit": "Coat",
-        "hair": "Curly",
+        "hair": "Short",
         "eyes": "Red",
         "nose": "Straight",
         "mouth": "Default",
         "eyewear": "Sunglasses",
-        "headwear": "Hard Hat",
+        "headwear": "Headphones",
         "companion": "Robot",
-        "era": "Genesis",
+        "era": "House",
         "origin": "LinkedIn Form",
-        "quote": "Fees in the dollar",
-        "lore": "Discord not linked",
-        "hair_color": "Brown"
+        "quote": "Pending or Final",
+        "lore": "None",
+        "hair_color": "Ginger"
       },
       "notes": "tier=2 sweep pair=0 choices=10"
     },
@@ -261,21 +264,22 @@
           1
         ]
       ],
-      "childSeed": "0x0da8ff1661dd0294f6767a50faecc26d335a71356a51e8168ff46e4063a16886",
+      "childSeed": "0x592af199bd52a679b1136904b520b7c32fb9d578aade8f38cf011059f9d44987",
+      "displaySeed": "0xfe67cceeb496815ce04bab3b096577ba00ec83d50b892645324d86471215b728",
       "attributes": {
         "background": "Construction",
-        "head": "Default",
+        "head": "Scar",
         "outfit": "Coat",
         "hair": "Short",
-        "eyes": "Soft",
+        "eyes": "Default",
         "nose": "Straight",
         "mouth": "Default",
-        "eyewear": "USDC Lenses",
-        "headwear": "Hard Hat",
+        "eyewear": "Sunglasses",
+        "headwear": "Headphones",
         "companion": "Robot",
         "era": "Genesis",
         "origin": "Partner",
-        "quote": "None",
+        "quote": "The queues are too slow",
         "lore": "None",
         "hair_color": "Brown"
       },
@@ -315,23 +319,24 @@
           0
         ]
       ],
-      "childSeed": "0xf34120f0b4d4879d8d86da25a128f23f453bfe443ea17a02f537f694c47bf0e8",
+      "childSeed": "0x1bedc0dc438d2402df058d2ca55995e23cb52b485e3f3b0526480e277145daff",
+      "displaySeed": "0x4efd36b267a89e0cc1a4c7bb126a7a51a883bb421038a977b2106154762233fe",
       "attributes": {
         "background": "Space",
-        "head": "Default",
+        "head": "Ice",
         "outfit": "Coat",
         "hair": "Curly",
         "eyes": "Explorer",
         "nose": "Straight",
-        "mouth": "Grin",
-        "eyewear": "None",
-        "headwear": "Beanie",
-        "companion": "Mouse",
-        "era": "Expansion",
-        "origin": "Discord Queue",
-        "quote": "None",
-        "lore": "None",
-        "hair_color": "Black"
+        "mouth": "Smile",
+        "eyewear": "USDC Lenses",
+        "headwear": "Headphones",
+        "companion": "None",
+        "era": "Season One",
+        "origin": "Arc House",
+        "quote": "Fees in the dollar",
+        "lore": "Faucet sent zero",
+        "hair_color": "Ginger"
       },
       "notes": "tier=0 sweep pair=1 choices=6 max-choices (6)"
     },
@@ -377,7 +382,8 @@
           0
         ]
       ],
-      "childSeed": "0x693b84675a826ba8bdaa4eab76271d70f44288ca516725c0ca6b4b24a63a310c",
+      "childSeed": "0x55c3af684f602e694b47a50d184964e81757e8b0d6b767cfa5689cfea41cc7fa",
+      "displaySeed": "0x7332a988dbe3c2ba7c5333d5014afb7423d97925afb9d5116a04dcdebedf85d2",
       "attributes": {
         "background": "Space",
         "head": "Default",
@@ -386,12 +392,12 @@
         "eyes": "Explorer",
         "nose": "Straight",
         "mouth": "Smirk",
-        "eyewear": "USDC Lenses",
-        "headwear": "Beanie",
+        "eyewear": "None",
+        "headwear": "Cap",
         "companion": "Dog",
         "era": "Season One",
-        "origin": "Community",
-        "quote": "Fees in the dollar",
+        "origin": "Discord Queue",
+        "quote": "Pending or Final",
         "lore": "Faucet sent zero",
         "hair_color": "Brown"
       },
@@ -447,10 +453,11 @@
           0
         ]
       ],
-      "childSeed": "0x137e36d4ecd6f84e48ab0bcc7320fa14f09eff8e2161190d5f171d785dcad7ef",
+      "childSeed": "0xf26ca3ac9c065fb5901a040cf5f3894923bf4880c73ebaf61b4b2fa2ece15a1a",
+      "displaySeed": "0x064aed1c46cc3d3d616d2576e7d307c6c61549422b52580b418fb06a5ee56fcf",
       "attributes": {
         "background": "Space",
-        "head": "Default",
+        "head": "Scar",
         "outfit": "Coat",
         "hair": "Curly",
         "eyes": "Explorer",
@@ -459,11 +466,11 @@
         "eyewear": "None",
         "headwear": "Hard Hat",
         "companion": "Robot",
-        "era": "House",
-        "origin": "LinkedIn Form",
-        "quote": "None",
-        "lore": "499 points then sleep",
-        "hair_color": "Black"
+        "era": "Day One",
+        "origin": "Community",
+        "quote": "Points have no monetary value",
+        "lore": "None",
+        "hair_color": "Blond"
       },
       "notes": "tier=2 sweep pair=1 choices=10"
     },
@@ -525,7 +532,8 @@
           0
         ]
       ],
-      "childSeed": "0x0dc1c10cfd411cafb1e1bd6e22f518232553e22879b2e5a070dcbce4e2fdeee7",
+      "childSeed": "0xcf26179c62af6eb077d8444b5328543497e4010aa10cead430d98fc35776c14b",
+      "displaySeed": "0x85a6e094aa736b3dd07f3effad4cd3f8143173e77e21183f3a5a0fc43be1b194",
       "attributes": {
         "background": "Space",
         "head": "Default",
@@ -539,7 +547,7 @@
         "companion": "Robot",
         "era": "Private Mainnet",
         "origin": "Partner",
-        "quote": "500 points",
+        "quote": "Pending or Final",
         "lore": "None",
         "hair_color": "Brown"
       },
@@ -579,23 +587,24 @@
           1
         ]
       ],
-      "childSeed": "0x1f65ae83399eb2081a27153e7c11c4c3c73890f67232f616f61afc39f5b98e31",
+      "childSeed": "0xf6d149f595f7406740bd2a0a571665b5198353806587b2a923f8753f2d286b42",
+      "displaySeed": "0x82f5a23d1dcf9ca6615d6e7428a3bb7ed26777128c11971b62ea22d231d26c1e",
       "attributes": {
         "background": "Space",
         "head": "Default",
         "outfit": "Coat",
-        "hair": "Long",
+        "hair": "Short",
         "eyes": "Explorer",
         "nose": "Default",
         "mouth": "Default",
-        "eyewear": "Glasses",
+        "eyewear": "Sunglasses",
         "headwear": "Cap",
-        "companion": "Flying Rat",
-        "era": "Season One",
-        "origin": "Community",
-        "quote": "Pending or Final",
-        "lore": "None",
-        "hair_color": "Brown"
+        "companion": "AI Orb",
+        "era": "Expansion",
+        "origin": "Discord Queue",
+        "quote": "Fees in the dollar",
+        "lore": "Minted while cats were live",
+        "hair_color": "Ginger"
       },
       "notes": "tier=0 sweep pair=2 choices=6 max-choices (6)"
     },
@@ -641,22 +650,23 @@
           1
         ]
       ],
-      "childSeed": "0xc9e69004f0f29566261e9b3322ccfa0890a7372e0799196d9ec1f71c0eb3f616",
+      "childSeed": "0xc01fa457c70c8c8f53ae7c6a4f71bea82553e147f443f4f575c0635a4eaf2571",
+      "displaySeed": "0x0604f89d824a0eeeab09a5e54c0f545f7b8ae575012eb853966142825d17ebf5",
       "attributes": {
         "background": "Space",
-        "head": "Pale",
+        "head": "Default",
         "outfit": "Coat",
         "hair": "Curly",
         "eyes": "Explorer",
         "nose": "Default",
         "mouth": "Smirk",
         "eyewear": "Glasses",
-        "headwear": "Hard Hat",
-        "companion": "Cat",
-        "era": "Day One",
-        "origin": "Early Wanderer",
-        "quote": "Fees in the dollar",
-        "lore": "None",
+        "headwear": "None",
+        "companion": "None",
+        "era": "House",
+        "origin": "Partner",
+        "quote": "Architects are not employees",
+        "lore": "Faucet sent zero",
         "hair_color": "Ice"
       },
       "notes": "tier=1 sweep pair=2 choices=8"
@@ -711,21 +721,22 @@
           1
         ]
       ],
-      "childSeed": "0x1f307c1d285c719faf1f76d903b9649ce9fa54a09df055c5df1d1465d7391551",
+      "childSeed": "0xe54cd53d1b87ea1e7930bf4aece9b59e9e536bfacadf546e8cf6dead8d22ebf2",
+      "displaySeed": "0x877418fb75e2671b892e04a212ef3d7528eef8289d979b0ef47f643a3c394cf0",
       "attributes": {
         "background": "Space",
         "head": "Default",
         "outfit": "Coat",
-        "hair": "Short",
+        "hair": "Long",
         "eyes": "Explorer",
         "nose": "Default",
         "mouth": "Smirk",
         "eyewear": "Glasses",
         "headwear": "Hard Hat",
         "companion": "None",
-        "era": "Expansion",
-        "origin": "Discord Queue",
-        "quote": "Pending or Final",
+        "era": "Season One",
+        "origin": "Early Wanderer",
+        "quote": "500 points",
         "lore": "None",
         "hair_color": "Brown"
       },
@@ -789,12 +800,13 @@
           1
         ]
       ],
-      "childSeed": "0x899cbfcc5c7ec9a814ac182dc90871e62661aa3de43ed968bf7df6e0bcecee90",
+      "childSeed": "0x17425cb97abff0d356994cb20187fe44e9a989d6814ca60f4d2f3c75c3ce581b",
+      "displaySeed": "0x37ee3a5987d4a83ff558794a395f725857cf204c523e2dc615726bf9c2fa7a76",
       "attributes": {
         "background": "Space",
         "head": "Default",
         "outfit": "Coat",
-        "hair": "Curly",
+        "hair": "Long",
         "eyes": "Explorer",
         "nose": "Default",
         "mouth": "Smirk",
@@ -803,9 +815,9 @@
         "companion": "None",
         "era": "Private Mainnet",
         "origin": "Community",
-        "quote": "I'm seated, Tim",
+        "quote": "None",
         "lore": "None",
-        "hair_color": "Blond"
+        "hair_color": "Brown"
       },
       "notes": "tier=3 sweep pair=2 choices=12 max-choices (12)"
     },
@@ -843,21 +855,22 @@
           0
         ]
       ],
-      "childSeed": "0xd8cef18bda82fc37e65ad4d6a994522a22f337b9aca0eb35e057acad12e3f6c7",
+      "childSeed": "0x5e4722bc270134a9df9a01b68ed10a6a26d13ddf5016be6fd9cdbebaf8f5205e",
+      "displaySeed": "0x2356e1644cfe47d5673ad753737a2b4c7db0af9e84ea2a02ccd5907574a4707b",
       "attributes": {
         "background": "City",
         "head": "Default",
-        "outfit": "Hacker",
+        "outfit": "Techwear",
         "hair": "Short",
         "eyes": "Default",
         "nose": "Default",
         "mouth": "Default",
         "eyewear": "None",
         "headwear": "None",
-        "companion": "Dog",
-        "era": "Genesis",
-        "origin": "Arc House",
-        "quote": "I'm seated, Tim",
+        "companion": "Flying Rat",
+        "era": "House",
+        "origin": "Community",
+        "quote": "Points have no monetary value",
         "lore": "None",
         "hair_color": "Brown"
       },
@@ -905,22 +918,23 @@
           0
         ]
       ],
-      "childSeed": "0xb321b0067795f0b877d44cc33ae9352b48f3dc79e5a06c9873760bb0b1cb510a",
+      "childSeed": "0x75ec3a2d3afeafb705f762ca7deb0365cfa86460e9db8f755d3d22dfda64441e",
+      "displaySeed": "0x91dd9622af93e032fe40a115143453c4199a86c9ac920d0027adbd97589d81d1",
       "attributes": {
         "background": "City",
         "head": "Default",
-        "outfit": "Engineer",
+        "outfit": "Techwear",
         "hair": "Short",
-        "eyes": "Default",
+        "eyes": "Explorer",
         "nose": "Default",
         "mouth": "Default",
         "eyewear": "Glasses",
-        "headwear": "None",
-        "companion": "None",
-        "era": "Private Mainnet",
-        "origin": "Arc House",
+        "headwear": "Cap",
+        "companion": "AI Orb",
+        "era": "Season One",
+        "origin": "Early Wanderer",
         "quote": "None",
-        "lore": "None",
+        "lore": "Wrong chain id 5042/5042002",
         "hair_color": "Blond"
       },
       "notes": "tier=1 sweep pair=3 choices=8"
@@ -975,11 +989,12 @@
           0
         ]
       ],
-      "childSeed": "0x8bf776af0824c750ff6e3dc188cc456f12458089408af9289b28236aa4d4e443",
+      "childSeed": "0xf6c762f949ed438214bfb408603a4f4b8e8c05496bc9be54e8645898cba79272",
+      "displaySeed": "0x38342f7e9ba46db62372b99c896f11213ff86787f7515d4bafd4b2569cf39aae",
       "attributes": {
         "background": "City",
         "head": "Default",
-        "outfit": "Jacket",
+        "outfit": "Vest",
         "hair": "Short",
         "eyes": "Default",
         "nose": "Default",
@@ -987,11 +1002,11 @@
         "eyewear": "Glasses",
         "headwear": "None",
         "companion": "None",
-        "era": "Expansion",
+        "era": "Day One",
         "origin": "Discord Queue",
         "quote": "None",
         "lore": "None",
-        "hair_color": "Blond"
+        "hair_color": "Black"
       },
       "notes": "tier=2 sweep pair=3 choices=10"
     },
@@ -1053,13 +1068,14 @@
           0
         ]
       ],
-      "childSeed": "0xe48ba6ee3e012da99aaf4875a1f0e6739e32e41d26069b84994814a5dc03e12d",
+      "childSeed": "0x9158116d2debff8b3fdd078b55409a86f5af5656d27df220c67115a64888bb75",
+      "displaySeed": "0xcd1441a245941729c7f68bdfd889966863132401a5e4f1a2b819bc6e6e085b10",
       "attributes": {
         "background": "City",
         "head": "Default",
-        "outfit": "Hacker",
+        "outfit": "Analyst",
         "hair": "Short",
-        "eyes": "Default",
+        "eyes": "Explorer",
         "nose": "Default",
         "mouth": "Default",
         "eyewear": "Glasses",
@@ -1068,8 +1084,8 @@
         "era": "Private Mainnet",
         "origin": "Early Wanderer",
         "quote": "None",
-        "lore": "Faucet sent zero",
-        "hair_color": "Black"
+        "lore": "None",
+        "hair_color": "Green"
       },
       "notes": "tier=3 sweep pair=3 choices=12 max-choices (12)"
     },
@@ -1107,7 +1123,8 @@
           1
         ]
       ],
-      "childSeed": "0xfe5dc30c7c740e5818b7176902e3d7b175bfe667eac104ecdeeb16bd6700ba55",
+      "childSeed": "0xbc9ec24b8e137f755a0a495c4e6e2d8973f0ed24e219048c2e8a6754b4a6d032",
+      "displaySeed": "0x7742c09b13d829f24666172fa8ec9201c9a93b784dcc71157372974ecff2fff1",
       "attributes": {
         "background": "City",
         "head": "Default",
@@ -1117,13 +1134,13 @@
         "nose": "Default",
         "mouth": "Smile",
         "eyewear": "USDC Lenses",
-        "headwear": "Halo",
-        "companion": "None",
-        "era": "Season One",
+        "headwear": "None",
+        "companion": "Dog",
+        "era": "Genesis",
         "origin": "Community",
-        "quote": "Pending or Final",
-        "lore": "First sub-second FINAL",
-        "hair_color": "Ginger"
+        "quote": "Burn, attest, mint",
+        "lore": "None",
+        "hair_color": "Brown"
       },
       "notes": "tier=0 sweep pair=4 choices=6 max-choices (6)"
     },
@@ -1169,7 +1186,8 @@
           1
         ]
       ],
-      "childSeed": "0xa3251ec1618a841c898c7eb6ee3dbcbecbd1f42618a9579aa761cd2f1f42efda",
+      "childSeed": "0x52f73f3ffadc061bcfe5fec811895746c0d4f26442915ef839322a0ad12a3b45",
+      "displaySeed": "0xc416ee72fc31a50eedc7247b6ea012c238d7eeb62010d35a6cc7361e7f7aedff",
       "attributes": {
         "background": "City",
         "head": "Default",
@@ -1177,15 +1195,15 @@
         "hair": "Curly",
         "eyes": "Default",
         "nose": "Default",
-        "mouth": "Smirk",
+        "mouth": "Smile",
         "eyewear": "None",
-        "headwear": "None",
-        "companion": "None",
+        "headwear": "Beanie",
+        "companion": "Mouse",
         "era": "Genesis",
-        "origin": "Discord Queue",
-        "quote": "Fees in the dollar",
-        "lore": "Faucet sent zero",
-        "hair_color": "Black"
+        "origin": "Community",
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Brown"
       },
       "notes": "tier=1 sweep pair=4 choices=8"
     },
@@ -1239,7 +1257,8 @@
           1
         ]
       ],
-      "childSeed": "0xe8305ff5ea26afd5aaa866dd738132f4c2960407b59309600b367cab741bb52a",
+      "childSeed": "0xbeef62c070145966bb6fed9c8efbc33deb56b55915e082e88eaee76b0b22948f",
+      "displaySeed": "0xfb71a142eff4e9a33a6a5b71e7c33f40246a306aa991804568fe9e8d91718e09",
       "attributes": {
         "background": "City",
         "head": "Default",
@@ -1247,15 +1266,15 @@
         "hair": "Curly",
         "eyes": "Default",
         "nose": "Default",
-        "mouth": "Default",
+        "mouth": "Smirk",
         "eyewear": "None",
-        "headwear": "Cap",
+        "headwear": "None",
         "companion": "None",
         "era": "Day One",
         "origin": "Community",
-        "quote": "Points have no monetary value",
-        "lore": "Minted while cats were live",
-        "hair_color": "Brown"
+        "quote": "None",
+        "lore": "None",
+        "hair_color": "Black"
       },
       "notes": "tier=2 sweep pair=4 choices=10"
     },
@@ -1317,7 +1336,8 @@
           1
         ]
       ],
-      "childSeed": "0x9ebd3a903fda7aa42c1f9f4c2da44cd691934f052278193138c24052c3f90cdb",
+      "childSeed": "0x6cb0f820d56e4b69036bf2977fa203c8f21e2deab1a54c32511e2ab8a51e7c2f",
+      "displaySeed": "0x66f92744ade94854298a722aa7953564fea3fbeb3d20c2f6d8138228902ede45",
       "attributes": {
         "background": "City",
         "head": "Default",
@@ -1325,15 +1345,15 @@
         "hair": "Curly",
         "eyes": "Default",
         "nose": "Default",
-        "mouth": "Smile",
+        "mouth": "Default",
         "eyewear": "None",
-        "headwear": "Beanie",
+        "headwear": "None",
         "companion": "None",
         "era": "Private Mainnet",
         "origin": "Community",
-        "quote": "Economic OS for the internet",
-        "lore": "Faucet sent zero",
-        "hair_color": "Ginger"
+        "quote": "Türkiye, chapter one",
+        "lore": "Discord not linked",
+        "hair_color": "Black"
       },
       "notes": "tier=3 sweep pair=4 choices=12 max-choices (12)"
     },
@@ -1371,22 +1391,23 @@
           0
         ]
       ],
-      "childSeed": "0xe20f74a8966f1cadbbd8f122108d11306383776644b7fc6f08a244521bc3ea08",
+      "childSeed": "0x4e52edda429ff6c4221d1dddebe4bdfa821e2f08d275886734b692d0ae4f8007",
+      "displaySeed": "0x8fd697891469b2ff941820cf8cbbf67d881e29d3e4216a1ccff36b3172580c0d",
       "attributes": {
         "background": "Lab",
         "head": "Default",
         "outfit": "Builder",
         "hair": "Curly",
-        "eyes": "Default",
-        "nose": "Straight",
-        "mouth": "Smile",
-        "eyewear": "USDC Lenses",
+        "eyes": "Explorer",
+        "nose": "Default",
+        "mouth": "Fangs",
+        "eyewear": "Sunglasses",
         "headwear": "None",
-        "companion": "None",
-        "era": "Day One",
+        "companion": "AI Orb",
+        "era": "Genesis",
         "origin": "Discord Queue",
-        "quote": "None",
-        "lore": "499 points then sleep",
+        "quote": "Fees in the dollar",
+        "lore": "Minted while cats were live",
         "hair_color": "Brown"
       },
       "notes": "tier=0 sweep pair=5 choices=6 max-choices (6)"
@@ -1433,23 +1454,24 @@
           0
         ]
       ],
-      "childSeed": "0x274e64d5e9f0529739e1b4103dd502da3e08cdbacdfcdc77d448c4acf292fb8f",
+      "childSeed": "0x250cc6724f202f04195dcd6968fed8bd7ef84912f48e132488b547a955068131",
+      "displaySeed": "0x2f2878e1d25fdfd356462ef951c9f7af028ac496b1d197170d1fe03e30c4f174",
       "attributes": {
         "background": "Lab",
         "head": "Default",
         "outfit": "Builder",
         "hair": "Curly",
         "eyes": "Explorer",
-        "nose": "Button",
+        "nose": "Rounded",
         "mouth": "Smile",
         "eyewear": "None",
-        "headwear": "Headphones",
-        "companion": "None",
-        "era": "Genesis",
-        "origin": "Partner",
-        "quote": "Burn, attest, mint",
+        "headwear": "Halo",
+        "companion": "AI Orb",
+        "era": "Season One",
+        "origin": "LinkedIn Form",
+        "quote": "None",
         "lore": "None",
-        "hair_color": "Blond"
+        "hair_color": "Brown"
       },
       "notes": "tier=1 sweep pair=5 choices=8"
     },
@@ -1503,23 +1525,24 @@
           0
         ]
       ],
-      "childSeed": "0xcf0486cc08aec838365e970d12faf15fe263dc23a35e6083963ea7aaccebf452",
+      "childSeed": "0xf4c00a05d90c87c7d2a37e766ae849af286500f2afdce9e045099fc90f38bf94",
+      "displaySeed": "0xda9bcd94934572fe537b7fdb04ce20b154a92a337587c685918d0dc7c7efd9fe",
       "attributes": {
         "background": "Lab",
         "head": "Default",
         "outfit": "Builder",
         "hair": "Curly",
-        "eyes": "Default",
-        "nose": "Rounded",
+        "eyes": "Explorer",
+        "nose": "Straight",
         "mouth": "Smile",
         "eyewear": "None",
         "headwear": "Cap",
-        "companion": "Drone",
-        "era": "Genesis",
-        "origin": "Early Wanderer",
-        "quote": "None",
-        "lore": "None",
-        "hair_color": "Green"
+        "companion": "None",
+        "era": "Season One",
+        "origin": "Community",
+        "quote": "The queues are too slow",
+        "lore": "499 points then sleep",
+        "hair_color": "Brown"
       },
       "notes": "tier=2 sweep pair=5 choices=10"
     },
@@ -1581,23 +1604,24 @@
           0
         ]
       ],
-      "childSeed": "0x01e8d061c03e9dfcec9046f1305469897a23190d1b14eb2ec9319dfd1d4db92a",
+      "childSeed": "0xcda7371ff33e38177a43dcfc337a30034621c22b2f496c6bec2d462357fb28f6",
+      "displaySeed": "0x7c31966ed7bb02ae6699aa32179d700c612621307c0034f222a4054db0734e93",
       "attributes": {
         "background": "Lab",
-        "head": "Scar",
+        "head": "Default",
         "outfit": "Builder",
         "hair": "Curly",
-        "eyes": "Default",
+        "eyes": "Explorer",
         "nose": "Default",
         "mouth": "Smile",
         "eyewear": "None",
         "headwear": "Cap",
-        "companion": "Flying Rat",
+        "companion": "Drone",
         "era": "Genesis",
         "origin": "Community",
-        "quote": "None",
-        "lore": "Faucet sent zero",
-        "hair_color": "Brown"
+        "quote": "Fees in the dollar",
+        "lore": "None",
+        "hair_color": "Ice"
       },
       "notes": "tier=3 sweep pair=5 choices=12 max-choices (12)"
     },
@@ -1635,7 +1659,8 @@
           1
         ]
       ],
-      "childSeed": "0xa00a53eba63fbc71ebfe093010f9ee3720e474ebe95af459d68dabf503fde473",
+      "childSeed": "0xd75ebca943501eb84f3a2c401fe317cf8f7e1367ca12d18073ea96c3eacdb71d",
+      "displaySeed": "0xb1a2448c9b9f3199c56e90591892a6d19efe7ede092940527f4625b335b85fc8",
       "attributes": {
         "background": "Lab",
         "head": "Reptile",
@@ -1644,13 +1669,13 @@
         "eyes": "Explorer",
         "nose": "Button",
         "mouth": "Default",
-        "eyewear": "None",
-        "headwear": "Crown",
-        "companion": "Dog",
+        "eyewear": "Glasses",
+        "headwear": "Headphones",
+        "companion": "None",
         "era": "Expansion",
-        "origin": "Early Wanderer",
+        "origin": "Community",
         "quote": "None",
-        "lore": "First sub-second FINAL",
+        "lore": "Discord not linked",
         "hair_color": "Ginger"
       },
       "notes": "tier=0 sweep pair=6 choices=6 max-choices (6)"
@@ -1697,23 +1722,24 @@
           1
         ]
       ],
-      "childSeed": "0x2ab9f47c0fcb396323ed3a25b943955732d0296e93646bbc7d50cb8b1019f033",
+      "childSeed": "0xdf0048e16ead0aafe5514d9c27105d2c5b5acd9c8a7478e56743ff59bbd7df9b",
+      "displaySeed": "0x36f2396d6e90529619ad9c2bbf0372b1059b515a538c35bc6b026ec5bcc0fcca",
       "attributes": {
         "background": "Lab",
         "head": "Reptile",
         "outfit": "Builder",
-        "hair": "Long",
+        "hair": "Curly",
         "eyes": "Explorer",
         "nose": "Button",
         "mouth": "Smile",
         "eyewear": "None",
-        "headwear": "None",
+        "headwear": "Cap",
         "companion": "Dog",
-        "era": "Season One",
-        "origin": "LinkedIn Form",
-        "quote": "None",
-        "lore": "Discord not linked",
-        "hair_color": "Ice"
+        "era": "Private Mainnet",
+        "origin": "Discord Queue",
+        "quote": "Architects are not employees",
+        "lore": "None",
+        "hair_color": "Brown"
       },
       "notes": "tier=1 sweep pair=6 choices=8"
     },
@@ -1767,23 +1793,24 @@
           1
         ]
       ],
-      "childSeed": "0xc738081169cbbf5dfa677d03bd0a29d372800ec4e97d36ab0ed94d7518827cf7",
+      "childSeed": "0x73ef16f2c37c6e98d70de19aef1d695f0cd2d44894ba4b07372b9bc31b72f523",
+      "displaySeed": "0xb3f445c59dde1416e30eeb71daf516a2b975eb7971215e62ac32de2524b842e6",
       "attributes": {
         "background": "Lab",
         "head": "Reptile",
         "outfit": "Builder",
-        "hair": "Long",
+        "hair": "Short",
         "eyes": "Explorer",
         "nose": "Button",
         "mouth": "Smile",
         "eyewear": "None",
         "headwear": "Cap",
         "companion": "Drone",
-        "era": "Day One",
-        "origin": "Arc House",
-        "quote": "Architects are not employees",
-        "lore": "Wrong chain id 5042/5042002",
-        "hair_color": "Brown"
+        "era": "Genesis",
+        "origin": "Early Wanderer",
+        "quote": "USDC is cool",
+        "lore": "Discord not linked",
+        "hair_color": "Black"
       },
       "notes": "tier=2 sweep pair=6 choices=10"
     },
@@ -1845,22 +1872,23 @@
           1
         ]
       ],
-      "childSeed": "0xa4f85c560dcb650a0817da4994fdc1c887d14b1d349ba0c06d950a856430f62c",
+      "childSeed": "0x4ee315a02aafbf373f0fe5336eecb592adc57f1c83110c7f6b8dc5ca19caf1c7",
+      "displaySeed": "0x232e7a230dcc4a8667d4e8138c5b393103562beef3b387ef8cb51b9f7e98849d",
       "attributes": {
         "background": "Lab",
         "head": "Reptile",
         "outfit": "Builder",
-        "hair": "Short",
+        "hair": "Curly",
         "eyes": "Explorer",
         "nose": "Button",
         "mouth": "Smile",
         "eyewear": "None",
         "headwear": "Cap",
         "companion": "Drone",
-        "era": "Genesis",
+        "era": "House",
         "origin": "Early Wanderer",
-        "quote": "Fees in the dollar",
-        "lore": "Discord not linked",
+        "quote": "None",
+        "lore": "None",
         "hair_color": "Blond"
       },
       "notes": "tier=3 sweep pair=6 choices=12 max-choices (12)"
@@ -1899,7 +1927,8 @@
           0
         ]
       ],
-      "childSeed": "0xb3107fbe00cb883046f0481148d63a330c9e8571cbb2e038c3fd427b6ac627f6",
+      "childSeed": "0x55602ebd632d8e2e9742ad96f846ab62a2358a237ee9e09c5c49e79eea8f8bc6",
+      "displaySeed": "0xe81180249deb8343c69d4a46b40d6e6c25de99f083a33ff7e2b25d9172446327",
       "attributes": {
         "background": "Office",
         "head": "Reptile",
@@ -1908,14 +1937,14 @@
         "eyes": "Default",
         "nose": "Button",
         "mouth": "Default",
-        "eyewear": "None",
-        "headwear": "None",
-        "companion": "Drone",
-        "era": "Season One",
-        "origin": "Early Wanderer",
+        "eyewear": "Glasses",
+        "headwear": "Beanie",
+        "companion": "None",
+        "era": "Day One",
+        "origin": "Arc House",
         "quote": "None",
-        "lore": "None",
-        "hair_color": "Brown"
+        "lore": "Waited until Silence opened posts",
+        "hair_color": "Black"
       },
       "notes": "tier=0 sweep pair=7 choices=6 max-choices (6)"
     },
@@ -1961,22 +1990,23 @@
           0
         ]
       ],
-      "childSeed": "0x64d413681a3b403f1e684a30b3d2bc5e014aa860cd328cdccdff8bd98a82fa01",
+      "childSeed": "0x8d5162ad68561f2f31b7949c2aacfefba06dbb0045e8d6e3a8cf6119b944ac1a",
+      "displaySeed": "0x35184a2833a1c3944d539052988bd81d214bc765d0120621af96750bcf1f9267",
       "attributes": {
         "background": "Office",
         "head": "Reptile",
         "outfit": "Engineer",
-        "hair": "Curly",
+        "hair": "Short",
         "eyes": "Default",
         "nose": "Button",
         "mouth": "Smile",
         "eyewear": "None",
         "headwear": "None",
-        "companion": "Flying Rat",
-        "era": "Genesis",
-        "origin": "Early Wanderer",
+        "companion": "AI Orb",
+        "era": "Season One",
+        "origin": "Discord Queue",
         "quote": "None",
-        "lore": "None",
+        "lore": "Wrong chain id 5042/5042002",
         "hair_color": "Black"
       },
       "notes": "tier=1 sweep pair=7 choices=8"
@@ -2031,21 +2061,22 @@
           0
         ]
       ],
-      "childSeed": "0x29bc4ec8c3c2ad2ce5179dcedafe1ff13b208e7e5e894198eaf83eac1d8af474",
+      "childSeed": "0xb898b28a20b4510bc6ef89a5fb9023dc5e1bd1f49d1cb9947769e37197da868b",
+      "displaySeed": "0x69a56137b4515b5c79d35e53be457206769787c777b511983a1e91614abadf7c",
       "attributes": {
         "background": "Office",
         "head": "Reptile",
         "outfit": "Engineer",
-        "hair": "Curly",
+        "hair": "Short",
         "eyes": "Default",
         "nose": "Button",
         "mouth": "Smile",
         "eyewear": "None",
         "headwear": "Hard Hat",
         "companion": "Drone",
-        "era": "House",
-        "origin": "Discord Queue",
-        "quote": "500 points",
+        "era": "Genesis",
+        "origin": "Partner",
+        "quote": "None",
         "lore": "None",
         "hair_color": "Brown"
       },
@@ -2109,23 +2140,24 @@
           0
         ]
       ],
-      "childSeed": "0x95e094b84d4354fd85d0e763d7250aaf73c469543716108faebf54e1e7abc148",
+      "childSeed": "0x8e78a61e0e9397c3a2978f01b7dcd54cebbfb639c661b164e139816eb55b430d",
+      "displaySeed": "0x02c7b253d55e16f5a26a1b68fa93cef95d7ec2cb95f63f2253e33a2743d1b4fb",
       "attributes": {
         "background": "Office",
         "head": "Reptile",
         "outfit": "Engineer",
-        "hair": "Short",
+        "hair": "Long",
         "eyes": "Default",
         "nose": "Button",
         "mouth": "Smile",
         "eyewear": "None",
         "headwear": "Hard Hat",
         "companion": "Drone",
-        "era": "Genesis",
+        "era": "Day One",
         "origin": "Early Wanderer",
         "quote": "Pending or Final",
-        "lore": "None",
-        "hair_color": "Brown"
+        "lore": "Faucet sent zero",
+        "hair_color": "Blond"
       },
       "notes": "tier=3 sweep pair=7 choices=12 max-choices (12)"
     },
@@ -2163,23 +2195,24 @@
           1
         ]
       ],
-      "childSeed": "0x402d965fbe340f5589e7cb4744217fc84344ca30ae6d257c796684bf91ac3aab",
+      "childSeed": "0xc2122d2eb2c464328cc1a84d5e0eb4939f435e4e2ba8452d25ad31179d9d25ec",
+      "displaySeed": "0xe960a04240d708bb05eee6505499c6c6078e15155831905d71146f88e3b7ba67",
       "attributes": {
-        "background": "Office",
+        "background": "Construction",
         "head": "Scar",
         "outfit": "Engineer",
         "hair": "Short",
-        "eyes": "Default",
+        "eyes": "Soft",
         "nose": "Rounded",
-        "mouth": "Grin",
-        "eyewear": "USDC Lenses",
+        "mouth": "Default",
+        "eyewear": "Glasses",
         "headwear": "None",
-        "companion": "Dog",
+        "companion": "Cat",
         "era": "Genesis",
-        "origin": "Early Wanderer",
-        "quote": "None",
+        "origin": "LinkedIn Form",
+        "quote": "Burn, attest, mint",
         "lore": "None",
-        "hair_color": "Blond"
+        "hair_color": "Ginger"
       },
       "notes": "tier=0 sweep pair=8 choices=6 max-choices (6)"
     },
@@ -2225,23 +2258,24 @@
           1
         ]
       ],
-      "childSeed": "0x3ee52013dd2afae70379e9a1501fd6b2f9c49130d03f933bba94592837612536",
+      "childSeed": "0xfdf528b0f3643b0cb901260b36a3ceb63a7d6b097fafdb3a01c5b0dd3fa2e843",
+      "displaySeed": "0xeff40a3281268ebd1d2a750e9f6305d5987090a18c64dc61cbb8243361c5263a",
       "attributes": {
-        "background": "City",
+        "background": "Night",
         "head": "Scar",
         "outfit": "Engineer",
-        "hair": "Short",
-        "eyes": "Default",
+        "hair": "Curly",
+        "eyes": "Explorer",
         "nose": "Rounded",
-        "mouth": "Default",
-        "eyewear": "Sunglasses",
-        "headwear": "None",
-        "companion": "Robot",
-        "era": "House",
-        "origin": "Discord Queue",
-        "quote": "Points have no monetary value",
+        "mouth": "Open",
+        "eyewear": "USDC Lenses",
+        "headwear": "Headphones",
+        "companion": "Flying Rat",
+        "era": "Genesis",
+        "origin": "Arc House",
+        "quote": "Burn, attest, mint",
         "lore": "None",
-        "hair_color": "Brown"
+        "hair_color": "Ginger"
       },
       "notes": "tier=1 sweep pair=8 choices=8"
     },
@@ -2295,23 +2329,24 @@
           1
         ]
       ],
-      "childSeed": "0x32b5e713dd053a1931d436389e7ec548b8375bb5a98649b903941fab3480b12c",
+      "childSeed": "0x3e7909cf48045da2084c72c7aaf5310a370ec2f0347d79cd16dfa82c4824f319",
+      "displaySeed": "0x65ed72288d9f53bf6a01e3370feca42b195d094a615f9a1744d168346ab7eb6b",
       "attributes": {
-        "background": "Construction",
+        "background": "Forest",
         "head": "Scar",
         "outfit": "Engineer",
-        "hair": "Long",
-        "eyes": "Default",
+        "hair": "Curly",
+        "eyes": "Soft",
         "nose": "Rounded",
         "mouth": "Default",
-        "eyewear": "None",
+        "eyewear": "Glasses",
         "headwear": "Hard Hat",
-        "companion": "None",
-        "era": "Season One",
+        "companion": "Flying Rat",
+        "era": "Genesis",
         "origin": "Discord Queue",
-        "quote": "None",
-        "lore": "None",
-        "hair_color": "Brown"
+        "quote": "I'm seated, Tim",
+        "lore": "Wrong chain id 5042/5042002",
+        "hair_color": "Green"
       },
       "notes": "tier=2 sweep pair=8 choices=10"
     },
@@ -2373,23 +2408,24 @@
           1
         ]
       ],
-      "childSeed": "0x68747cef84ae0d3f055aff84ae1763cb1c19f8eb5f521c70f46dc3f3f5501a8b",
+      "childSeed": "0x751ebe2a8659a956172ae7aa0dd8f6898f3e04c899450fcb1b83b9c1fe6e3576",
+      "displaySeed": "0x8532fd79c3f4ca28c31f1a7d3780e3bfbf95937cfc71f137a585f8c6b0a87edb",
       "attributes": {
         "background": "Snow",
         "head": "Scar",
         "outfit": "Engineer",
         "hair": "Curly",
-        "eyes": "Explorer",
+        "eyes": "Default",
         "nose": "Rounded",
-        "mouth": "Smirk",
-        "eyewear": "None",
+        "mouth": "Default",
+        "eyewear": "Sunglasses",
         "headwear": "Hard Hat",
-        "companion": "None",
+        "companion": "Robot",
         "era": "Season One",
         "origin": "Arc House",
-        "quote": "Points have no monetary value",
+        "quote": "None",
         "lore": "None",
-        "hair_color": "Blond"
+        "hair_color": "Black"
       },
       "notes": "tier=3 sweep pair=8 choices=12 max-choices (12)"
     },
@@ -2427,23 +2463,24 @@
           0
         ]
       ],
-      "childSeed": "0xf5a93ef4a0a8ca2d7b9729c5b7b23117bc915626a643a60a725fc4120642ed02",
+      "childSeed": "0x2b6c2705ede326587332ff518a6c42abf61d030da6c1a6843533e89fa70e3121",
+      "displaySeed": "0xa2cfd7c74ce47e28786dfcc58763d6323cfab5e4fdd5af117cf28ec5b5676fd3",
       "attributes": {
         "background": "Space",
-        "head": "Default",
+        "head": "Ice",
         "outfit": "Vest",
         "hair": "Short",
-        "eyes": "Soft",
+        "eyes": "Default",
         "nose": "Default",
-        "mouth": "Grin",
-        "eyewear": "Sunglasses",
-        "headwear": "Hard Hat",
+        "mouth": "Smile",
+        "eyewear": "Glasses",
+        "headwear": "Beanie",
         "companion": "Cat",
         "era": "Genesis",
-        "origin": "Early Wanderer",
-        "quote": "The queues are too slow",
-        "lore": "Faucet sent zero",
-        "hair_color": "Green"
+        "origin": "Validator Desk",
+        "quote": "500 points",
+        "lore": "None",
+        "hair_color": "Black"
       },
       "notes": "tier=0 sweep pair=9 choices=6 max-choices (6)"
     },
@@ -2489,23 +2526,24 @@
           0
         ]
       ],
-      "childSeed": "0x77b58aa163f84bd0dc4ee922faf344610379809337de2b75cf5e69c669bb3383",
+      "childSeed": "0x7f89d7634227483f8bb731c122abafe61dbb698e79030399071fb6ef9e8008cc",
+      "displaySeed": "0x880c7539023fea0ba02aa2f8207b3b1524f9171293d0dbd7ddbe927adfebc4cd",
       "attributes": {
         "background": "Space",
         "head": "Default",
         "outfit": "Vest",
         "hair": "Short",
-        "eyes": "Default",
-        "nose": "Default",
+        "eyes": "Explorer",
+        "nose": "Rounded",
         "mouth": "Grin",
-        "eyewear": "Sunglasses",
+        "eyewear": "None",
         "headwear": "None",
-        "companion": "Cat",
-        "era": "House",
-        "origin": "Early Wanderer",
+        "companion": "Robot",
+        "era": "Genesis",
+        "origin": "Partner",
         "quote": "None",
         "lore": "None",
-        "hair_color": "Brown"
+        "hair_color": "Blond"
       },
       "notes": "tier=1 sweep pair=9 choices=8"
     },
@@ -2559,7 +2597,8 @@
           0
         ]
       ],
-      "childSeed": "0xfeae424acd5f2d060b39a7bf16e858cfa94b4c58bb10934b81bba21a985afdab",
+      "childSeed": "0x1df00e2fee47bf5291171ce6b7189aefc0d51510779f7ac73415f097ea218e93",
+      "displaySeed": "0xb6d6b7c54ab4c9c9bd12a95b4d81e9e7c9ae6e4ae8eb7f1b271d61d9a27a23fc",
       "attributes": {
         "background": "Space",
         "head": "Default",
@@ -2567,14 +2606,14 @@
         "hair": "Short",
         "eyes": "Default",
         "nose": "Default",
-        "mouth": "Grin",
-        "eyewear": "Glasses",
+        "mouth": "Default",
+        "eyewear": "USDC Lenses",
         "headwear": "Hard Hat",
         "companion": "Flying Rat",
         "era": "Day One",
-        "origin": "Community",
-        "quote": "The queues are too slow",
-        "lore": "Faucet sent zero",
+        "origin": "Validator Desk",
+        "quote": "None",
+        "lore": "None",
         "hair_color": "Black"
       },
       "notes": "tier=2 sweep pair=9 choices=10"
@@ -2637,23 +2676,24 @@
           0
         ]
       ],
-      "childSeed": "0x299f4fe5d1c250d997db22710dee80e2ffc819c08856dc812293b4659ffdc09c",
+      "childSeed": "0xd741ee820d608b73005fccffbf97b72a753c90a7e799e54645ffaf0c1d6fb9b8",
+      "displaySeed": "0xd35978cc68e2df8d05c6eb8bb94d8c2da5ce26e9c5852c95d690c26bdeede141",
       "attributes": {
         "background": "Space",
         "head": "Default",
         "outfit": "Vest",
         "hair": "Short",
-        "eyes": "Red",
+        "eyes": "Default",
         "nose": "Default",
-        "mouth": "Smile",
-        "eyewear": "None",
+        "mouth": "Smirk",
+        "eyewear": "USDC Lenses",
         "headwear": "Hard Hat",
         "companion": "Flying Rat",
-        "era": "Day One",
+        "era": "Genesis",
         "origin": "Arc House",
-        "quote": "None",
-        "lore": "None",
-        "hair_color": "Brown"
+        "quote": "Points have no monetary value",
+        "lore": "Faucet sent zero",
+        "hair_color": "Blond"
       },
       "notes": "tier=3 sweep pair=9 choices=12 max-choices (12)"
     },
@@ -2691,7 +2731,8 @@
           1
         ]
       ],
-      "childSeed": "0x495cd4c16dd49d707f96b190ac17c4d913427a0f181a4c166cd2f8a55d5071a9",
+      "childSeed": "0x71c1dbedfe833681a75d5813e0cf94576a100db91da5aed346b8a9548db7232e",
+      "displaySeed": "0x622c5bf5e2371bcb209a60970ef13755dcee5256d008a93bac218b783198956c",
       "attributes": {
         "background": "Space",
         "head": "Default",
@@ -2701,13 +2742,13 @@
         "nose": "Default",
         "mouth": "Default",
         "eyewear": "Sunglasses",
-        "headwear": "Beanie",
-        "companion": "None",
+        "headwear": "Headphones",
+        "companion": "Dog",
         "era": "Expansion",
-        "origin": "Partner",
-        "quote": "I'm seated, Tim",
-        "lore": "Discord not linked",
-        "hair_color": "Black"
+        "origin": "Community",
+        "quote": "The queues are too slow",
+        "lore": "None",
+        "hair_color": "Brown"
       },
       "notes": "tier=0 sweep pair=10 choices=6 max-choices (6)"
     },
@@ -2753,7 +2794,8 @@
           1
         ]
       ],
-      "childSeed": "0x6fd72343e59489951c0dcf53175688d9cb48f67d91d3aadb92ac400a96582c9f",
+      "childSeed": "0x859fa092fc29ae62262a43780efa288a730d3b4638a49d938f595afaa715fe78",
+      "displaySeed": "0xf7ec51323e90093a4da6b3cadb6d6717053c0294ee735215d323301aabf3d56b",
       "attributes": {
         "background": "Space",
         "head": "Default",
@@ -2763,13 +2805,13 @@
         "nose": "Default",
         "mouth": "Smile",
         "eyewear": "Glasses",
-        "headwear": "None",
-        "companion": "Flying Rat",
-        "era": "Season One",
+        "headwear": "Cap",
+        "companion": "Dog",
+        "era": "Genesis",
         "origin": "Early Wanderer",
-        "quote": "None",
-        "lore": "Faucet sent zero",
-        "hair_color": "Green"
+        "quote": "Points have no monetary value",
+        "lore": "None",
+        "hair_color": "Black"
       },
       "notes": "tier=1 sweep pair=10 choices=8"
     },
@@ -2823,7 +2865,8 @@
           1
         ]
       ],
-      "childSeed": "0x6dfd03790262b6911c1a9043865fe256a6eda665da8571e9fc0e4d1261cc568a",
+      "childSeed": "0x0ab0325f570e84f06318b00a9c9db95a31bf5696b37010dfeb6af4ebc6b10680",
+      "displaySeed": "0x1fd981d196a67210a5644143d638df120be91700ab96c9c108c2ceac56323e90",
       "attributes": {
         "background": "Space",
         "head": "Default",
@@ -2835,11 +2878,11 @@
         "eyewear": "Glasses",
         "headwear": "Hard Hat",
         "companion": "None",
-        "era": "Genesis",
-        "origin": "Arc House",
+        "era": "House",
+        "origin": "Discord Queue",
         "quote": "None",
-        "lore": "499 points then sleep",
-        "hair_color": "Black"
+        "lore": "None",
+        "hair_color": "Blond"
       },
       "notes": "tier=2 sweep pair=10 choices=10"
     },
@@ -2901,7 +2944,8 @@
           1
         ]
       ],
-      "childSeed": "0xa1cb4b7575d64ce9bb08555c756aa5a4f063cde5cf483fd17b68f84ee91f8c3d",
+      "childSeed": "0x049b6ec152c50bd6b9c8bb851696ee40188c26dd2a8d60d8ae045546b2f60671",
+      "displaySeed": "0x834fdf1ed58c066f6440cead3742ed29ee5dfb329275857dd298d27bb722215c",
       "attributes": {
         "background": "Space",
         "head": "Default",
@@ -2915,9 +2959,9 @@
         "companion": "None",
         "era": "Genesis",
         "origin": "LinkedIn Form",
-        "quote": "Türkiye, chapter one",
-        "lore": "Minted while cats were live",
-        "hair_color": "Black"
+        "quote": "Economic OS for the internet",
+        "lore": "None",
+        "hair_color": "Brown"
       },
       "notes": "tier=3 sweep pair=10 choices=12 max-choices (12)"
     },
@@ -2955,23 +2999,24 @@
           0
         ]
       ],
-      "childSeed": "0xd9ecb60a9d6735b3a92982350802988336270698f330b1f10c61d21eaebcd264",
+      "childSeed": "0x6e050ffb919a7dff9c6e613531f57e5c8a48421ef17c8856b1f2fed887600293",
+      "displaySeed": "0xc400c3f5a3a68df276f8ce2a31d5b10689a5277e97e713266df60728e5fea218",
       "attributes": {
         "background": "Beach",
-        "head": "Default",
+        "head": "Ice",
         "outfit": "Hoodie",
         "hair": "Curly",
         "eyes": "Laser",
         "nose": "Default",
-        "mouth": "Default",
-        "eyewear": "Sunglasses",
-        "headwear": "Hard Hat",
-        "companion": "Cat",
-        "era": "Season One",
-        "origin": "Discord Queue",
-        "quote": "500 points",
+        "mouth": "Smile",
+        "eyewear": "None",
+        "headwear": "Crown",
+        "companion": "Mouse",
+        "era": "Genesis",
+        "origin": "Arc House",
+        "quote": "None",
         "lore": "None",
-        "hair_color": "Brown"
+        "hair_color": "Black"
       },
       "notes": "tier=0 sweep pair=11 choices=6 max-choices (6)"
     },
@@ -3017,23 +3062,24 @@
           0
         ]
       ],
-      "childSeed": "0xfe95fae4bbba1f1b8492615f7bec0f4e75152b1cc2e5f1dbb0bb26b24f302548",
+      "childSeed": "0xa0481a552658aecdab3dfb4fe7aa66a57800231ab16e7ba7d3e288275066c0f8",
+      "displaySeed": "0xae6b07c127ec22cffcfe1e3338f78e55957a7a87e8f5cc6a7b85f5dcbc171089",
       "attributes": {
         "background": "Beach",
-        "head": "Default",
-        "outfit": "Hacker",
+        "head": "Female",
+        "outfit": "Coat",
         "hair": "Curly",
         "eyes": "Laser",
         "nose": "Default",
         "mouth": "Smirk",
         "eyewear": "Glasses",
-        "headwear": "Cap",
-        "companion": "Drone",
-        "era": "Genesis",
-        "origin": "Early Wanderer",
+        "headwear": "None",
+        "companion": "Cat",
+        "era": "Season One",
+        "origin": "Community",
         "quote": "None",
         "lore": "None",
-        "hair_color": "Black"
+        "hair_color": "Brown"
       },
       "notes": "tier=1 sweep pair=11 choices=8"
     },
@@ -3087,23 +3133,24 @@
           0
         ]
       ],
-      "childSeed": "0x869cfe9a842ded6d88acd87c6683f35426e07f22be335361d7304866b7e3d8ce",
+      "childSeed": "0x84598975e2ef153a6f59a51876a38d3e1024301966128a14a9dca950f0156152",
+      "displaySeed": "0x1b26d2b95a3531f4e33d7b1e8e6024d8feaf2b5cb56a66d23778e4b3f06c855b",
       "attributes": {
         "background": "Beach",
         "head": "Default",
-        "outfit": "Hoodie",
+        "outfit": "Vest",
         "hair": "Curly",
         "eyes": "Laser",
         "nose": "Default",
         "mouth": "Smirk",
         "eyewear": "Glasses",
         "headwear": "Crown",
-        "companion": "Dog",
-        "era": "House",
+        "companion": "AI Orb",
+        "era": "Season One",
         "origin": "Community",
-        "quote": "500 points",
-        "lore": "None",
-        "hair_color": "Green"
+        "quote": "Pending or Final",
+        "lore": "Minted while cats were live",
+        "hair_color": "Brown"
       },
       "notes": "tier=2 sweep pair=11 choices=10"
     },
@@ -3165,23 +3212,24 @@
           0
         ]
       ],
-      "childSeed": "0x5895a1e09e5f1a608a63efbd6f0326f8ea3b22fb5faf52adc7461dbf2c28c5cc",
+      "childSeed": "0xa1c4cfee78e81b44861903032452d3cd1ac4e520e98f26f3dcf26584d760e4ba",
+      "displaySeed": "0x9d984b9e3dcd62f33f74cd5f3af41843a61a151c5953f899ff3b45816759f42f",
       "attributes": {
         "background": "Beach",
         "head": "Default",
-        "outfit": "Lab Coat",
+        "outfit": "Builder",
         "hair": "Curly",
         "eyes": "Laser",
         "nose": "Default",
         "mouth": "Smirk",
         "eyewear": "Glasses",
         "headwear": "Crown",
-        "companion": "Cat",
+        "companion": "Robot",
         "era": "Private Mainnet",
         "origin": "LinkedIn Form",
-        "quote": "None",
-        "lore": "Discord not linked",
-        "hair_color": "Black"
+        "quote": "The queues are too slow",
+        "lore": "Minted while cats were live",
+        "hair_color": "Ginger"
       },
       "notes": "tier=3 sweep pair=11 choices=12 max-choices (12)"
     },
@@ -3219,23 +3267,24 @@
           1
         ]
       ],
-      "childSeed": "0x4380d9c94f4083273634bc95d6ea828bae7f09e9d6b4e926f555f99dbcea6525",
+      "childSeed": "0xab4e793a8bbdd8bd7327cb8c5d085e73a0f4f3cf9e24c7484e3f0e273bba6b50",
+      "displaySeed": "0x21651a04f47585048d4cd1482f648b561e4de5fedd7a17c1aaf43d24042f9c23",
       "attributes": {
         "background": "Beach",
-        "head": "Default",
+        "head": "Female",
         "outfit": "Hoodie",
         "hair": "Long",
         "eyes": "Laser",
         "nose": "Default",
-        "mouth": "Default",
+        "mouth": "Smile",
         "eyewear": "None",
-        "headwear": "Hard Hat",
-        "companion": "Bonkguy",
-        "era": "Season One",
+        "headwear": "None",
+        "companion": "Drone",
+        "era": "Day One",
         "origin": "Community",
         "quote": "None",
         "lore": "None",
-        "hair_color": "Blond"
+        "hair_color": "Ice"
       },
       "notes": "tier=0 sweep pair=12 choices=6 max-choices (6)"
     },
@@ -3281,7 +3330,8 @@
           1
         ]
       ],
-      "childSeed": "0x39287c91cb7f199dd5d393fc0aa5703eea05cf15363c4e3fed8b865857d9c725",
+      "childSeed": "0x23a1d62e81c1b7f566e3908e1d840cb2b0c7de2882fed7fa7e957894e6552581",
+      "displaySeed": "0xafaa92ee684841e6fb7b2029368d5234b908a71b85426b886ca1cc6e0676df5b",
       "attributes": {
         "background": "Beach",
         "head": "Default",
@@ -3291,12 +3341,12 @@
         "nose": "Default",
         "mouth": "Smirk",
         "eyewear": "None",
-        "headwear": "Cap",
-        "companion": "Drone",
-        "era": "Day One",
-        "origin": "Early Wanderer",
-        "quote": "Pending or Final",
-        "lore": "None",
+        "headwear": "Halo",
+        "companion": "Bonkguy",
+        "era": "Season One",
+        "origin": "Discord Queue",
+        "quote": "None",
+        "lore": "First sub-second FINAL",
         "hair_color": "Ginger"
       },
       "notes": "tier=1 sweep pair=12 choices=8"
@@ -3351,7 +3401,8 @@
           1
         ]
       ],
-      "childSeed": "0xaf6fd6cb63d9918aa741950c547a08cdd65de90a79fdea55bd3d09462e118ae5",
+      "childSeed": "0x261ac9af2549a47176356e19c8694eadb9951f84bc0ad0de82cacd84aa833ef6",
+      "displaySeed": "0x9d58049e5d44568f979f61df97a964c643072f6dbdb59b1648f0e16da75a444f",
       "attributes": {
         "background": "Beach",
         "head": "Default",
@@ -3362,12 +3413,12 @@
         "mouth": "Smirk",
         "eyewear": "None",
         "headwear": "Crown",
-        "companion": "None",
-        "era": "Genesis",
-        "origin": "Community",
-        "quote": "None",
-        "lore": "None",
-        "hair_color": "Blond"
+        "companion": "Flying Rat",
+        "era": "House",
+        "origin": "Early Wanderer",
+        "quote": "The queues are too slow",
+        "lore": "First sub-second FINAL",
+        "hair_color": "Ginger"
       },
       "notes": "tier=2 sweep pair=12 choices=10"
     },
@@ -3429,10 +3480,11 @@
           1
         ]
       ],
-      "childSeed": "0x5f67388d127e615d5edb9a80c7d4ceed728e294c162b233fad6a9dc024b4e084",
+      "childSeed": "0x512e294a76eb463040e3262e7e00c63be62dd10c1da7456fd6ff7a1de850de3a",
+      "displaySeed": "0x440bb010a1b33f60f61d88d084a7c98ca30da49988aeb391811977464c217725",
       "attributes": {
         "background": "Beach",
-        "head": "Ice",
+        "head": "Default",
         "outfit": "Hoodie",
         "hair": "Long",
         "eyes": "Laser",
@@ -3440,11 +3492,11 @@
         "mouth": "Smirk",
         "eyewear": "None",
         "headwear": "Crown",
-        "companion": "Mouse",
+        "companion": "None",
         "era": "Private Mainnet",
-        "origin": "Partner",
+        "origin": "Arc House",
         "quote": "None",
-        "lore": "None",
+        "lore": "Discord not linked",
         "hair_color": "Brown"
       },
       "notes": "tier=3 sweep pair=12 choices=12 max-choices (12)"
@@ -3483,23 +3535,24 @@
           0
         ]
       ],
-      "childSeed": "0x8677f00326b4abff5aaa328d4893b03ebb2fd1a092e0125e0e2783224fd1ffdb",
+      "childSeed": "0x8134061ae195eeb57a891bfc666033d37dacff9e26b0a8d1abec5242e073b2d5",
+      "displaySeed": "0x387184928fcb0dcbca1f64e5090df26efd1b698c671c84b4090640b828d8e5fd",
       "attributes": {
         "background": "Night",
-        "head": "Ice",
+        "head": "Default",
         "outfit": "Hacker",
         "hair": "Long",
         "eyes": "Explorer",
         "nose": "Default",
-        "mouth": "Default",
-        "eyewear": "None",
-        "headwear": "None",
+        "mouth": "Grin",
+        "eyewear": "Glasses",
+        "headwear": "Hard Hat",
         "companion": "Dog",
         "era": "Day One",
         "origin": "Community",
-        "quote": "None",
-        "lore": "None",
-        "hair_color": "Black"
+        "quote": "Fees in the dollar",
+        "lore": "499 points then sleep",
+        "hair_color": "Brown"
       },
       "notes": "tier=0 sweep pair=13 choices=6 max-choices (6)"
     },
@@ -3545,23 +3598,24 @@
           0
         ]
       ],
-      "childSeed": "0x9a856e9bc523407ab1492d239766b543dd8e8d340a1b91ac31c9be98c80cb100",
+      "childSeed": "0x5069c7919eab70785b7e355676b97e1c082bda2f2f27797570501a8ad0bb8276",
+      "displaySeed": "0x98c099031e0de16b696679f1b66d4392d0391c52493c638cddd64e9cf3ef8c91",
       "attributes": {
         "background": "Night",
         "head": "Default",
         "outfit": "Hacker",
         "hair": "Long",
-        "eyes": "Soft",
+        "eyes": "Default",
         "nose": "Default",
-        "mouth": "Fangs",
+        "mouth": "Grin",
         "eyewear": "None",
-        "headwear": "None",
-        "companion": "None",
+        "headwear": "Beanie",
+        "companion": "Cat",
         "era": "Day One",
-        "origin": "Community",
-        "quote": "The queues are too slow",
-        "lore": "499 points then sleep",
-        "hair_color": "Brown"
+        "origin": "LinkedIn Form",
+        "quote": "None",
+        "lore": "Faucet sent zero",
+        "hair_color": "Black"
       },
       "notes": "tier=1 sweep pair=13 choices=8"
     },
@@ -3615,23 +3669,24 @@
           0
         ]
       ],
-      "childSeed": "0x6cc5a087ffdc5d8e5fd900882737e811a43bb57627e50c1a1e83e90a189f8270",
+      "childSeed": "0xc9d0d88aa44e655ca267b5dd223f39fdd614bf4752bab7b556db4c6a14424d4d",
+      "displaySeed": "0x49f068aaeaad069938a34d1bb6fc1846e5ec7b145eb102e5039310f169fb146f",
       "attributes": {
         "background": "Night",
-        "head": "Default",
+        "head": "Female",
         "outfit": "Hacker",
         "hair": "Long",
-        "eyes": "Default",
+        "eyes": "Soft",
         "nose": "Default",
-        "mouth": "Default",
+        "mouth": "Smile",
         "eyewear": "None",
         "headwear": "None",
         "companion": "None",
-        "era": "Expansion",
-        "origin": "Circle",
-        "quote": "I'm seated, Tim",
+        "era": "Genesis",
+        "origin": "Discord Queue",
+        "quote": "None",
         "lore": "First sub-second FINAL",
-        "hair_color": "Ice"
+        "hair_color": "Brown"
       },
       "notes": "tier=2 sweep pair=13 choices=10"
     },
@@ -3693,23 +3748,24 @@
           0
         ]
       ],
-      "childSeed": "0x59b0b5aaa43e730cc03bac937e7e88a2d1c512fada2127c1c76a3a0224c7a9ff",
+      "childSeed": "0xd34a92f6050d6a31e47a598705019fb9bb17e6bf6ce4eb1e83165007bfd0433e",
+      "displaySeed": "0x5f645049d66f943d5e49a870df879bc0a9a6f8eb122eb34d9887c5716f367200",
       "attributes": {
         "background": "Night",
         "head": "Default",
         "outfit": "Hacker",
         "hair": "Long",
-        "eyes": "Soft",
+        "eyes": "Default",
         "nose": "Default",
-        "mouth": "Default",
+        "mouth": "Grin",
         "eyewear": "None",
         "headwear": "None",
         "companion": "None",
         "era": "Day One",
         "origin": "Discord Queue",
-        "quote": "None",
+        "quote": "The queues are too slow",
         "lore": "None",
-        "hair_color": "Blond"
+        "hair_color": "Ginger"
       },
       "notes": "tier=3 sweep pair=13 choices=12 max-choices (12)"
     },
@@ -3747,23 +3803,24 @@
           1
         ]
       ],
-      "childSeed": "0xf8dd300e3e6f9488e330f2fe959043db1a1311a75c56e312217f3016af8ce38d",
+      "childSeed": "0x3ef22979e1fe48b545267d1992f33ef2f22c01abf379e0c57c6daadc94f68562",
+      "displaySeed": "0x167b9dd52e201d00fdfe959a19b59e4517962e2021e34ceb2cdcd0b76817798d",
       "attributes": {
-        "background": "Beach",
-        "head": "Default",
+        "background": "Office",
+        "head": "Pale",
         "outfit": "Hacker",
         "hair": "Short",
         "eyes": "Red",
         "nose": "Default",
-        "mouth": "Open",
-        "eyewear": "USDC Lenses",
+        "mouth": "Default",
+        "eyewear": "Glasses",
         "headwear": "None",
-        "companion": "Cat",
-        "era": "Season One",
-        "origin": "Community",
-        "quote": "The queues are too slow",
+        "companion": "Drone",
+        "era": "Genesis",
+        "origin": "Validator Desk",
+        "quote": "None",
         "lore": "Wrong chain id 5042/5042002",
-        "hair_color": "Blond"
+        "hair_color": "Black"
       },
       "notes": "tier=0 sweep pair=14 choices=6 max-choices (6)"
     },
@@ -3809,23 +3866,24 @@
           1
         ]
       ],
-      "childSeed": "0x8abfda020b45a4c8f98c0bcaf5e827278d073db25bceaa828b62e6a1c5787097",
+      "childSeed": "0x6f671d38f2a1f320396d71371690c0b93a650d168ccd04642d965baf35dad9e5",
+      "displaySeed": "0x3eb5fb0d508fdb7a96e07f9e7d51b5ea62f34b85026c475155395961c067e39c",
       "attributes": {
-        "background": "Night",
+        "background": "Office",
         "head": "Default",
         "outfit": "Hacker",
         "hair": "Short",
         "eyes": "Red",
         "nose": "Default",
         "mouth": "Grin",
-        "eyewear": "Glasses",
-        "headwear": "Beanie",
-        "companion": "Dog",
-        "era": "Genesis",
-        "origin": "LinkedIn Form",
-        "quote": "The queues are too slow",
-        "lore": "499 points then sleep",
-        "hair_color": "Brown"
+        "eyewear": "USDC Lenses",
+        "headwear": "Headphones",
+        "companion": "Robot",
+        "era": "Season One",
+        "origin": "Discord Queue",
+        "quote": "USDC is cool",
+        "lore": "None",
+        "hair_color": "Green"
       },
       "notes": "tier=1 sweep pair=14 choices=8"
     },
@@ -3879,23 +3937,24 @@
           1
         ]
       ],
-      "childSeed": "0x42c39bcf1bb26834f2ca12bae93af8f9ee5c1cae2ad2d35c4509712c44db75b5",
+      "childSeed": "0xa42d684e45b57e91727f69f9f50e7a6472454aaf96550d103fcafa37df8ae1c5",
+      "displaySeed": "0x9a822146a6c42fd8ab3b02df1885a6d336e0efef3f6ac4dc6c3544ad02132ea5",
       "attributes": {
-        "background": "Beach",
-        "head": "Reptile",
+        "background": "City",
+        "head": "Default",
         "outfit": "Hacker",
         "hair": "Short",
         "eyes": "Red",
         "nose": "Default",
         "mouth": "Grin",
-        "eyewear": "None",
+        "eyewear": "Mono",
         "headwear": "None",
         "companion": "None",
         "era": "Day One",
-        "origin": "Discord Queue",
-        "quote": "Fees in the dollar",
-        "lore": "Minted while cats were live",
-        "hair_color": "Blond"
+        "origin": "Circle",
+        "quote": "Architects are not employees",
+        "lore": "None",
+        "hair_color": "Brown"
       },
       "notes": "tier=2 sweep pair=14 choices=10"
     },
@@ -3957,23 +4016,24 @@
           1
         ]
       ],
-      "childSeed": "0x4c2c99eb7eb88e100314dc6b8f01f89a0e5248c4fa801ddce7481041b27a41fc",
+      "childSeed": "0x7c55018fd1c9d9c16283dc0a073c1c0f0691a15b73139fca7b11c99c7ee7fdb2",
+      "displaySeed": "0xa79cd7a8752eb98bb7c7ba8a7cdc4bf74046e66458258960c27dbdf79758fa7c",
       "attributes": {
-        "background": "Beach",
-        "head": "Female",
+        "background": "Space",
+        "head": "Default",
         "outfit": "Hacker",
         "hair": "Short",
         "eyes": "Red",
         "nose": "Default",
         "mouth": "Grin",
-        "eyewear": "Sunglasses",
+        "eyewear": "None",
         "headwear": "None",
         "companion": "None",
         "era": "Day One",
-        "origin": "LinkedIn Form",
+        "origin": "Early Wanderer",
         "quote": "None",
         "lore": "None",
-        "hair_color": "Ginger"
+        "hair_color": "Black"
       },
       "notes": "tier=3 sweep pair=14 choices=12 max-choices (12)"
     },
@@ -3986,23 +4046,24 @@
       "craftNonce": 900,
       "entropy": "0x750bd9d6419fbdc7db163199f85e3f268ffc7ddfe575d5ed76cb53d3da655d4b",
       "choices": [],
-      "childSeed": "0x2d16fff94cb4c28dca8c72094bf65495b519679a07f099979e1a923f29c9e212",
+      "childSeed": "0x98e77531783dd2d3217c11f390164d8caa33f1408beea7610bd5d3afa628b8ec",
+      "displaySeed": "0x45fe4c134e64c54c5a1fdeb567ace3f5b7312ecffe9739dec5676549c4ab7763",
       "attributes": {
         "background": "City",
         "head": "Default",
-        "outfit": "Jacket",
+        "outfit": "Analyst",
         "hair": "Short",
         "eyes": "Default",
         "nose": "Default",
-        "mouth": "Default",
-        "eyewear": "USDC Lenses",
-        "headwear": "Cap",
-        "companion": "None",
-        "era": "Season One",
-        "origin": "Community",
-        "quote": "Fees in the dollar",
-        "lore": "None",
-        "hair_color": "Ginger"
+        "mouth": "Grin",
+        "eyewear": "Glasses",
+        "headwear": "Halo",
+        "companion": "Cat",
+        "era": "Day One",
+        "origin": "Validator Desk",
+        "quote": "None",
+        "lore": "Waited until Silence opened posts",
+        "hair_color": "Brown"
       },
       "notes": "tier=0 empty-choices"
     },
@@ -4015,23 +4076,24 @@
       "craftNonce": 901,
       "entropy": "0xceb263288eaaffea381287c016f4f5662e35b04b8d2704275795cca64ce10388",
       "choices": [],
-      "childSeed": "0x8429b0eb94eb1caf7bf430fb50ef62e856e36d8326349ebc66e557e13ebc5d6a",
+      "childSeed": "0x64c58c6c92850215076b18f776eda7c8fd6d1de651c6a9b2bac585f404ef19ae",
+      "displaySeed": "0x4e7e328a0cf80ae972b1634f76c30b73017ee3f18c7097ecb71000f3f413df27",
       "attributes": {
-        "background": "Lab",
-        "head": "Scar",
-        "outfit": "Tee",
+        "background": "Office",
+        "head": "Default",
+        "outfit": "Vest",
         "hair": "Short",
-        "eyes": "Default",
-        "nose": "Default",
-        "mouth": "Default",
+        "eyes": "Explorer",
+        "nose": "Straight",
+        "mouth": "Smirk",
         "eyewear": "Sunglasses",
-        "headwear": "Beanie",
-        "companion": "Drone",
+        "headwear": "None",
+        "companion": "None",
         "era": "Season One",
         "origin": "Discord Queue",
         "quote": "None",
-        "lore": "None",
-        "hair_color": "Ginger"
+        "lore": "First sub-second FINAL",
+        "hair_color": "Brown"
       },
       "notes": "tier=1 empty-choices"
     },
@@ -4044,23 +4106,24 @@
       "craftNonce": 902,
       "entropy": "0x75cc3ab90f736f7ecafe4e5ec41e84d72e97a4f0dc768650509338e0ed35148d",
       "choices": [],
-      "childSeed": "0x7add591e7b6502e81e61a67c9c66db9950388f98182ca457ca41052417ace3bc",
+      "childSeed": "0xb8f77820e66d9a74c0a8b00080f58674b79e8aea41c403e8e9e06e6525e2d38d",
+      "displaySeed": "0x1617185769f7c8cc0d5a9a48e0f55b6ed436f997e9d5a05d298309e4c56a42dd",
       "attributes": {
-        "background": "Forest",
-        "head": "Default",
-        "outfit": "Jacket",
+        "background": "Lab",
+        "head": "Scar",
+        "outfit": "Hoodie",
         "hair": "Curly",
-        "eyes": "Default",
-        "nose": "Default",
+        "eyes": "Explorer",
+        "nose": "Button",
         "mouth": "Default",
-        "eyewear": "None",
-        "headwear": "Halo",
-        "companion": "Bonkguy",
-        "era": "Season One",
-        "origin": "LinkedIn Form",
-        "quote": "None",
-        "lore": "None",
-        "hair_color": "Green"
+        "eyewear": "Glasses",
+        "headwear": "Hard Hat",
+        "companion": "None",
+        "era": "Genesis",
+        "origin": "Arc House",
+        "quote": "Economic OS for the internet",
+        "lore": "499 points then sleep",
+        "hair_color": "Black"
       },
       "notes": "tier=2 empty-choices"
     },
@@ -4070,30 +4133,31 @@
       "minId": 5000,
       "maxId": 5001,
       "boostTier": 1,
-      "craftNonce": 4,
-      "entropy": "0xf769339782d0fea375fccc7f07a8bc825617c7b33a7574faa970ded4575520cd",
+      "craftNonce": 2,
+      "entropy": "0x97f19d2228f857d0ead7e4464a90b05e85e29d779883484dbbf8f98546d9705c",
       "choices": [
         [
           1,
           0
         ]
       ],
-      "childSeed": "0x0e0b3ee2aea4e7b369e0089bfcb396852e3aa8cec646a2c6e4344607ba125e93",
+      "childSeed": "0xf5bebaca97fc991b4573bedf5ce6fe3ff703e2b5bc12d602270cd62a5a8ab699",
+      "displaySeed": "0xaaaf43467c99f40691788e4221e56eb6a01899c8ae9f07c404926c03cd765ce3",
       "attributes": {
-        "background": "City",
-        "head": "Female",
-        "outfit": "Builder",
-        "hair": "Long",
+        "background": "Lab",
+        "head": "Pale",
+        "outfit": "Hoodie",
+        "hair": "Curly",
         "eyes": "Default",
         "nose": "Default",
         "mouth": "Default",
-        "eyewear": "None",
-        "headwear": "Beanie",
-        "companion": "None",
+        "eyewear": "USDC Lenses",
+        "headwear": "Cap",
+        "companion": "Cat",
         "era": "Season One",
-        "origin": "Discord Queue",
-        "quote": "Economic OS for the internet",
-        "lore": "Faucet sent zero",
+        "origin": "Early Wanderer",
+        "quote": "Points have no monetary value",
+        "lore": "499 points then sleep",
         "hair_color": "Ice"
       },
       "notes": "tier=1 dup→wildcard slot=1 (head) parents agree: 'Default'"
@@ -4104,31 +4168,32 @@
       "minId": 5000,
       "maxId": 5001,
       "boostTier": 1,
-      "craftNonce": 0,
-      "entropy": "0x83a8e7a2344d979af0ad7cd84c26941a1b09cba9496517086ac8865d9ac0750c",
+      "craftNonce": 1,
+      "entropy": "0xdbe7d5f46f26f69b4cc095141b25dd4deb6ac9eed8bd2283335e5257da5f1e0c",
       "choices": [
         [
           3,
           0
         ]
       ],
-      "childSeed": "0xfb8fa9d3886badb1ae1530ddf30fc8de3bd1c4675dcf240bde6a2c8bc5d38346",
+      "childSeed": "0x5da663bf174b3a97a7c493db8ea666057f7c4b0c9e908fdfad219e6d589af991",
+      "displaySeed": "0xcd32a912da05861c481bde2b11400038e1d28bda672215ad1067593391347541",
       "attributes": {
-        "background": "Night",
-        "head": "Default",
-        "outfit": "Hoodie",
+        "background": "Snow",
+        "head": "Scar",
+        "outfit": "Jacket",
         "hair": "Short",
-        "eyes": "Soft",
-        "nose": "Rounded",
-        "mouth": "Frown",
-        "eyewear": "Glasses",
-        "headwear": "Cap",
+        "eyes": "Explorer",
+        "nose": "Straight",
+        "mouth": "Surprised",
+        "eyewear": "Sunglasses",
+        "headwear": "Beanie",
         "companion": "None",
-        "era": "Genesis",
-        "origin": "Partner",
-        "quote": "Pending or Final",
-        "lore": "None",
-        "hair_color": "Ice"
+        "era": "Day One",
+        "origin": "Arc House",
+        "quote": "None",
+        "lore": "Faucet sent zero",
+        "hair_color": "Black"
       },
       "notes": "tier=1 dup→wildcard slot=3 (hair) parents agree: 'Curly'"
     },
@@ -4146,21 +4211,22 @@
           0
         ]
       ],
-      "childSeed": "0xfb8fa9d3886badb1ae1530ddf30fc8de3bd1c4675dcf240bde6a2c8bc5d38346",
+      "childSeed": "0xacc9734e3f37a3f141dc1aafe46b40eea57ebf12600458c6a6071ecc327aeaa6",
+      "displaySeed": "0x7501c9babce286d674b1b26c16670b69bdf6fa0d59317c37617b88013b575e01",
       "attributes": {
-        "background": "Night",
-        "head": "Default",
+        "background": "Office",
+        "head": "Scar",
         "outfit": "Hoodie",
-        "hair": "Short",
+        "hair": "Long",
         "eyes": "Soft",
-        "nose": "Rounded",
-        "mouth": "Frown",
+        "nose": "Default",
+        "mouth": "Smile",
         "eyewear": "Glasses",
-        "headwear": "Cap",
+        "headwear": "Headphones",
         "companion": "None",
         "era": "Genesis",
-        "origin": "Partner",
-        "quote": "Pending or Final",
+        "origin": "Early Wanderer",
+        "quote": "None",
         "lore": "None",
         "hair_color": "Ice"
       },
@@ -4180,23 +4246,24 @@
           1
         ]
       ],
-      "childSeed": "0x563097d479d55489e49eabb84b375c92f2f55d0d43a91e7504d9586f83623136",
+      "childSeed": "0xe8fded0594c801bf833e17afbf5876c8325b061c6f932bfbb0c2aa688ff3a14d",
+      "displaySeed": "0x987398415ba7a7945f7e51264d42cd86bd66feafc6cba66fc4e9f31aebbdfeb5",
       "attributes": {
-        "background": "Lab",
+        "background": "City",
         "head": "Default",
-        "outfit": "Engineer",
-        "hair": "Curly",
+        "outfit": "Vest",
+        "hair": "Long",
         "eyes": "Default",
         "nose": "Default",
         "mouth": "Default",
         "eyewear": "Sunglasses",
         "headwear": "None",
-        "companion": "None",
+        "companion": "Robot",
         "era": "Season One",
-        "origin": "Community",
+        "origin": "Validator Desk",
         "quote": "None",
-        "lore": "None",
-        "hair_color": "Blond"
+        "lore": "Wrong chain id 5042/5042002",
+        "hair_color": "Ginger"
       },
       "notes": "tier=0 inherited-None slot=8 (headwear) inherited from parent 1 (value=None)"
     },
@@ -4209,22 +4276,23 @@
       "craftNonce": 712,
       "entropy": "0x42119dd85393fc41e61a097fef9ddff601f6c065a8c4e1e514534ec771719def",
       "choices": [],
-      "childSeed": "0xc0cd6c5ea73c683fd17e54c6e03265d049fc38285d1260d6dfdf24ede71d8672",
+      "childSeed": "0xb0a3670e4c634347d2e1c5dab67b3c55f7145c01771b1ac678dbedd5253a742a",
+      "displaySeed": "0xa8031edd370ee2b55651ba013994ff66ee48a6db6e42393c900309839e1f4092",
       "attributes": {
-        "background": "Night",
+        "background": "Construction",
         "head": "Default",
-        "outfit": "Hoodie",
+        "outfit": "Engineer",
         "hair": "Curly",
         "eyes": "Default",
-        "nose": "Button",
-        "mouth": "Smirk",
-        "eyewear": "Glasses",
-        "headwear": "None",
-        "companion": "Flying Rat",
-        "era": "Private Mainnet",
-        "origin": "Early Wanderer",
-        "quote": "None",
-        "lore": "499 points then sleep",
+        "nose": "Default",
+        "mouth": "Surprised",
+        "eyewear": "Sunglasses",
+        "headwear": "Cap",
+        "companion": "AI Orb",
+        "era": "Genesis",
+        "origin": "Arc House",
+        "quote": "Fees in the dollar",
+        "lore": "Wrong chain id 5042/5042002",
         "hair_color": "Blond"
       },
       "notes": "tier=2 wildcard-tail slot=12 (quote) always childSeed-derived"
@@ -4238,23 +4306,24 @@
       "craftNonce": 713,
       "entropy": "0xf8713df600f677ca334cf6f04dc90ca8171b90095c11d0c1ecc0b1ba0ab473f3",
       "choices": [],
-      "childSeed": "0x84f6a1e648306bf608103e55fba484a1e91b4f3f7ab7d5d69333e17f1b546c51",
+      "childSeed": "0x7abb7b56893de4efafb0a691cc82238d7990f219524932bf9aed1a8dc9653700",
+      "displaySeed": "0xbe052f23691f97635389ef46bcd763822b5aa13f7326bfe08b95a48966e69097",
       "attributes": {
-        "background": "City",
-        "head": "Female",
-        "outfit": "Jacket",
-        "hair": "Short",
-        "eyes": "Default",
-        "nose": "Default",
-        "mouth": "Default",
-        "eyewear": "None",
+        "background": "Office",
+        "head": "Default",
+        "outfit": "Hacker",
+        "hair": "Long",
+        "eyes": "Explorer",
+        "nose": "Straight",
+        "mouth": "Smile",
+        "eyewear": "Sunglasses",
         "headwear": "None",
-        "companion": "Drone",
-        "era": "Season One",
-        "origin": "LinkedIn Form",
-        "quote": "None",
-        "lore": "None",
-        "hair_color": "Black"
+        "companion": "Bonkguy",
+        "era": "Day One",
+        "origin": "Discord Queue",
+        "quote": "Points have no monetary value",
+        "lore": "Discord not linked",
+        "hair_color": "Ice"
       },
       "notes": "tier=2 wildcard-tail slot=13 (lore) always childSeed-derived"
     },
@@ -4267,23 +4336,24 @@
       "craftNonce": 714,
       "entropy": "0x1cb964958bf54f5c3f3bb21a34b1217bca30588f79d4a513ea008fd4d72dc73a",
       "choices": [],
-      "childSeed": "0xacf6731c46f7763d59399e3f9131d859e78cf952554abe0d52c77254484bb59b",
+      "childSeed": "0xd8251ce7e21c26ee3ddd585892c987d86643292e68c70fe5acf301838f8e943d",
+      "displaySeed": "0xc187bdc43aff9e80577e806e9b02342619f4026514f77b0e67862e007545d040",
       "attributes": {
-        "background": "Construction",
+        "background": "Office",
         "head": "Default",
-        "outfit": "Hoodie",
-        "hair": "Curly",
-        "eyes": "Soft",
-        "nose": "Default",
-        "mouth": "Smile",
+        "outfit": "Techwear",
+        "hair": "Short",
+        "eyes": "Default",
+        "nose": "Rounded",
+        "mouth": "Grin",
         "eyewear": "Glasses",
         "headwear": "None",
-        "companion": "None",
-        "era": "Day One",
-        "origin": "Arc House",
-        "quote": "Points have no monetary value",
-        "lore": "None",
-        "hair_color": "Black"
+        "companion": "Drone",
+        "era": "Genesis",
+        "origin": "Discord Queue",
+        "quote": "None",
+        "lore": "Wrong chain id 5042/5042002",
+        "hair_color": "Brown"
       },
       "notes": "tier=2 wildcard-tail slot=14 (hair_color) always childSeed-derived"
     }

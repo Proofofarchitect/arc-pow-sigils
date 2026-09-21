@@ -19,14 +19,15 @@ import { defineChain } from "viem";
  * on both testnet and mainnet.
  */
 
-function envStr(name: string, fallback: string): string {
-  const v = process.env[name]?.trim();
-  return v && v.length > 0 ? v : fallback;
-}
+/**
+ * NOTE: `process.env.NEXT_PUBLIC_*` MUST be accessed statically (literal key) —
+ * Next.js only inlines static references into the client bundle. A dynamic
+ * `process.env[name]` lookup silently falls back to the default in the browser.
+ */
 
 /** Arc chain id (env-driven): 5042002 testnet · 5042 mainnet. */
 export const ARC_CHAIN_ID: number = Number(
-  envStr("NEXT_PUBLIC_ARC_CHAIN_ID", "5042002"),
+  process.env.NEXT_PUBLIC_ARC_CHAIN_ID?.trim() || 5042002,
 );
 
 /**
@@ -35,9 +36,8 @@ export const ARC_CHAIN_ID: number = Number(
  * fails over to the remaining entries when an endpoint keeps failing.
  * Official alternates: Blockdaemon / dRPC / QuickNode (see Arc docs).
  */
-export const ARC_RPC_URLS: string[] = envStr(
-  "NEXT_PUBLIC_ARC_RPC_URL",
-  "https://rpc.testnet.arc.io",
+export const ARC_RPC_URLS: string[] = (
+  process.env.NEXT_PUBLIC_ARC_RPC_URL?.trim() || "https://rpc.testnet.arc.io"
 )
   .split(",")
   .map((url) => url.trim())
@@ -47,13 +47,12 @@ export const ARC_RPC_URLS: string[] = envStr(
 export const ARC_RPC_URL: string =
   ARC_RPC_URLS[0] ?? "https://rpc.testnet.arc.io";
 
-export const ARC_EXPLORER_URL: string = envStr(
-  "NEXT_PUBLIC_ARC_EXPLORER_URL",
-  "https://testnet.arcscan.app",
-);
+export const ARC_EXPLORER_URL: string =
+  process.env.NEXT_PUBLIC_ARC_EXPLORER_URL?.trim() ||
+  "https://testnet.arcscan.app";
 
 const ARC_IS_TESTNET: boolean =
-  envStr("NEXT_PUBLIC_ARC_IS_TESTNET", "true") !== "false";
+  (process.env.NEXT_PUBLIC_ARC_IS_TESTNET?.trim() || "true") !== "false";
 
 export const arcChain = defineChain({
   id: ARC_CHAIN_ID,

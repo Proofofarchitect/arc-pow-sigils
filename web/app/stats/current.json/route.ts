@@ -19,9 +19,9 @@ export async function GET() {
       headers: { "Cache-Control": CACHE_CONTROL },
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("[stats/current.json] snapshot failed:", error);
     return NextResponse.json(
-      { error: "Unable to load stats snapshot", detail: message },
+      { error: "Unable to load stats snapshot" },
       { status: 502, headers: { "Cache-Control": "no-store" } },
     );
   }

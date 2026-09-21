@@ -35,9 +35,9 @@ Difficulty escalates on three independent layers: a per-wave base (baseBits 30 p
 ## 2. Contract and network
 
 - Network: Arc (chainId ${ARC_CHAIN_ID}).
-- Contract: 0x8f5795343C10b316296f6767a10e87CC40E62491 — ERC-721 (v3.4), ERC-2981 royalties 5% (500 bps), verified on arcscan.
+- Contract: 0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4 — ERC-721 (v3.4), ERC-2981 royalties 5% (500 bps), verified on the Arc explorer.
 - Symbol: PARC.
-- Explorer: https://testnet.arcscan.app/address/0x8f5795343C10b316296f6767a10e87CC40E62491
+- Explorer: https://explorer.arc.io/address/0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4
 - Gas token: USDC, 18 decimals (native, not ETH). Transactions with maxFeePerGas below 20 gwei are silently dropped by Arc.
 - Payment: msg.value must equal currentMintDue().due exactly (= currentPrice() plus a 2.5% mint fee, mintFeeBps=250); the contract reverts with WrongPayment otherwise.
 - Supply: maxSupply 15,042 = 42 free claims + 15,000 paid. tokenId = 1..maxSupply. tokenURI(id) = baseURI + id.
@@ -101,7 +101,7 @@ GET ${SITE_URL}/api/meta/{id} returns OpenSea-compatible JSON, for example token
     { "trait_type": "face", "value": "None" },
     { "trait_type": "eyes", "value": "Default" },
     { "trait_type": "headwear", "value": "None" },
-    { "trait_type": "era", "value": "Testnet" },
+    { "trait_type": "era", "value": "Genesis" },
     { "trait_type": "origin", "value": "Community" },
     { "trait_type": "quote", "value": "None" },
     { "trait_type": "lore", "value": "None" },
@@ -207,11 +207,11 @@ Architectors can be locked in the StakingVault for a proof-of-work difficulty di
 - What does a mint cost? 1.0 USDC at wave 1, doubling every wave of 1,000 paid mints with no cap (last wave 16,384 USDC). The 42 free claim codes need no payment and no PoW; redeem one at ${SITE_URL}/claim. Gas is paid in native USDC.
 - How do I verify a nonce without sending a transaction? Use the MCP tool verify_nonce, or compare workFor(miner, nonce) on-chain with a local keccak computation.
 - Where do the funds go? All proceeds and 5% secondary royalties go to the immutable treasury; withdraw() can be called by anyone but only pays the treasury.
-- Is the contract audited? Yes — an independent audit is complete (H-01/H-02/M-01 fixed), the Foundry suite includes fuzz and invariant campaigns, and the live deployment is verified on arcscan.
+- Is the contract audited? Yes — an independent audit is complete (H-01/H-02/M-01 fixed), the Foundry suite includes fuzz and invariant campaigns, and the live deployment is verified on the Arc explorer.
 
 ## 12. Status
 
-The live deployment is v3.4 "Proof of Architect" (0x8f5795343C10b316296f6767a10e87CC40E62491), verified on arcscan; the previous v3.3/v3.2/v3 deployments remain verified on arcscan. The browser miner, GPU miner, metadata API, the Architector art pipeline, the free-claim page (${SITE_URL}/claim), one-shot crafting and staking are all live.
+The live deployment is v3.4 "Proof of Architect" (0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4), verified on the Arc explorer; the previous v3.3/v3.2/v3 deployments remain verified on the Arc explorer. The browser miner, GPU miner, metadata API, the Architector art pipeline, the free-claim page (${SITE_URL}/claim), one-shot crafting and staking are all live.
 `;
 
   return new Response(body, {

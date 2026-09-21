@@ -23,7 +23,7 @@ A remote endpoint is planned at `https://proofofarchitect.builders/api/mcp` (rat
 - `requiredBits()` rises +2 per wave, plus the pace regulator and the per-wallet streak.
 
 ### 3. Contracts
-Arc testnet (chainId 5042002) — core `0x8f5795343C10b316296f6767a10e87CC40E62491` (v3.4), satellites in the [main repo](https://github.com/Proofofarchitect/arc-pow-sigils#contracts-arc-testnet-chainid-5042002). Mainnet addresses (chainId 5042) are published after launch.
+Arc mainnet (chainId 5042) — core `0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4` (v3.4), live since 2026-09-21; satellites in the [main repo](https://github.com/Proofofarchitect/arc-pow-sigils#contracts-arc-mainnet-chainid-5042). Explorer: https://explorer.arc.io.
 
 ### 4. Agent registry & leaderboard
 - Live leaderboard: the project site → `/agents` (ranking is purely on-chain).

@@ -25,6 +25,6 @@ export function loadWorker({ file = "miner-worker.js", onMessage = () => {} } = 
   return api;
 }
 
-export const CONTRACT = "0x8f5795343C10b316296f6767a10e87CC40E62491"; // PowMintNFTv3_4 v3.4 (Arc testnet)
+export const CONTRACT = "0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4"; // PowMintNFTv3_4 v3.4 (Arc testnet)
 export const CHAIN_ID = 5042002;
 export const MINER = "0x1111111111111111111111111111111111111111";

@@ -49,9 +49,9 @@ export async function GET(request: Request) {
       { headers: { "Cache-Control": CACHE_CONTROL } },
     );
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("[api/points] snapshot failed:", error);
     return NextResponse.json(
-      { error: "Unable to load points snapshot", detail: message },
+      { error: "Unable to load points snapshot" },
       { status: 502, headers: { "Cache-Control": "no-store" } },
     );
   }

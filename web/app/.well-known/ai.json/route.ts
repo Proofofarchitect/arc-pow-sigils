@@ -77,7 +77,7 @@ export function GET() {
         chain_name: "Arc",
         gas_token: "USDC (18 decimals native)",
         contract: CONTRACT_ADDRESS,
-        explorer: `https://testnet.arcscan.app/address/${CONTRACT_ADDRESS}`,
+        explorer: `https://explorer.arc.io/address/${CONTRACT_ADDRESS}`,
         max_supply: 15042,
         free_claims: 42,
         paid_supply: 15000,

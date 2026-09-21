@@ -18,7 +18,7 @@ Each token is an "Architector": 10 rendered pixel-art layers (background, body, 
 
 ## Key numbers
 
-- Contract: 0x8f5795343C10b316296f6767a10e87CC40E62491 (Arc, ERC-721, symbol PARC, v3.4, verified on arcscan)
+- Contract: 0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4 (Arc, ERC-721, symbol PARC, v3.4, verified on arcscan)
 - Supply: 15,042 = 42 free claim codes + 15,000 paid, tokenId 1..15,042
 - Paid price: 1.0 USDC at wave 1, doubling every wave of 1,000 mints with no cap (last wave 16,384 USDC)
 - Free claims: 42 code-gated mints (non-transferable until wave 5)
