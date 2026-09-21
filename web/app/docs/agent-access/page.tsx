@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { SITE_URL } from "@/lib/site";
-import { CONTRACT_ADDRESS } from "@/lib/contract";
+import { ARC_CHAIN_ID, CONTRACT_ADDRESS } from "@/lib/contract";
 import { CRAFT_ADDRESS } from "@/lib/craft";
 import { VAULT_ADDRESS } from "@/lib/staking";
 
@@ -47,18 +47,20 @@ const TOOLS: Tool[] = [
   {
     name: "get_token",
     args: "tokenId",
-    returns: "owner, seed, nonce, tokenURI, imageUrl, metadataUrl",
+    returns:
+      "owner, seedOf, displaySeed (post-inclusion), mintBlock, pending, nonce, tokenURI, imageUrl, metadataUrl",
   },
   {
     name: "required_bits",
     args: "miner",
-    returns: "requiredBits (current difficulty in leading zero bits) + formula",
+    returns:
+      "requiredBits (display), requiredMilli (milli-bits), target (work < target) + formula",
   },
   {
     name: "verify_nonce",
     args: "miner, nonce",
     returns:
-      "work, leadingZeroBits, requiredBits, valid — verifies a nonce without a transaction",
+      "work, target, valid — verifies a nonce against the fractional target without a transaction",
   },
   {
     name: "price_info",
@@ -67,21 +69,10 @@ const TOOLS: Tool[] = [
       "wave, epochIndex, currentPriceUSDC and the full pricing schedule (1.0 USDC × 2 per wave, no cap)",
   },
   {
-    name: "verify_rarity",
-    args: "tokenId",
-    returns: "score (bits), tier, golden, legendary — from the on-chain seed",
-  },
-  {
     name: "craft_info",
     args: "—",
     returns:
-      "controller, paused, craftFee / committedFees (USDC), lastCommitId, per-tier boostCost / feeFor / maxChosen (tiers 0..3), the entropy/reveal window constants and the salt policy",
-  },
-  {
-    name: "verify_craft_commit",
-    args: "commitId, choices, salt",
-    returns:
-      "match, settled (revealed/refunded), player, boostTier, window (head, revealFromBlock, revealUntilBlock, canRevealNow), choicesHashOnChain, computedHash",
+      "controller, paused, craftFee / totalFeesCollected (USDC), craftNonce, bounds (MAX_SLOT/MAX_BOOST_TIER/LOCK_WAVES), per-tier boostCost / feeFor / maxChosen (tiers 0..3) and the child pre-seed formula (one-shot craft)",
   },
 ];
 
@@ -129,7 +120,7 @@ export default function AgentAccessPage() {
         <strong>anonymous and needs no authentication</strong>: no API keys, no
         accounts. Agent registration (section 9) is the only write surface and
         needs nothing more than a wallet signature. The collection runs on Arc
-        (chainId 5042002). Reference contract:{" "}
+        (chainId {ARC_CHAIN_ID}). Reference contract:{" "}
         <span className="mono">{CONTRACT_ADDRESS}</span>.
       </p>
 
@@ -337,9 +328,9 @@ export default function AgentAccessPage() {
         <h2>6. Crafting from an agent</h2>
         <p className="muted small" style={{ marginTop: 0 }}>
           A holder can forge a new Architector (the child) from two Architectors
-          they own (the parents). Crafting is a two-phase{" "}
-          <span className="mono">commit</span>/<span className="mono">reveal</span>{" "}
-          so nobody can grind the outcome. The controller is{" "}
+          they own (the parents) in a single <strong>one-shot</strong>{" "}
+          <span className="mono">craft</span> transaction — there is no
+          commit/reveal and no refund. The controller is{" "}
           <span className="mono">{craftAddr}</span>, read from the build env
           (<span className="mono">NEXT_PUBLIC_CRAFT_ADDRESS</span>) — it updates
           with the env swap. Parents live on the core contract{" "}
@@ -348,89 +339,55 @@ export default function AgentAccessPage() {
           signer.
         </p>
         <p className="muted small">
-          The committed value is{" "}
-          <span className="mono">
-            keccak256(abi.encode(SlotChoice[], bytes32 salt))
-          </span>
-          , where <span className="mono">SlotChoice</span> is the struct{" "}
-          <span className="mono">{"{ uint8 slot, uint8 parent }"}</span> and{" "}
-          <span className="mono">salt</span> is a per-commit 32-byte client
-          secret. A common bug is mistyping the tuple: pass a real{" "}
-          <span className="mono">tuple[]</span> schema <em>with</em>{" "}
-          <span className="mono">components</span> (as below) — a bare{" "}
-          <span className="mono">(uint8,uint8)[]</span> string is easy to
-          mis-encode and yields a hash the contract will not accept.
+          <span className="mono">choices</span> is a{" "}
+          <span className="mono">SlotChoice[]</span> where each entry is the struct{" "}
+          <span className="mono">{"{ uint8 slot, uint8 parent }"}</span> (slots
+          strictly increasing, slot ≤ 11, parent in {"{0,1}"}). A common bug is
+          mistyping the tuple: pass a real <span className="mono">tuple[]</span>{" "}
+          schema <em>with</em> <span className="mono">components</span> (as below) —
+          a bare <span className="mono">(uint8,uint8)[]</span> string is easy to
+          mis-encode and the call reverts.
         </p>
-        <Code>{`import { encodeAbiParameters, keccak256, bytesToHex } from "viem";
-
-// SlotChoice = { slot: uint8, parent: uint8 }; choices strictly increasing by slot, slot <= 11.
+        <Code>{`// SlotChoice = { slot: uint8, parent: uint8 }; choices strictly increasing by slot, slot <= 11.
 const choices = [
   { slot: 0, parent: 0 },
   { slot: 5, parent: 1 },
 ];
 
-// One fresh 32-byte secret per commit. Store it with the choices; never reuse, never use 0.
-const salt = bytesToHex(crypto.getRandomValues(new Uint8Array(32)));
-
-// Correct typing: tuple[] WITH components (the SlotChoice struct).
-const slotChoicesHash = keccak256(
-  encodeAbiParameters(
-    [
-      {
-        type: "tuple[]",
-        components: [
-          { name: "slot", type: "uint8" },
-          { name: "parent", type: "uint8" },
-        ],
-      },
-      { type: "bytes32" },
-    ],
-    [choices, salt],
-  ),
-);
-
-// 1) Approve BOTH parents: the controller pulls them with transferFrom.
+// 1) Approve the controller for BOTH parents with ONE tx (covers all future crafts).
 await walletClient.writeContract({
   address: "${CONTRACT_ADDRESS}", abi: erc721Abi,
-  functionName: "approve", args: ["${craftAddr}", cardA],
-});
-await walletClient.writeContract({
-  address: "${CONTRACT_ADDRESS}", abi: erc721Abi,
-  functionName: "approve", args: ["${craftAddr}", cardB],
+  functionName: "setApprovalForAll", args: ["${craftAddr}", true],
 });
 
-// 2) Commit with the exact fee: craftFee + boostCost (see the notes below).
-const commitHash = await walletClient.writeContract({
-  address: "${craftAddr}", abi: controllerAbi, functionName: "commit",
-  args: [cardA, cardB, slotChoicesHash, boostTier],
+// 2) One-shot craft with the exact fee: feeFor(tier) = craftFee + boostCost(tier).
+//    Both parents are burned and the child is forged in this same transaction.
+const craftHash = await walletClient.writeContract({
+  address: "${craftAddr}", abi: controllerAbi, functionName: "craft",
+  args: [cardA, cardB, choices, boostTier],   // choices typed as a tuple[] WITH components
   value: craftFee + boostCost,
 });
 
-// 3) Wait >= 3 blocks (entropy = blockhash(commitBlock + 2)), then reveal
-//    within [commitBlock + 3, commitBlock + 258].
-await walletClient.writeContract({
-  address: "${craftAddr}", abi: controllerAbi, functionName: "reveal",
-  args: [commitId, choices, salt],   // same choices and salt as the commit
-});`}</Code>
+// The child art is final only after blockhash(childMintBlock + 2) exists (~2 blocks).`}</Code>
         <p className="muted small">
-          Fee: <span className="mono">craftFee = 0.1 x currentPrice()</span> plus{" "}
+          Fee: <span className="mono">craftFee = 5.0 USDC</span> plus{" "}
           <span className="mono">boostCost = 0.5 x currentPrice() x 2^(tier-1)</span>{" "}
           for tier &ge; 1 (<span className="mono">0</span> for tier 0), priced from
-          the core price at commit time (18-decimal USDC;{" "}
-          <span className="mono">msg.value</span> must match exactly). Boost tiers
-          are 0..3 with <span className="mono">maxChosen = min(6 + 2 x tier, 12)</span>{" "}
+          the core price at craft time (18-decimal USDC;{" "}
+          <span className="mono">msg.value</span> must match{" "}
+          <span className="mono">feeFor(tier)</span> exactly). Boost tiers are 0..3
+          with <span className="mono">maxChosen = min(6 + 2 x tier, 12)</span>{" "}
           &rarr; 6/8/10/12 slots. Slot 12 (legendary) is always entropy-derived.
           Arc silently drops transactions below 20 gwei{" "}
           <span className="mono">maxFeePerGas</span>.
         </p>
         <div className="banner warn">
-          The salt is a client secret: back it up with the choices. Without it you
-          cannot reveal — after the window the only option is{" "}
-          <span className="mono">refund(commitId)</span> (both parents returned;
-          the fee is kept unless the core forge is paused). Never use{" "}
-          <span className="mono">salt = 0</span>: it is brute-forceable (about
-          94k choice permutations) and lets a third party force-settle your
-          commit.
+          Crafting is irreversible: the parents are escrowed and burned and the
+          child is forged atomically. There is no back-out and no{" "}
+          <span className="mono">refund</span>. The child pre-seed packs both
+          parents&apos; raw <span className="mono">seedOf</span>; the display seed
+          adds <span className="mono">blockhash(childMintBlock + 2)</span>, so the
+          result can be verified afterwards but never predicted before crafting.
         </div>
       </div>
 
@@ -450,13 +407,17 @@ await walletClient.writeContract({
           no early exit and no <span className="mono">emergencyUnstake</span>.
         </p>
         <p className="muted small" style={{ marginBottom: 0 }}>
-          Tiers 0..5 (lock / weight / bits): flexible 0d 0.1&times; 2 &middot; 7d
-          0.5&times; 2 &middot; 30d 1.0&times; 4 &middot; 90d 2.0&times; 4 &middot;
-          180d 3.0&times; 6 &middot; 365d 4.0&times; 6. Tier 0 (0 days) is
+          Tiers 0..5 (lock / weight / bits): flexible 0d 0.1&times; 0 &middot; 7d
+          0.5&times; 0.5 &middot; 30d 1.0&times; 1.5 &middot; 90d 2.0&times; 3
+          &middot; 180d 3.0&times; 4.5 &middot; 365d 4.0&times; 6. The PoW discount
+          is in milli-bits (0 / 500 / 1500 / 3000 / 4500 / 6000 = 0 / 0.5 / 1.5 /
+          3 / 4.5 / 6 bits); tier 0 grants no discount. Tier 0 (0 days) is
           flexible and can be unstaked at any time; every longer tier is a hard
           lock until the term ends. While staked the card is out of circulation
-          (the vault holds the NFT). Free-claim tokens (first 42 ids) cannot be
-          staked until wave 5. Reads: <span className="mono">stakesOf</span>,{" "}
+          (the vault holds the NFT). A free-claim token cannot be staked until
+          wave 5 — the lock is per-token (
+          <span className="mono">isFreeToken(id)</span>), not a fixed id range.
+          Reads: <span className="mono">stakesOf</span>,{" "}
           <span className="mono">stakeInfo</span>,{" "}
           <span className="mono">accruedOf</span>,{" "}
           <span className="mono">weightOf</span>,{" "}

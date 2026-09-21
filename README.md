@@ -12,33 +12,33 @@ has a required number of leading zero bits. The winning hash becomes the token's
 
 **Collection:** 15,042 cards — 42 free claim codes + 15,000 paid mints across 15 waves of 1,000 (base price starts at 1 USDC and doubles every wave; +2.5% mint fee).
 
-**Mechanics:** mining (CPU/GPU), claim codes, staking (hard-lock), crafting (2→1, commit–reveal with on-chain entropy).
+**Mechanics:** mining (CPU/GPU), claim codes, staking (hard-lock), crafting (one-shot 2→1, fixed 5 USDC fee — no commit–reveal).
 
 ## Repository layout
 
 | Path | Contents |
 |---|---|
-| `contracts/` | Foundry project — core NFT + staking vault, crafting controller, rarity registry, rewards, burn points (Solidity 0.8.26) |
+| `contracts/` | Foundry project — core NFT (v3.4) + `StakingVaultV2`, `CraftingControllerV2`, rarity registry, rewards, burn points (Solidity 0.8.26) |
 | `web/` | Next.js site: mining UI (CPU + WebGPU), collection, claim/stake/craft, deterministic metadata/image API, MCP endpoint |
 | `miner/` | Dependency-free browser JS Keccak-PoW miner (Web Worker) |
 | `mining/gpu/` | CUDA miner |
-| `mcp/` | Standalone MCP server for AI agents (read-only tools: stats, tokens, nonce verification, craft checks) |
-| `art/v2/` | Canonical layer set for the deterministic renderer (120 PNG, 15 slots) |
-| `gitbook/` | Public documentation source (EN) |
+| `mcp/` | Standalone MCP server for AI agents (read-only tools: stats, tokens, nonce verification, craft config) |
+| `art/v2/` | Canonical layer set for the deterministic renderer (v2.3, 122 PNG, 15 slots) |
+| `art/canon/` | Frozen art anchors + legendary chips |
 | `examples/` | Agent/crafting examples |
 
 ## Contracts (Arc testnet, chainId 5042002)
 
 | Role | Address |
 |---|---|
-| Core — `PowMintNFT` (v3.2) | `0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b` |
-| `StakingVault` | `0x7501e5dA268ab93c1f1A8467095Cd9FFe9734CfD` |
-| `CraftingController` | `0x1542c820cF8644Abb91BF5c275097f89578FC3A9` |
-| `RarityRegistry` | `0x9Ce1cD8d4bDcba89a2be6E0021fD073dDdA3cD47` |
-| `StakeRewards` | `0x593973ce94a82282a7d6f4bbf384ccd852d160a1` |
-| `BurnPoints` | `0xD964C910dDa776dA55a900F85B019f48C237EA8b` |
+| Core — `PowMintNFTv3_4` | `0x8f5795343C10b316296f6767a10e87CC40E62491` |
+| `StakingVaultV2` | `0xb19391b0Ce967f473665691295F2846C424c720a` |
+| `CraftingControllerV2` | `0x5F7f7D3E641D09565Cf6f81D461bA09910f6685F` |
+| `RarityRegistry` | `0x9Ce1cD8d4Bdcba89A2be6E0021FD073DDDa3CD47` |
+| `StakeRewards` | `0x593973Ce94A82282a7d6f4bbf384CCd852d160a1` |
+| `BurnPoints` | `0xD964C910DDa776Da55A900F85b019f48C237EA8b` |
 
-Mainnet addresses will be published after deployment. Contract suite: **333/333** (unit + fuzz + invariant tests).
+Mainnet addresses will be published after launch (Arc mainnet, chainId 5042). Contract suite: **350/350** (unit + fuzz + invariant tests).
 
 ## Quick start
 

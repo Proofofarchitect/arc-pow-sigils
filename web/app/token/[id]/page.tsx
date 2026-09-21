@@ -7,6 +7,7 @@ import { createPublicClient, http, type Address } from "viem";
 import { arcTestnet, ARC_RPC_URL, explorerUrl } from "@/lib/arc";
 import { rpcFetch } from "@/lib/rpc";
 import { CONTRACT_ADDRESS, POW_MINT_NFT_ABI } from "@/lib/contract";
+import { readDisplaySeed } from "@/lib/display-seed";
 import {
   attributeMap,
   deriveAttributes,
@@ -48,9 +49,14 @@ const FORGE_ID_BASE = 10_000_000n;
 
 type TokenData = {
   owner: Address;
+  /** Raw seedOf[id] — the work hash / claim hash / craft pre-seed. */
   seed: `0x${string}`;
+  /** Post-inclusion display seed that drives traits / rarity / art. */
+  displaySeed: `0x${string}`;
   nonce: bigint;
   tokenURI: string;
+  /** True while the entropy block (mintBlock + 2) is not yet mined. */
+  pending: boolean;
 };
 
 /** Shape returned by `/api/meta/[id]` (only the fields this page consumes). */
@@ -59,6 +65,7 @@ type MetaResponse = {
   rarity?: { score: number; tier: RarityTier };
   crafted?: boolean;
   craftedLookup?: "ok" | "unavailable";
+  unique?: boolean;
 };
 
 const SLOT_LABELS: Record<string, string> = {
@@ -82,6 +89,9 @@ const SLOT_LABELS: Record<string, string> = {
   legendary: "Legendary",
   golden: "Golden",
   bug: "Bug",
+  Set: "Set",
+  Piece: "Piece",
+  Class: "Class",
 };
 
 export default function TokenPage() {
@@ -100,9 +110,11 @@ export default function TokenPage() {
   const [metaError, setMetaError] = useState<string | null>(null);
   const [preview, setPreview] = useState(false);
 
-  // For crafted ids only: fetch the server-resolved HC/2 traits + rarity.
+  // Server-resolved traits: crafted ids (HC/2) AND sealed 1-of-1 uniques
+  // (arc-uniques/1) read their panel from /api/meta; normal ids stay
+  // client-derived from the seed.
   useEffect(() => {
-    if (!crafted) return;
+    if (!/^\d+$/.test(id)) return;
     let cancelled = false;
     setMetaError(null);
     fetch(`/api/meta/${id}`)
@@ -121,7 +133,7 @@ export default function TokenPage() {
     return () => {
       cancelled = true;
     };
-  }, [id, crafted]);
+  }, [id]);
 
   useEffect(() => {
     if (!/^\d+$/.test(id)) {
@@ -134,17 +146,11 @@ export default function TokenPage() {
 
     async function load() {
       try {
-        const [owner, seed, nonce, tokenURI] = await Promise.all([
+        const [owner, nonce, tokenURI, seedInfo] = await Promise.all([
           publicClient.readContract({
             address: CONTRACT_ADDRESS,
             abi: POW_MINT_NFT_ABI,
             functionName: "ownerOf",
-            args: [tokenId],
-          }),
-          publicClient.readContract({
-            address: CONTRACT_ADDRESS,
-            abi: POW_MINT_NFT_ABI,
-            functionName: "seedOf",
             args: [tokenId],
           }),
           publicClient.readContract({
@@ -159,8 +165,19 @@ export default function TokenPage() {
             functionName: "tokenURI",
             args: [tokenId],
           }),
+          // Central display-seed derivation (seedOf + blockhash(mintBlock + 2)).
+          readDisplaySeed(publicClient, tokenId),
         ]);
-        if (!cancelled) setData({ owner, seed, nonce, tokenURI });
+        if (!cancelled) {
+          setData({
+            owner,
+            seed: seedInfo.seedOf,
+            displaySeed: seedInfo.displaySeed,
+            nonce,
+            tokenURI,
+            pending: seedInfo.pending,
+          });
+        }
       } catch (e) {
         if (!cancelled) {
           if (isPreviewId(tokenId)) {
@@ -197,7 +214,7 @@ export default function TokenPage() {
   // Full House Card trait set. Normal ids derive client-side from the on-chain
   // seed; crafted ids (≥ 10M) use the server-resolved HC/2 traits from
   // /api/meta (their traits are NOT a plain function of the seed).
-  const derived: DerivedAttributes | null = crafted
+  const derived: DerivedAttributes | null = crafted || meta?.unique
     ? meta
       ? {
           attributes: meta.attributes
@@ -213,8 +230,8 @@ export default function TokenPage() {
       : null
     : data
       ? IS_V2
-        ? deriveAttributesV2(data.seed)
-        : deriveAttributes(data.seed)
+        ? deriveAttributesV2(data.displaySeed)
+        : deriveAttributes(data.displaySeed)
       : preview
         ? derivePreviewAttributes(BigInt(id))
         : null;
@@ -226,7 +243,7 @@ export default function TokenPage() {
   // Rarity (rarity/1), computed from the SAME attributes as the traits panel.
   // For crafted ids the score/tier come from the server (HC/2 attributes); for
   // normal ids they derive locally — no additional RPC either way.
-  const rarity = derived
+  const rarity = derived && !meta?.unique
     ? (() => {
         const attrs = attributeMap(derived);
         const score =
@@ -299,7 +316,9 @@ export default function TokenPage() {
               )}
             </div>
             <div className="artifact-caption">
-              <span>Rendered from seed</span>
+              <span>
+                {meta?.unique ? "One-of-one artwork" : "Rendered from seed"}
+              </span>
               <span>
                 {IS_V2 ? "1254 × 1254" : "1024 × 1024"} / deterministic PNG
               </span>
@@ -322,7 +341,7 @@ export default function TokenPage() {
                   </a>
                 </p>
               )}
-              {(preview || crafted || derived?.golden) && (
+              {(preview || crafted || derived?.golden || meta?.unique) && (
                 <div
                   style={{
                     display: "flex",
@@ -338,6 +357,13 @@ export default function TokenPage() {
                   )}
                   {crafted && (
                     <span className="badge badge-crafted">Crafted card</span>
+                  )}
+                  {meta?.unique && (
+                    <span className="badge badge-unique">
+                      Unique 1-of-1 ·{" "}
+                      {meta.attributes.find((a) => a.trait_type === "Piece")
+                        ?.value ?? "sealed"}
+                    </span>
                   )}
                   {derived?.golden && (
                     <span className="badge badge-golden">
@@ -452,6 +478,18 @@ export default function TokenPage() {
                   <div className="chain-item">
                     <dt>Seed (seedOf)</dt>
                     <dd>{data.seed}</dd>
+                  </div>
+                  <div className="chain-item">
+                    <dt>Display seed</dt>
+                    <dd>
+                      {data.displaySeed}
+                      {data.pending && (
+                        <>
+                          {" "}
+                          <span className="badge badge-preview">pending</span>
+                        </>
+                      )}
+                    </dd>
                   </div>
                   {work && (
                     <div className="chain-item">

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { TRAITS_IMAGE_QS } from "@/lib/traits-set";
+import { imageQuery } from "@/lib/traits-set";
 
 /**
  * Mini House Card preview — the deterministic PNG from /api/image/{id}, sized
@@ -42,7 +42,7 @@ export function CardThumb({
     // thumbnail size (1x/2x srcset) instead of shipping the full 1024px file.
     <Image
       className={`card-thumb ${className}`.trim()}
-      src={`/api/image/${text}${TRAITS_IMAGE_QS}`}
+      src={`/api/image/${text}${imageQuery(size * 2)}`}
       width={size}
       height={size}
       alt={`Architector #${text}`}

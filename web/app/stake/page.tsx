@@ -180,7 +180,7 @@ export default function StakePage() {
   } | null>(null);
   const [vaultError, setVaultError] = useState<string | null>(null);
 
-  // Core PoW discount for the connected wallet.
+  // Core PoW discount for the connected wallet, in MILLI-BITS (v3.4).
   const [discountBits, setDiscountBits] = useState<number | null>(null);
 
   // My stakes
@@ -250,12 +250,12 @@ export default function StakePage() {
       const bits = await publicClient.readContract({
         address: CONTRACT_ADDRESS,
         abi: POW_MINT_NFT_ABI,
-        functionName: "stakingDiscountBits",
+        functionName: "stakingDiscountMilli",
         args: [who],
       });
       setDiscountBits(Number(bits));
     } catch {
-      // v3 deployment has no stakingDiscountBits, or RPC hiccup — stay silent.
+      // No stakingDiscountMilli on this deployment, or RPC hiccup — stay silent.
       setDiscountBits(null);
     }
   }, []);
@@ -884,7 +884,8 @@ export default function StakePage() {
   // Wall clock for lock math; falls back to "now" before the ticker has fired.
   const now = nowSec > 0 ? nowSec : Math.floor(Date.now() / 1000);
 
-  const discountText = discountBits === null ? "—" : `${discountBits} bits`;
+  const discountText =
+    discountBits === null ? "—" : `${(discountBits / 1000).toFixed(1)} bits`;
 
   return (
     <main className="container">
@@ -1223,14 +1224,14 @@ export default function StakePage() {
         </div>
         <p className="muted small" style={{ marginTop: 10 }}>
           Read from{" "}
-          <span className="mono">stakingDiscountBits(wallet)</span> on the core
+          <span className="mono">stakingDiscountMilli(wallet)</span> on the core
           contract: the max over your active stakes (one high-tier card is
           enough — stacking more cards does not add bits). It shaves up to{" "}
           {MAX_DISCOUNT_BITS} bits off streak and wave penalties while mining,
           but the target never drops below the base &quot;wave-1&quot; floor —
           so at wave 1 the discount protects you against the +2-bit streak
-          steps instead of lowering base difficulty. On a v3 core (no staking
-          hook) this reads as “—” by design.
+          steps instead of lowering base difficulty (v3.4 accepts fractional
+          milli-bits). If the read reverts this reads as “—” by design.
         </p>
       </div>
 

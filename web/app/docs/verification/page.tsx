@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { SITE_URL } from "@/lib/site";
-import { CONTRACT_ADDRESS } from "@/lib/contract";
+import { ARC_CHAIN_ID, CONTRACT_ADDRESS } from "@/lib/contract";
 
 export const metadata: Metadata = {
   title: "Verification (proof of work) — Proof of Architect",
@@ -73,7 +73,7 @@ export default function VerificationPage() {
 // 104 < 136 = the Keccak-256 rate block, so one hash pass`}</Code>
         <ul className="small" style={{ margin: "10px 0 0", paddingLeft: 20 }}>
           <li>
-            <span className="mono">chainId</span> is 5042002 on Arc; the
+            <span className="mono">chainId</span> is {ARC_CHAIN_ID} on Arc; the
             nonce is a full <span className="mono">uint256</span> (big-endian),
             not a small counter.
           </li>
@@ -91,29 +91,33 @@ export default function VerificationPage() {
       <div className="panel">
         <h2>2. Validity rule</h2>
         <p className="muted small" style={{ marginTop: 0 }}>
-          A nonce is valid when the number of leading zero bits of{" "}
-          <span className="mono">work</span> is at least the required difficulty
-          for that wallet:
+          A nonce is valid when the value of{" "}
+          <span className="mono">work</span> is strictly below the wallet&apos;s
+          difficulty target (v3.4 uses a fractional target; requiredMilli can sit
+          between whole bits):
         </p>
-        <Code>{`valid  <=>  leadingZeroBits(work) >= requiredBits(miner)
+        <Code>{`valid  <=>  uint256(work) < targetFor(miner)
 
-// leadingZeroBits counts zero bits from the most-significant bit
-// of the 32-byte hash; leadingZeroBits(0) = 256.
-// Expected number of attempts ~= 2^requiredBits.`}</Code>
+// targetFor is derived from requiredMilli (milli-bits = thousandths of a bit):
+//   requiredMilli = (baseBits + 2*epochIndex + loadAdjust + streakBits)*1000 - stakingDiscountMilli   (floored at baseBits*1000, capped at 250 bits)
+// requiredBits(miner) = ceil(requiredMilli/1000) is the display value only.
+// Expected number of attempts ~= 2^(requiredMilli/1000).`}</Code>
         <p className="muted small">
-          Leading zero <em>bits</em> (not bytes, not a numeric target) means a
-          hash starting with <span className="mono">0x00</span> has at least 8
-          valid bits, <span className="mono">0x0000</span> at least 16, and so on.
-          A difficulty of 30 bits requires roughly one billion hashes on average.
+          Leading zero <em>bits</em> (not bytes) means a hash starting with{" "}
+          <span className="mono">0x00</span> has at least 8 valid bits,{" "}
+          <span className="mono">0x0000</span> at least 16, and so on. A 30-bit
+          difficulty requires roughly one billion hashes on average.
         </p>
       </div>
 
       <div className="panel">
         <h2>3. Difficulty formula</h2>
-        <Code>{`requiredBits(miner) =
-    max( baseBits,
-         baseBits + 2 * epochIndex + loadAdjust + streakBits
-                  - discountBits(miner) )     // capped at 250`}</Code>
+        <Code>{`requiredMilli(miner) =
+    max( baseBits * 1000,
+         ( baseBits + 2 * epochIndex + loadAdjust + streakBits ) * 1000
+                  - stakingDiscountMilli(miner) )   // capped at 250 bits
+
+targetFor(miner) = 2^(256 - intPart) / 2^(tenths/10)   // intPart=tenths split from requiredMilli`}</Code>
         <table className="tier-table" style={{ marginTop: 12 }}>
           <thead>
             <tr>
@@ -143,9 +147,9 @@ export default function VerificationPage() {
             <tr>
               <td className="mono">loadAdjust</td>
               <td className="small">
-                Load regulator, 0..64 bits, nudged every 25 mints toward a target
-                pace of 30 s/mint (a ±20% dead zone between tightening and
-                loosening).
+                Load regulator, 0..64 bits, nudged every 5 mints toward a target
+                pace of 25 s/mint (+2 bits when too fast, -1 bit when slow; a
+                ±20% dead zone between tightening and loosening).
               </td>
               <td className="mono small">bits</td>
             </tr>
@@ -153,13 +157,14 @@ export default function VerificationPage() {
               <td className="mono">streakBits</td>
               <td className="small">
                 Per-wallet streak: +2 bits for each extra mint from the same
-                wallet while inside its cooldown (cooldown = 60 s × wave). Resets
-                once the cooldown has elapsed.
+                wallet while inside its cooldown (cooldown = flat 5–25 min by
+                streak level, capped at 25). Resets once the cooldown has
+                elapsed.
               </td>
               <td className="mono small">bits</td>
             </tr>
             <tr>
-              <td className="mono">discountBits(miner)</td>
+              <td className="mono">stakingDiscountMilli(miner)</td>
               <td className="small">
                 PoW discount granted by the staking vault (up to 6 bits,
                 floored at baseBits) — see below.
@@ -181,24 +186,39 @@ export default function VerificationPage() {
             <tr>
               <th>Tier</th>
               <th>Lock</th>
-              <th>Discount</th>
+              <th>Discount (milli-bits)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td className="mono small">0 / 1</td>
-              <td className="small">flexible / 7 days</td>
-              <td className="mono small">2 bits</td>
+              <td className="mono small">0</td>
+              <td className="small">0 days (flexible)</td>
+              <td className="mono small">0 (no discount)</td>
             </tr>
             <tr>
-              <td className="mono small">2 / 3</td>
-              <td className="small">30 / 90 days</td>
-              <td className="mono small">4 bits</td>
+              <td className="mono small">1</td>
+              <td className="small">7 days</td>
+              <td className="mono small">500 = 0.5 bits</td>
             </tr>
             <tr>
-              <td className="mono small">4 / 5</td>
-              <td className="small">180 / 365 days</td>
-              <td className="mono small">6 bits</td>
+              <td className="mono small">2</td>
+              <td className="small">30 days</td>
+              <td className="mono small">1500 = 1.5 bits</td>
+            </tr>
+            <tr>
+              <td className="mono small">3</td>
+              <td className="small">90 days</td>
+              <td className="mono small">3000 = 3 bits</td>
+            </tr>
+            <tr>
+              <td className="mono small">4</td>
+              <td className="small">180 days</td>
+              <td className="mono small">4500 = 4.5 bits</td>
+            </tr>
+            <tr>
+              <td className="mono small">5</td>
+              <td className="small">365 days</td>
+              <td className="mono small">6000 = 6 bits</td>
             </tr>
           </tbody>
         </table>
@@ -230,8 +250,8 @@ export default function VerificationPage() {
             v="0x00000d2c7a16b7b38b3ffa61dca7d4f810f84ae52b031a74dad6f8c73d715bde"
           />
           <Row k="leadingZeroBits(work)" v="20" />
-          <Row k="requiredBits(miner)" v="20" />
-          <Row k="valid" v="true (20 >= 20)" />
+          <Row k="targetFor(miner)" v="fractional target (work < target)" />
+          <Row k="valid" v="true (work < target)" />
         </div>
         <p className="muted small" style={{ marginTop: 12, marginBottom: 0 }}>
           Why 20 bits: the hash begins <span className="mono">0x00 00 0d</span> —
@@ -261,9 +281,10 @@ export default function VerificationPage() {
           The remote MCP server exposes{" "}
           <span className="mono">verify_nonce(miner, nonce)</span>. It recomputes{" "}
           <span className="mono">work</span> locally (it does not trust the RPC
-          for the PoW verdict) and compares the leading-zero-bit count against{" "}
-          <span className="mono">requiredBits(miner)</span> read live from the
-          contract. <span className="mono">miner</span> is a 0x-prefixed address;{" "}
+          for the PoW verdict) and checks it against{" "}
+          <span className="mono">targetFor(miner)</span> read live from the
+          contract (<span className="mono">valid ⟺ uint256(work) &lt; target</span>).{" "}
+          <span className="mono">miner</span> is a 0x-prefixed address;{" "}
           <span className="mono">nonce</span> is a decimal uint256 string.
         </p>
         <Code>{`tool      : verify_nonce
@@ -272,10 +293,9 @@ returns   : {
   "miner": "0x…",
   "nonce": "1024085",
   "work": "0x…",
-  "leadingZeroBits": 20,
-  "requiredBits": 24,
+  "target": "0x…",
   "valid": false,
-  "note": "valid is checked against the CURRENT difficulty…"
+  "note": "valid is checked against the CURRENT target…"
 }`}</Code>
         <p className="muted small">
           Companion tools: <span className="mono">required_bits(miner)</span> for
@@ -293,12 +313,15 @@ returns   : {
           (or via the MCP <span className="mono">get_token</span> tool) and
           recompute locally:
         </p>
-        <Code>{`read  seedOf(id)    -> bytes32   // the winning work, stored on mint
-read  nonceOf(id)   -> uint256
-read  ownerOf(id)   -> address   // the miner at mint time
+        <Code>{`read  seedOf(id)      -> bytes32   // the winning work, stored on mint
+read  nonceOf(id)     -> uint256
+read  ownerOf(id)     -> address   // the miner at mint time
+read  mintBlockOf(id) -> uint64    // 0 for claim tokens
 
 recompute  work = keccak256(chainId, contract, owner, nonce)
-assert     work == seedOf(id)     // byte-for-byte`}</Code>
+assert     work == seedOf(id)     // byte-for-byte
+display    = mintBlockOf == 0 ? seedOf : keccak256(seedOf ‖ blockhash(mintBlockOf + 2))
+// the display seed is what drives traits/art (post-inclusion entropy)`}</Code>
         <p className="muted small" style={{ marginBottom: 0 }}>
           Example metadata read:
         </p>
@@ -315,15 +338,21 @@ assert     work == seedOf(id)     // byte-for-byte`}</Code>
 
       <div className="panel">
         <h2>6. Why rarity is deterministic</h2>
-        <p className="muted" style={{ marginTop: 0 }}>
-          There is no randomness and no oracle. The token seed is the winning work
-          hash itself (<span className="mono">seedOf(tokenId) = work</span>, or the
-          claim hash for a free claim). Arc <span className="mono">PREVRANDAO</span>{" "}
-          is always zero, so nothing else feeds the art.
+        <p className="muted small" style={{ marginTop: 0 }}>
+          There is no server randomness and no oracle. The raw token seed is the
+          winning work hash itself (<span className="mono">seedOf(tokenId) = work</span>,
+          or the claim hash for a free claim). The ART seed that drives traits is
+          the <strong>display seed</strong>:{" "}
+          <span className="mono">keccak256(seedOf ‖ blockhash(mintBlockOf + 2))</span>{" "}
+          for minted and forged tokens (claim tokens keep{" "}
+          <span className="mono">seedOf</span>). The block hash is a future block —
+          fixed only after the mint lands — so nobody (not even the miner) can
+          grind for a favourable seed. Arc <span className="mono">PREVRANDAO</span>{" "}
+          being zero is irrelevant here.
         </p>
         <p className="muted small">
-          The Architector traits are a pure function of that seed: each slot is
-          drawn by deterministic weighted rejection sampling, consuming{" "}
+          The Architector traits are a pure function of the display seed: each slot
+          is drawn by deterministic weighted rejection sampling, consuming{" "}
           <span className="mono">keccak256(seed ‖ uint8 slotIndex ‖ uint16 counter)</span>{" "}
           read as sixteen big-endian uint16 words. Rarity is then the information
           content of the resulting trait set:{" "}
@@ -331,13 +360,12 @@ assert     work == seedOf(id)     // byte-for-byte`}</Code>
           to a tier (Standard, Notable, Rare, Epic, Mythic).
         </p>
         <p className="muted small" style={{ marginBottom: 0 }}>
-          Consequences: the same seed always yields the same card and the same
-          rarity, and anyone can recompute both from the on-chain seed. Changing a
-          token seed would require a different proof of work — the art is a
-          commitment to the hash. The score and tier are served at{" "}
-          <span className="mono">GET /api/meta/{"{id}"}</span> under{" "}
-          <span className="mono">rarity</span>, and by the MCP tool{" "}
-          <span className="mono">verify_rarity</span>.
+          Consequences: the same display seed always yields the same card and the
+          same rarity, and anyone can recompute both from on-chain state. Because
+          the display seed is post-inclusion, traits and rarity cannot be previewed
+          before minting (the previous pre-mint preview is gone). The score and tier
+          are served at <span className="mono">GET /api/meta/{"{id}"}</span> under{" "}
+          <span className="mono">rarity</span>.
         </p>
       </div>
 

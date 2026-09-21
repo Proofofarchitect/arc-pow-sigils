@@ -58,7 +58,7 @@ miner.onCandidate = (candidate) => {
 
 miner.start({
   chainId: 5042002,
-  contract: "0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b", // v3.2 testnet (Proof of Architect)
+  contract: "0x8f5795343C10b316296f6767a10e87CC40E62491", // v3.4 testnet (Proof of Architect)
   miner: "0x2222222222222222222222222222222222222222",
   startNonce: 0,
   keep: 16,
@@ -66,9 +66,9 @@ miner.start({
 });
 ```
 
-> **Current contract (v3.1 "Proof of Architect"):** testnet
-> `0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b` (chainId `5042002`); **mainnet (5042): TBD**.
-> The PoW preimage layout is unchanged from v2 to v3.1 — only the bound contract address differs.
+> **Current contract (v3.4 "Proof of Architect"):** testnet
+> `0x8f5795343C10b316296f6767a10e87CC40E62491` (chainId `5042002`); **mainnet (5042): TBD**.
+> The PoW preimage layout is unchanged from v2 to v3.4 — only the bound contract address differs.
 
 Stop mining:
 

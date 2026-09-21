@@ -7,8 +7,8 @@
  * a plain sum of -log2(weight / 1000) over all 15 slots.
  *
  * Thresholds/anchors: Monte-Carlo calibration N=100 000 seeds
- * (`v2lib.py --rarity`, spec v2.2 applied 2026-09-20; artifact
- * `art/v2/rarity_mc.json`): P50 35.06 · P90 40.61 · P99 45.43 · P99.9 49.33 —
+ * (`v2lib.py --rarity`, spec v2.3 — gold traits, applied 2026-09-20; artifact
+ * `art/v2/rarity_mc.json`): P50 35.12 · P90 40.72 · P99 45.56 · P99.9 49.6 —
  * still provisional (weights may get further owner tweaks).
  */
 import type { Hex } from "viem";
@@ -20,22 +20,22 @@ import {
 import { ARC_TRAITS_SLOTS, deriveAttributesV2 } from "./traits_v2";
 import { attributeMap } from "./traits";
 
-/** Tier boundaries in bits: P50, P90, P99, P99.9 (MC N=100k, v2.2 weights). */
+/** Tier boundaries in bits: P50, P90, P99, P99.9 (MC N=100k, v2.3 weights). */
 export const RARITY_V2_THRESHOLDS: readonly [number, number, number, number] = [
-  35.06, 40.61, 45.43, 49.33,
+  35.12, 40.72, 45.56, 49.6,
 ];
 
 /** Percentile anchors (IC bits → collection percentile rank), same MC run. */
 const V2_PERCENTILE_ANCHORS: readonly (readonly [number, number])[] = [
-  [26.57, 1],
-  [30.06, 10],
-  [32.35, 25],
-  [35.06, 50],
-  [37.92, 75],
-  [40.61, 90],
-  [42.23, 95],
-  [45.43, 99],
-  [49.33, 99.9],
+  [26.61, 1],
+  [30.11, 10],
+  [32.4, 25],
+  [35.12, 50],
+  [38.01, 75],
+  [40.72, 90],
+  [42.38, 95],
+  [45.56, 99],
+  [49.6, 99.9],
 ];
 
 /** Map an IC score (bits) to its approximate collection percentile rank. */

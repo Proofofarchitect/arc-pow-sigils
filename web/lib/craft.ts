@@ -1,27 +1,25 @@
-import {
-  bytesToHex,
-  encodeAbiParameters,
-  keccak256,
-  type Address,
-  type Hex,
-} from "viem";
+import type { Address } from "viem";
 import { HOUSE_CARD_SLOTS } from "./traits";
 import { ARC_TRAITS_SLOTS } from "./traits_v2";
 import { IS_V2 } from "./traits-set";
 
 /**
- * craft.ts — CraftingController v1 web surface (Phase 2, stream C).
+ * craft.ts — CraftingControllerV2 web surface (one-shot crafting).
  *
- * Frozen spec: `HC/2 spec` v1 §3/§4 (controller surface) and §7 (web).
- * Mirrors `contracts/src/CraftingController.sol` byte-for-byte — do NOT guess
- * names or types. The HC/2 derivation itself lives in `lib/hc2.ts` (frozen API
- * owned by the derivation stream); this module only carries the controller ABI,
- * the env address, the tier/fee/window display helpers and the localStorage
- * persistence used to survive a page reload between commit and reveal.
+ * Mirrors `contracts/src/CraftingControllerV2.sol` byte-for-byte — do NOT guess
+ * names or types. v2 replaces the v1 commit/reveal/refund flow with a SINGLE
+ * payable `craft(cardA, cardB, choices, boostTier)` that escrows + burns both
+ * cards and forges the child atomically. There is no commit, no reveal, no
+ * refund, no salt and no entropy window: the child seed is a PRE-seed and the
+ * final art seed is derived off-chain from a later block hash (post-inclusion
+ * entropy, see `lib/display-seed.ts`).
+ *
+ * The HC/2 derivation itself lives in `lib/hc2.ts`; this module only carries the
+ * controller ABI, the env address and the tier/fee/slot display helpers.
  */
 
 /**
- * CraftingController address on Arc testnet. Optional: when
+ * CraftingControllerV2 address on Arc testnet. Optional: when
  * NEXT_PUBLIC_CRAFT_ADDRESS is unset the controller has not been deployed yet
  * and `/craft` renders a clean "not deployed" state (no crash).
  */
@@ -49,7 +47,7 @@ export function pointsConfigured(): boolean {
 /**
  * BurnPoints read surface (economy v1.1 spec §4). `pointsOf(wallet)` returns
  * the integer burn points accrued when the wallet's cards were burned in a
- * craft reveal (rarity-weighted: 10…30 per parent by tier).
+ * craft (rarity-weighted: 10…30 per parent by tier).
  */
 export const BURNPOINTS_ABI = [
   {
@@ -61,39 +59,18 @@ export const BURNPOINTS_ABI = [
   },
 ] as const;
 
-// ------------------------------------------------------------- window/time
+// ------------------------------------------------------------ constants
 
-/** `entropy = blockhash(commitBlock + 2)` (ENTROPY_DELAY, HC/2 spec §3). */
-export const ENTROPY_DELAY = 2n;
-/** Earliest reveal block offset `commitBlock + 3` (MIN_REVEAL_DELAY). */
-export const MIN_REVEAL_DELAY = 3n;
-/** Latest reveal block offset `commitBlock + 258` (REVEAL_WINDOW). */
-export const REVEAL_WINDOW = 258n;
+/** The only door in v2: CRAFT_2_1 (2 → 1). */
+export const DOOR_CRAFT_2_1 = 0;
 /** Highest selectable slot (0..11); legendary (12) is always entropy-derived. */
 export const MAX_SLOT = 11;
-/** Highest boost tier usable in v1 (tier 4 reserved for season-2 doors). */
+/** Highest boost tier usable (tier 4 reserved for season-2 doors). */
 export const MAX_BOOST_TIER = 3;
 /** Free tokens are non-transferable below wave 5 (LOCK_WAVES). */
 export const LOCK_WAVES = 5n;
-
-export type CommitPhase = "waiting" | "reveal" | "closed" | "settled";
-
-/**
- * Phase of a commit given the current block:
- *   waiting → `block < commit+3`  (entropy not yet available)
- *   reveal  → `commit+3 ≤ block ≤ commit+258`
- *   closed  → `block > commit+258` (only refund remains)
- */
-export function revealWindowState(
-  commitBlock: bigint,
-  currentBlock: bigint,
-  settled: boolean,
-): CommitPhase {
-  if (settled) return "settled";
-  if (currentBlock < commitBlock + MIN_REVEAL_DELAY) return "waiting";
-  if (currentBlock > commitBlock + REVEAL_WINDOW) return "closed";
-  return "reveal";
-}
+/** Fixed base craft fee (5 USDC, 18-dec native). Mirrors `CRAFT_FEE`. */
+export const CRAFT_FEE = 5n * 10n ** 18n;
 
 // ------------------------------------------------------------------- tiers
 
@@ -111,8 +88,8 @@ export type CraftTier = {
 };
 
 /**
- * Tier table — HC/2 spec §4 (frozen). `maxChosen = min(6 + 2·tier, 12)`.
- * Boost cost: tier 0 → 0; tier ≥ 1 → `0.5 × price × 2^(tier−1)`.
+ * Tier table — `maxChosen = min(6 + 2·tier, 12)`. Boost cost on-chain:
+ * tier 0 → 0; tier ≥ 1 → `0.5 × price × 2^(tier−1)` (read live via `boostCost`).
  */
 export const CRAFT_TIERS: readonly CraftTier[] = [
   {
@@ -165,9 +142,8 @@ export function tierMaxChosen(tier: number): number {
 /**
  * Human-readable names of the 12 choice-able slots (indices 0..11), in slot
  * order — house-card/1: background…companion; ARC-traits/2: background…origin.
- * Indices 12/13/14 (v1 `legendary`/`golden`/`bug`, v2 `quote`/`lore`/
- * `hair_color`) are always entropy-derived and excluded. Derived from the active
- * trait set (RT-3) so the UI never drifts from the derivation.
+ * Indices 12/13/14 are always entropy-derived and excluded. Derived from the
+ * active trait set (RT-3) so the UI never drifts from the derivation.
  */
 export const CHOICE_SLOT_NAMES: readonly string[] = (
   IS_V2 ? ARC_TRAITS_SLOTS : HOUSE_CARD_SLOTS
@@ -177,8 +153,7 @@ export const CHOICE_SLOT_NAMES: readonly string[] = (
 
 /**
  * All 15 slot names for the active trait set, in roll order — the display set
- * for the post-reveal / Gacha trait chips. house-card/1: 12 choice-able +
- * `legendary`/`golden`/`bug`; ARC-traits/2: the full ARC slot list.
+ * for the post-forge trait chips.
  */
 export const CRAFTED_SLOT_NAMES: readonly string[] = (
   IS_V2 ? ARC_TRAITS_SLOTS : HOUSE_CARD_SLOTS
@@ -191,138 +166,24 @@ export function slotLabel(index: number): string {
   return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
-// ------------------------------------------------------ localStorage (F-16)
-
-/** Prefix for the per-commit localStorage record (keyed by commitId, F-16). */
-export const COMMIT_STORE_PREFIX = "poa.craft.commit.";
-
+/** One inherited slot: `parent` is 0 (cardA) or 1 (cardB); `slot` is 0..11. */
 export type SlotChoice = { slot: number; parent: 0 | 1 };
-
-// -------------------------------------------------------- commit hash + salt
-
-/**
- * W3-01 fix: the frozen on-chain commit preimage is
- * `keccak256(abi.encode(SlotChoice[], salt))` — a client-side 32-byte secret
- * `salt` (bytes32) is mixed in so the public commit record is not
- * brute-forceable (a third party cannot force-settle a commit and deny the
- * committer's refund). The salt is never published in the commit tx (only the
- * resulting hash); it is stored locally with the choices and passed to
- * `reveal(commitId, choices, salt)`.
- */
-export function encodeChoicesHash(choices: SlotChoice[], salt: Hex): Hex {
-  return keccak256(
-    encodeAbiParameters(
-      [
-        {
-          type: "tuple[]",
-          components: [
-            { name: "slot", type: "uint8" },
-            { name: "parent", type: "uint8" },
-          ],
-        },
-        { type: "bytes32" },
-      ],
-      [choices, salt],
-    ),
-  );
-}
-
-/** A fresh 32-byte client secret (`crypto.getRandomValues`) as 0x-hex bytes32. */
-export function randomSalt(): Hex {
-  const bytes = new Uint8Array(32);
-  crypto.getRandomValues(bytes);
-  return bytesToHex(bytes);
-}
-
-/** True for a well-formed 0x-prefixed 32-byte hex salt. */
-export function isSalt(value: unknown): value is Hex {
-  return typeof value === "string" && /^0x[0-9a-fA-F]{64}$/.test(value);
-}
-
-/**
- * Persisted commit payload. `choices` are the SORTED (ascending slot) choices
- * actually hashed at commit — required to rebuild the reveal calldata. The
- * parent seeds (canonicalized: `seedLow` = smaller tokenId) are captured before
- * the parents are burned so the child can be previewed offline after reveal.
- */
-export type StoredCommit = {
-  commitId: string;
-  player: string;
-  cardA: string;
-  cardB: string;
-  tier: number;
-  choices: SlotChoice[];
-  /**
-   * Client secret (bytes32) mixed into the committed hash (W3-01). Required to
-   * reveal; optional in the type only so pre-upgrade records still parse.
-   */
-  salt?: Hex;
-  seedLow: Hex;
-  seedHigh: Hex;
-  /** Filled in after a successful reveal (for the settled-panel preview). */
-  childId?: string;
-  childSeed?: Hex;
-};
-
-/** localStorage key for a commit id. */
-export function commitStorageKey(commitId: bigint | string): string {
-  return `${COMMIT_STORE_PREFIX}${commitId.toString()}`;
-}
-
-/** Persist (best-effort) the commit payload; silently no-ops off the browser. */
-export function saveCommit(record: StoredCommit): void {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(
-      commitStorageKey(record.commitId),
-      JSON.stringify(record),
-    );
-  } catch {
-    // storage disabled / quota — reveal from this browser will not be possible
-  }
-}
-
-/** Load a persisted commit payload, or null when absent/corrupt (F-16). */
-export function loadCommit(commitId: bigint | string): StoredCommit | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = window.localStorage.getItem(commitStorageKey(commitId));
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as StoredCommit;
-    if (!Array.isArray(parsed.choices)) return null;
-    return parsed;
-  } catch {
-    return null;
-  }
-}
 
 // ---------------------------------------------------------------------- ABI
 
 /**
- * CraftingController v1 ABI — verbatim from `contracts/src/CraftingController.sol`.
- * `commits` is a public mapping of a struct, so its getter exposes the ten
- * fields in declaration order.
+ * CraftingControllerV2 ABI — verbatim from
+ * `contracts/src/CraftingControllerV2.sol`.
  */
 export const CONTROLLER_ABI = [
   // --- write ---
   {
     type: "function",
-    name: "commit",
+    name: "craft",
     stateMutability: "payable",
     inputs: [
       { name: "cardA", type: "uint256" },
       { name: "cardB", type: "uint256" },
-      { name: "slotChoicesHash", type: "bytes32" },
-      { name: "boostTier", type: "uint8" },
-    ],
-    outputs: [],
-  },
-  {
-    type: "function",
-    name: "reveal",
-    stateMutability: "nonpayable",
-    inputs: [
-      { name: "commitId", type: "uint256" },
       {
         name: "choices",
         type: "tuple[]",
@@ -331,15 +192,8 @@ export const CONTROLLER_ABI = [
           { name: "parent", type: "uint8" },
         ],
       },
-      { name: "salt", type: "bytes32" },
+      { name: "boostTier", type: "uint8" },
     ],
-    outputs: [],
-  },
-  {
-    type: "function",
-    name: "refund",
-    stateMutability: "nonpayable",
-    inputs: [{ name: "commitId", type: "uint256" }],
     outputs: [],
   },
   {
@@ -374,7 +228,7 @@ export const CONTROLLER_ABI = [
   {
     type: "function",
     name: "craftFee",
-    stateMutability: "view",
+    stateMutability: "pure",
     inputs: [],
     outputs: [{ name: "", type: "uint256" }],
   },
@@ -395,35 +249,49 @@ export const CONTROLLER_ABI = [
   {
     type: "function",
     name: "maxChosen",
-    stateMutability: "view",
+    stateMutability: "pure",
     inputs: [{ name: "tier", type: "uint8" }],
     outputs: [{ name: "", type: "uint256" }],
   },
   {
     type: "function",
-    name: "committedFees",
+    name: "totalFeesCollected",
     stateMutability: "view",
     inputs: [],
     outputs: [{ name: "", type: "uint256" }],
   },
-  // --- reveal/entropy window constants (public constants expose getters) ---
+  // --- public constants ---
   {
     type: "function",
-    name: "ENTROPY_DELAY",
+    name: "DOOR_CRAFT_2_1",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint8" }],
+  },
+  {
+    type: "function",
+    name: "MAX_SLOT",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint8" }],
+  },
+  {
+    type: "function",
+    name: "MAX_BOOST_TIER",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint8" }],
+  },
+  {
+    type: "function",
+    name: "LOCK_WAVES",
     stateMutability: "view",
     inputs: [],
     outputs: [{ name: "", type: "uint256" }],
   },
   {
     type: "function",
-    name: "MIN_REVEAL_DELAY",
-    stateMutability: "view",
-    inputs: [],
-    outputs: [{ name: "", type: "uint256" }],
-  },
-  {
-    type: "function",
-    name: "REVEAL_WINDOW",
+    name: "CRAFT_FEE",
     stateMutability: "view",
     inputs: [],
     outputs: [{ name: "", type: "uint256" }],
@@ -435,13 +303,6 @@ export const CONTROLLER_ABI = [
     stateMutability: "view",
     inputs: [],
     outputs: [{ name: "", type: "bool" }],
-  },
-  {
-    type: "function",
-    name: "lastCommitId",
-    stateMutability: "view",
-    inputs: [],
-    outputs: [{ name: "", type: "uint256" }],
   },
   {
     type: "function",
@@ -473,65 +334,30 @@ export const CONTROLLER_ABI = [
   },
   {
     type: "function",
-    name: "commits",
+    name: "registry",
     stateMutability: "view",
-    inputs: [{ name: "", type: "uint256" }],
-    outputs: [
-      { name: "player", type: "address" },
-      { name: "cardA", type: "uint256" },
-      { name: "cardB", type: "uint256" },
-      { name: "choicesHash", type: "bytes32" },
-      { name: "boostTier", type: "uint8" },
-      { name: "nonce", type: "uint64" },
-      { name: "commitBlock", type: "uint64" },
-      { name: "fee", type: "uint256" },
-      { name: "revealed", type: "bool" },
-      { name: "refunded", type: "bool" },
-    ],
+    inputs: [],
+    outputs: [{ name: "", type: "address" }],
+  },
+  {
+    type: "function",
+    name: "points",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "address" }],
   },
   // --- events ---
   {
     type: "event",
-    name: "Committed",
-    inputs: [
-      { name: "commitId", type: "uint256", indexed: true },
-      { name: "player", type: "address", indexed: true },
-      { name: "cardA", type: "uint256", indexed: false },
-      { name: "cardB", type: "uint256", indexed: false },
-      { name: "choicesHash", type: "bytes32", indexed: false },
-      { name: "boostTier", type: "uint8", indexed: false },
-      { name: "nonce", type: "uint64", indexed: false },
-      { name: "fee", type: "uint256", indexed: false },
-    ],
-  },
-  {
-    type: "event",
     name: "Crafted",
     inputs: [
-      { name: "commitId", type: "uint256", indexed: true },
+      { name: "childId", type: "uint256", indexed: true },
       { name: "player", type: "address", indexed: true },
       { name: "cardA", type: "uint256", indexed: false },
       { name: "cardB", type: "uint256", indexed: false },
       { name: "childSeed", type: "bytes32", indexed: false },
-      { name: "entropy", type: "bytes32", indexed: false },
-      {
-        name: "choices",
-        type: "tuple[]",
-        indexed: false,
-        components: [
-          { name: "slot", type: "uint8" },
-          { name: "parent", type: "uint8" },
-        ],
-      },
-    ],
-  },
-  {
-    type: "event",
-    name: "Refunded",
-    inputs: [
-      { name: "commitId", type: "uint256", indexed: true },
-      { name: "player", type: "address", indexed: true },
-      { name: "feeRefunded", type: "uint256", indexed: false },
+      { name: "boostTier", type: "uint8", indexed: false },
+      { name: "fee", type: "uint256", indexed: false },
     ],
   },
   {
@@ -568,7 +394,7 @@ export const CONTROLLER_ABI = [
 /**
  * Minimal extra reads on the CORE House Card contract that the /craft page
  * needs but which are not part of `POW_MINT_NFT_ABI` (contract.ts): the forge
- * pause flag (full-fee refund exception, RT-5) and the free-token mirror.
+ * pause flag and the free-token mirror.
  */
 export const CORE_CRAFT_ABI = [
   {
@@ -586,17 +412,3 @@ export const CORE_CRAFT_ABI = [
     outputs: [{ name: "", type: "bool" }],
   },
 ] as const;
-
-/** A single commit record as returned by the `commits(id)` getter. */
-export type OnChainCommit = {
-  player: Address;
-  cardA: bigint;
-  cardB: bigint;
-  choicesHash: Hex;
-  boostTier: number;
-  nonce: bigint;
-  commitBlock: bigint;
-  fee: bigint;
-  revealed: boolean;
-  refunded: boolean;
-};

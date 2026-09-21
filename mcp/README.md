@@ -8,7 +8,7 @@ The server exposes **read-only** tools over the deployed `PowMintNFTv3` contract
 LLM agent can inspect collection stats, token data, PoW difficulty and pricing — and
 even **verify a mined nonce without sending a transaction**.
 
-- Contract (v3.2 testnet): `0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b` (mainnet TBD; override via `CONTRACT_ADDRESS`)
+- Contract (v3.4 testnet): `0x8f5795343C10b316296f6767a10e87CC40E62491` (mainnet TBD; override via `CONTRACT_ADDRESS`)
 - RPC: `https://rpc.testnet.arc.io` (override via `ARC_RPC_URL`)
 - Transport: **stdio** (newline-delimited JSON-RPC)
 
@@ -65,7 +65,7 @@ Or, pointing at a local build:
       "command": "node",
       "args": ["/absolute/path/to/mcp/dist/index.js"],
       "env": {
-        "CONTRACT_ADDRESS": "0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b",
+        "CONTRACT_ADDRESS": "0x8f5795343C10b316296f6767a10e87CC40E62491",
         "ARC_RPC_URL": "https://rpc.testnet.arc.io",
         "SITE_URL": "https://proofofarchitect.builders"
       }
@@ -87,8 +87,7 @@ Restart Claude Desktop after editing the config.
 | `required_bits` | `miner` (address) | `bits` (required leading zero bits) + wave/`loadAdjust`/`streakBits` breakdown. Three difficulty layers: base **30 + 2 bits per wave**, a pace regulator, and a per-wallet streak (+2 bits per extra mint inside the cooldown window = 60 s × wave). |
 | `verify_nonce` | `miner` (address), `nonce` (uint256 decimal string) | `work`, `leadingZeroBits`, `requiredBits`, `valid` — verifies a mined nonce **without a transaction**. |
 | `price_info` | — | `currentPrice` + wave math (epoch size `1000`, `priceStart` `1.0 USDC`, `x2` per wave, **no cap** — 15 waves, last wave 16 384 USDC). |
-| `craft_info` | — | CraftingController v1 config: `paused`, `craftFee`, per-tier `boostCost`/`feeFor`/`maxChosen` (tiers 0..3), `committedFees`, `lastCommitId`, the reveal window constants (`ENTROPY_DELAY`, `MIN_REVEAL_DELAY`, `REVEAL_WINDOW`) and the salt policy (commit-reveal crafting). |
-| `verify_craft_commit` | `commitId` (number), `choices` (`[slot, parent]` pairs), `salt` (`0x` + 64 hex) | Recomputes `keccak256(abi.encode(choices, salt))` and compares it to the on-chain `choicesHash` → `match`, plus `settled` flags, `player`, `boostTier` and the reveal `window` — **without a transaction**. |
+| `craft_info` | — | CraftingControllerV2 config (one-shot model): `paused`, `craftFee`, and per-tier `boostCost`/`feeFor`/`maxChosen` (tiers 0..3). Each craft is a single payable transaction — there is **no** commit/reveal step, no refund, and no salt. |
 
 All tools return a single JSON text content block. `verify_nonce` recomputes the
 preimage hash locally as
@@ -122,8 +121,8 @@ pass nonces mined for the contract you query.
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `CONTRACT_ADDRESS` | `0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b` | PowMintNFTv3 address (mainnet TBD) |
-| `CRAFT_ADDRESS` | `0xF3E861085D5569d3eb376277a3F3D87579E94b09` | CraftingController v1 address (commit-reveal crafting) |
+| `CONTRACT_ADDRESS` | `0x8f5795343C10b316296f6767a10e87CC40E62491` | PowMintNFTv3_4 address (mainnet TBD) |
+| `CRAFT_ADDRESS` | `0x5F7f7D3E641D09565Cf6f81D461bA09910f6685F` | CraftingControllerV2 address (one-shot crafting) |
 | `ARC_RPC_URL` | `https://rpc.testnet.arc.io` | Arc testnet RPC endpoint |
 | `SITE_URL` | `https://proofofarchitect.builders` | Base site for `/api/image/{id}` and `/api/meta/{id}` links |
 
@@ -174,8 +173,8 @@ All variables are optional. No secrets are read or stored.
 
 ```
 src/chain.ts   viem client singleton, contract read helpers, leadingZeroBits,
-               USDC formatting, work/preimage + craft-commit hash helpers
-src/index.ts   McpServer + 7 registered tools over StdioServerTransport
+               USDC formatting, work/preimage hash helpers
+src/index.ts   McpServer + 6 registered tools over StdioServerTransport
 smoke.mjs      minimal newline-delimited JSON-RPC client used by `npm run smoke`
 server.json    MCP registry manifest (npm stdio)
 ```

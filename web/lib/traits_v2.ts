@@ -30,6 +30,11 @@ import type { Hex } from "viem";
  * mainnet palette (Genesis / Day One / Season One / House / Expansion / Private
  * Mainnet); origin "Testnet Wanderer" -> "Early Wanderer"; quote/lore values
  * unchanged.
+ *
+ * Spec v2.3 (2026-09-20, handoff-2026-09-20 "gold rare v2"): "+Gold Kippah"
+ * (headwear) and "+Gold Fly" (companion) appended, 0.5% each (w5); "None"
+ * rebalanced 34.0%->33.5% (headwear) / 33.0%->32.5% (companion); layer set
+ * refreshed (centred halo + scene-fit backgrounds/eyewear/companions).
  */
 
 /** Render order for PNG composition (artist zOrder: head UNDER clothing). */
@@ -153,8 +158,17 @@ export const ARC_TRAITS_SLOTS: readonly SlotDef[] = [
   {
     name: "headwear",
     index: 8,
-    values: ["None", "Cap", "Beanie", "Hard Hat", "Headphones", "Halo", "Crown"],
-    weights: [340, 180, 165, 145, 120, 40, 10],
+    values: [
+      "None",
+      "Cap",
+      "Beanie",
+      "Hard Hat",
+      "Headphones",
+      "Halo",
+      "Crown",
+      "Gold Kippah",
+    ],
+    weights: [335, 180, 165, 145, 120, 40, 10, 5],
   },
   {
     name: "companion",
@@ -170,8 +184,9 @@ export const ARC_TRAITS_SLOTS: readonly SlotDef[] = [
       "Flying Rat",
       "Bonkguy",
       "Winged Rat",
+      "Gold Fly",
     ],
-    weights: [330, 125, 105, 95, 85, 75, 60, 45, 70, 10],
+    weights: [325, 125, 105, 95, 85, 75, 60, 45, 70, 10, 5],
   },
   {
     name: "era",

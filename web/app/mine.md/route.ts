@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/lib/site";
+import { ARC_CHAIN_ID } from "@/lib/contract";
 
 /**
  * /mine.md — markdown version of the mine page (llms.txt v2 convention).
@@ -13,27 +14,31 @@ export function GET() {
 
 ## Before you start
 
-- A wallet on Arc (chainId 5042002), funded with native USDC for gas (faucet: faucet.circle.com).
+- A wallet on Arc (chainId ${ARC_CHAIN_ID}), funded with native USDC for gas (faucet: faucet.circle.com).
 - No GPU is required to try, but base difficulty is 30 bits, which is heavy work: a GPU is strongly recommended. The browser worker (${SITE_URL}/mine) is fine for experimenting. Free claim codes (42) require no PoW at all.
 
 ## The algorithm
 
     work = keccak256(abi.encodePacked(uint256 chainId, address contract, address miner, uint256 nonce))
-    valid  <=>  leadingZeroBits(work) >= requiredBits(miner)
+    valid  <=>  uint256(work) < targetFor(miner)        // fractional difficulty (v3.4)
 
-requiredBits has three layers:
+requiredMilli (difficulty, in milli-bits = thousandths of a bit) has three layers:
 - wave base: baseBits 30 + 2 bits per wave (the price doubles every wave too).
-- load regulator: adjusted every 25 mints toward a 30 s/mint pace target (dead zone plus or minus 20%, range 0..64 bits).
-- per-wallet streak: +2 bits per extra mint from the same wallet while inside a cooldown window of 60 s x wave; the streak resets once the cooldown elapses.
+- load regulator: adjusted every 5 mints toward a 25 s/mint pace target (+2 bits when fast, -1 bit when slow; dead zone plus or minus 20%, range 0..64 bits).
+- per-wallet streak: +2 bits per extra mint from the same wallet while inside a cooldown window that grows with the streak level (5, 10, 15, 20, 25 minutes; capped at 25); the streak resets once the cooldown elapses.
+- staking discount: stakingDiscountMilli(wallet) (up to 6 bits) is subtracted, floored at the base.
 
-- Duration scales with 2^bits. At 30 bits a GPU finds nonces in reasonable time; a browser worker is far slower.
+requiredBits(miner) = ceil(requiredMilli / 1000) is only the display value.
+
+- Duration scales with 2^(requiredMilli/1000). At 30 bits a GPU finds nonces in reasonable time; a browser worker is far slower.
 - Nonces are single-use per wallet.
+- Post-inclusion entropy: the art seed is keccak256(seedOf ‖ blockhash(mintBlockOf + 2)), a future block that does not exist when you submit, so a token's traits cannot be previewed before minting.
 
 ## Steps
 
 1. Open ${SITE_URL}/mine and connect your wallet.
-2. The page reads requiredBits(yourAddress) from the contract and starts the worker.
-3. It verifies the found nonce locally (same formula as the contract) and submits mint(nonce).
+2. The page reads requiredMilli(yourAddress) and targetFor(yourAddress) from the contract and starts the worker.
+3. It verifies the found nonce locally (work < target, same formula as the contract) and submits mint(nonce).
 4. Pay exactly currentMintDue().due in USDC (wave price plus the 2.5% mint fee): 1.0 USDC at wave 1, doubling every 1,000 paid mints with no cap. Free claim codes skip payment and PoW entirely.
 5. Arc requires maxFeePerGas >= 20 gwei — transactions below that are silently dropped.
 
@@ -44,7 +49,7 @@ Instead of mining, you can redeem one of the 42 free claim codes if you hold one
 ## Verification without a transaction
 
 - Read workFor(miner, nonce) on-chain and compare with a local keccak computation, or
-- Use the MCP tool verify_nonce on ${SITE_URL}/api/mcp: it recomputes the hash, counts leading zero bits and compares against the current target.
+- Use the MCP tool verify_nonce on ${SITE_URL}/api/mcp: it recomputes the hash and checks it against the current fractional target (work < targetFor(miner)).
 
 Tip: eth_estimateGas with a fresh random nonce reverts with BelowFloor(uint8 got, uint8 need) — a free difficulty read.
 
@@ -55,13 +60,13 @@ Tip: eth_estimateGas with a fresh random nonce reverts with BelowFloor(uint8 got
 
 ## Related
 
-- Crafting (HC/2) — forge one child card from two you own via commit/reveal with a secret salt — and staking (lock for a PoW bits discount) are documented in ${SITE_URL}/llms-full.txt and on ${SITE_URL}/craft and ${SITE_URL}/stake.
+- Crafting (HC/2) — burn two cards into one forged child in a single one-shot craft transaction — and staking (lock for a PoW bits discount) are documented in ${SITE_URL}/llms-full.txt and on ${SITE_URL}/craft and ${SITE_URL}/stake.
 
 ## FAQ
 
 - Wrong payment? The contract requires msg.value to equal currentMintDue().due exactly (wave price plus the 2.5% mint fee).
 - Nonce already used? Nonces are tracked per wallet; find a new one.
-- Difficulty too high on a wallet? Difficulty rises within a wave by streak and resets after the cooldown; a fresh wallet starts at the wave base.
+- Difficulty too high on a wallet? Difficulty rises within a wave by streak and resets after the cooldown; a fresh wallet starts at the wave base. A staking discount (up to 6 bits) lowers it.
 `;
 
   return new Response(body, {

@@ -9,7 +9,7 @@
  *     { type:"selftest", allowSoftware? }
  *
  *   worker -> page
- *     { type:"started",           startNonce }
+ *     { type:"started",           startNonce, adapter }
  *     { type:"progress",          attempts, hashesPerSecond, bestBits, best, candidates }
  *     { type:"done",              reason, attempts, best }
  *     { type:"error",             message }
@@ -471,6 +471,7 @@ const CAND_SLOTS = 64;
 const CAND_BYTES = (1 + CAND_SLOTS * 4) * 4; // count + 64 x (lo, hi, bits, pad)
 const MIN_ITERS = 16;
 const MAX_ITERS = 16384;
+const MAX_DISPATCHES = 32;               // dispatches per single sync/readback
 const NEAR_MARGIN = 4;                   // report candidates down to required-4
 const VERIFY_FAIL_LIMIT = 3;
 
@@ -622,6 +623,62 @@ async function gpuDispatch(nLo, nHi, iters, threshold, mode, grid) {
     entries.push({ nLo: words[o], nHi: words[o + 1], bits: words[o + 2] });
   }
   return { count: words[0], entries };
+}
+
+/**
+ * `count` dispatches sharing ONE sync + readback. Per-dispatch params and
+ * submits are queued (queue-ordered), so each pass receives its own nonce
+ * window without a CPU/GPU round-trip between them; the candidate ring
+ * accumulates across the batch and is read once. This is the main throughput
+ * path — per-dispatch fence+map latency otherwise caps slow-sync browsers at
+ * a few MH/s.
+ */
+async function gpuDispatchBatch(iters, threshold, mode, grid, count) {
+  const { device, pipeline, bindGroup, paramsBuf, candsBuf, stagingBuf } = gpu;
+  const per = BigInt(TOTAL_THREADS) * BigInt(iters);
+
+  // Reset the ring once (queue-ordered before the first pass).
+  device.queue.writeBuffer(candsBuf, 0, new Uint32Array([0]));
+
+  for (let i = 0; i < count; i++) {
+    const base = config.base + per * BigInt(i);
+    const params = new Uint32Array([
+      Number(base & 0xffffffffn) >>> 0,
+      Number((base >> 32n) & 0xffffffffn) >>> 0,
+      TOTAL_THREADS,
+      iters >>> 0,
+      threshold >>> 0,
+      mode >>> 0,
+      0,
+      0,
+    ]);
+    device.queue.writeBuffer(paramsBuf, 0, params);
+    const encoder = device.createCommandEncoder();
+    const pass = encoder.beginComputePass();
+    pass.setPipeline(pipeline);
+    pass.setBindGroup(0, bindGroup);
+    pass.dispatchWorkgroups(grid);
+    pass.end();
+    device.queue.submit([encoder.finish()]);
+  }
+
+  const encoder = device.createCommandEncoder();
+  encoder.copyBufferToBuffer(candsBuf, 0, stagingBuf, 0, CAND_BYTES);
+  device.queue.submit([encoder.finish()]);
+
+  await device.queue.onSubmittedWorkDone();
+  await stagingBuf.mapAsync(GPUMapMode.READ);
+  const mapped = stagingBuf.getMappedRange();
+  const words = new Uint32Array(mapped.slice(0));
+  stagingBuf.unmap();
+
+  const cnt = Math.min(words[0], CAND_SLOTS);
+  const entries = [];
+  for (let i = 0; i < cnt; i++) {
+    const o = 1 + i * 4;
+    entries.push({ nLo: words[o], nHi: words[o + 1], bits: words[o + 2] });
+  }
+  return { count: words[0], entries, batch: per * BigInt(count) };
 }
 
 /* ------------------------------------------------------------------ *
@@ -849,6 +906,7 @@ async function start(message) {
     // Start small: software adapters (SwiftShader) would choke on a big first
     // batch; the adaptive loop doubles iters while cycles stay under ~100 ms.
     iters: MIN_ITERS,
+    batch: 1,
     attempts: 0n,
     bestBits: -1,
     best: [],
@@ -892,7 +950,11 @@ async function start(message) {
   gpu.device.queue.writeBuffer(gpu.candsBuf, 0, new Uint32Array([0]));
 
   running = true;
-  post({ type: "started", startNonce: nonceHex(startNonce) });
+  post({
+    type: "started",
+    startNonce: nonceHex(startNonce),
+    adapter: gpu.adapterName,
+  });
   loop();
 }
 
@@ -901,17 +963,14 @@ async function loop() {
     while (running) {
       const cycleStart = performance.now();
 
-      const nLo = Number(config.base & 0xffffffffn) >>> 0;
-      const nHi = Number((config.base >> 32n) & 0xffffffffn) >>> 0;
       const iters = config.iters;
 
-      const { entries } = await gpuDispatch(
-        nLo,
-        nHi,
+      const { entries, batch: done } = await gpuDispatchBatch(
         iters,
         config.threshold,
         0,
         GRID,
+        config.batch,
       );
       if (!running) return;
 
@@ -940,9 +999,8 @@ async function loop() {
         );
       }
 
-      const batch = BigInt(TOTAL_THREADS) * BigInt(iters);
-      config.attempts += batch;
-      config.base += batch;
+      config.attempts += done;
+      config.base += done;
 
       const elapsedMs = performance.now() - config.startedAt;
       const hashesPerSecond =
@@ -957,12 +1015,23 @@ async function loop() {
         candidates: found,
       });
 
-      // Adaptive batching: keep a cycle near ~200 ms so the UI stays live.
+      // Adaptive batching: keep a cycle near ~120–350 ms so the UI stays live.
+      // Grow the per-thread iteration count first, then the number of queued
+      // dispatches per sync; shrink in the reverse order (batch first) so the
+      // sync cost stays amortized once the GPU is fast.
       const cycleMs = performance.now() - cycleStart;
-      if (cycleMs < 100 && config.iters < MAX_ITERS) {
-        config.iters = Math.min(config.iters * 2, MAX_ITERS);
-      } else if (cycleMs > 350 && config.iters > MIN_ITERS) {
-        config.iters = Math.max(Math.floor(config.iters / 2), MIN_ITERS);
+      if (cycleMs < 120) {
+        if (config.iters < MAX_ITERS) {
+          config.iters = Math.min(config.iters * 2, MAX_ITERS);
+        } else if (config.batch < MAX_DISPATCHES) {
+          config.batch *= 2;
+        }
+      } else if (cycleMs > 350) {
+        if (config.batch > 1) {
+          config.batch = Math.max(1, Math.floor(config.batch / 2));
+        } else if (config.iters > MIN_ITERS) {
+          config.iters = Math.max(Math.floor(config.iters / 2), MIN_ITERS);
+        }
       }
     }
   } catch (error) {

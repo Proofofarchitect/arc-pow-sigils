@@ -188,33 +188,33 @@ def _rpc_json(method: str, params: list):
         return json.load(r).get("result")
 
 
-def fetch_seed_of_cli(token_id: int, contract: str) -> str:
+def fetch_seed_of_cli(token_id: int) -> str:
     out = subprocess.run(
-        [ARC_CAST, "call", contract, "seedOf(uint256)(bytes32)", str(token_id),
+        [ARC_CAST, "call", CONTRACT, "seedOf(uint256)(bytes32)", str(token_id),
          "--rpc-url", RPC_TESTNET],
         capture_output=True, text=True, check=True).stdout.strip()
     return out
 
 
-def fetch_uint_cli(sig: str, contract: str) -> int:
+def fetch_uint_cli(sig: str) -> int:
     out = subprocess.run(
-        [ARC_CAST, "call", contract, sig, "--rpc-url", RPC_TESTNET],
+        [ARC_CAST, "call", CONTRACT, sig, "--rpc-url", RPC_TESTNET],
         capture_output=True, text=True, check=True).stdout.strip()
     # cast prints e.g. "20 [2e1]"
     return int(out.split()[0])
 
 
-def onchain_seed_of(token_id: int, contract: str) -> str:
+def onchain_seed_of(token_id: int) -> str:
     """Fetch seedOf via arc-cast CLI, fall back to raw eth_call."""
     if os.path.exists(ARC_CAST):
         try:
-            return fetch_seed_of_cli(token_id, contract)
+            return fetch_seed_of_cli(token_id)
         except Exception:
             pass
     from eth_hash.auto import keccak
     sel = "0x" + keccak(b"seedOf(uint256)").hex()[:8]
     data = sel + uint256_be(token_id).hex()
-    res = _rpc_json("eth_call", [{"to": contract, "data": data}, "latest"])
+    res = _rpc_json("eth_call", [{"to": CONTRACT, "data": data}, "latest"])
     return res
 
 
@@ -222,16 +222,10 @@ def onchain_seed_of(token_id: int, contract: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(description="Verify the Arc PoW vector on CPU.")
     ap.add_argument("--token-id", type=int, default=1)
-    ap.add_argument("--miner", default=MINER,
-                    help="miner address of the vector (default: placeholder reference)")
-    ap.add_argument("--nonce", type=int, default=NONCE,
-                    help="nonce of the vector (default: reference vector)")
-    ap.add_argument("--contract", default=CONTRACT,
-                    help="bound contract address (default: historical v2 instance)")
     ap.add_argument("--offline", action="store_true",
                     help="skip the on-chain fetch and check only local consistency")
     ap.add_argument("--expected", default=EXPECTED_HASH,
-                    help="expected hash (default: pinned reference-vector hash)")
+                    help="expected seedOf hash (defaults to the proven on-chain value)")
     a = ap.parse_args()
 
     print("=" * 74)
@@ -240,13 +234,13 @@ def main() -> int:
     print(f"keccak backend : {_KECCAK_BACKEND or 'auto'}")
 
     # 1) preimage + hash
-    pre = build_preimage(CHAIN_ID, a.contract, a.miner, a.nonce)
-    got = work_hash(CHAIN_ID, a.contract, a.miner, a.nonce)
+    pre = build_preimage(CHAIN_ID, CONTRACT, MINER, NONCE)
+    got = work_hash(CHAIN_ID, CONTRACT, MINER, NONCE)
     got_hex = "0x" + got.hex()
     print(f"chainId        : {CHAIN_ID}")
-    print(f"contract       : {a.contract}")
-    print(f"miner          : {a.miner}")
-    print(f"nonce          : {a.nonce}")
+    print(f"contract       : {CONTRACT}")
+    print(f"miner          : {MINER}")
+    print(f"nonce          : {NONCE}")
     print(f"preimage len   : {len(pre)} bytes  ({pre.hex()})")
     print(f"local hash     : {got_hex}")
 
@@ -254,7 +248,7 @@ def main() -> int:
     expected = a.expected
     if not a.offline:
         try:
-            onchain = onchain_seed_of(a.token_id, a.contract)
+            onchain = onchain_seed_of(a.token_id)
             print(f"on-chain seedOf({a.token_id}): {onchain}")
             expected = onchain
         except Exception as e:
@@ -284,7 +278,7 @@ def main() -> int:
     base_bits = None
     if not a.offline and os.path.exists(ARC_CAST):
         try:
-            base_bits = fetch_uint_cli("baseBits()(uint8)", a.contract)
+            base_bits = fetch_uint_cli("baseBits()(uint8)")
             print(f"on-chain baseBits: {base_bits}")
         except Exception as e:
             print(f"[warn] baseBits fetch failed: {e}")
@@ -294,8 +288,8 @@ def main() -> int:
               f"  ({lz} >= {base_bits})")
         lz_ok = accept
     else:
-        # Reference vector targets the v2 instance's base difficulty (20 bits).
-        lz_ok = lz >= 20
+        # 20 is the proven smoke-config baseBits; the seedOf hash starts with 0x00000d.
+        lz_ok = got[:3] == b"\x00\x00\x0d"
         print(f"accept (expected 20 leading zero bits): "
               f"{'PASS' if lz_ok else 'FAIL'}")
 

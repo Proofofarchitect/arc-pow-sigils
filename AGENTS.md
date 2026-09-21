@@ -7,7 +7,7 @@
 ### 1. MCP server
 Standalone MCP server (read-only tools): **https://github.com/Proofofarchitect/arc-pow-sigils-mcp**
 
-Tools: `collection_stats`, `get_token`, `required_bits`, `verify_nonce`, `price_info`, `craft_info`, `verify_craft_commit`.
+Tools: `collection_stats`, `get_token`, `required_bits`, `verify_nonce`, `price_info`, `craft_info`.
 
 Run locally:
 ```bash
@@ -23,7 +23,7 @@ A remote endpoint is planned at `https://proofofarchitect.builders/api/mcp` (rat
 - `requiredBits()` rises +2 per wave, plus the pace regulator and the per-wallet streak.
 
 ### 3. Contracts
-Arc testnet (chainId 5042002) — core `0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b` (v3.2), satellites in the [main repo](https://github.com/Proofofarchitect/arc-pow-sigils#contracts-arc-testnet-chainid-5042002). Mainnet addresses (chainId 5042) are published after launch.
+Arc testnet (chainId 5042002) — core `0x8f5795343C10b316296f6767a10e87CC40E62491` (v3.4), satellites in the [main repo](https://github.com/Proofofarchitect/arc-pow-sigils#contracts-arc-testnet-chainid-5042002). Mainnet addresses (chainId 5042) are published after launch.
 
 ### 4. Agent registry & leaderboard
 - Live leaderboard: the project site → `/agents` (ranking is purely on-chain).

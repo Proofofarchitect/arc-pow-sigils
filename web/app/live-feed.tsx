@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import { TRAITS_IMAGE_QS } from "@/lib/traits-set";
+import { imageQuery } from "@/lib/traits-set";
 
 /**
  * Live claims & mints strip — polls /api/recent (Blockscout-backed, server-
@@ -114,7 +114,7 @@ export default function LiveFeed() {
             >
               <Image
                 className="live-thumb"
-                src={`/api/image/${event.tokenId}${TRAITS_IMAGE_QS}`}
+                src={`/api/image/${event.tokenId}${imageQuery(96)}`}
                 alt={`Architector ${tokenLabel(event.tokenId)}`}
                 width={48}
                 height={48}

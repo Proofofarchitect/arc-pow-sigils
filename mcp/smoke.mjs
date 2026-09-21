@@ -140,8 +140,10 @@ async function main() {
   const bits = parseText(bitsMsg.result);
   console.log("\n== required_bits ==");
   console.log(JSON.stringify(bits, null, 2));
-  if (typeof bits.bits !== "number")
-    return fail("required_bits: bits is not a number");
+  if (typeof bits.requiredBits !== "number")
+    return fail("required_bits: requiredBits is not a number");
+  if (typeof bits.requiredMilli !== "string")
+    return fail("required_bits: requiredMilli is not a string");
 
   console.log("\n[SMOKE] PASS");
   child.stdin.end();

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { SITE_URL } from "@/lib/site";
-import { CONTRACT_ADDRESS } from "@/lib/contract";
+import { ARC_CHAIN_ID, CONTRACT_ADDRESS } from "@/lib/contract";
 
 export const metadata: Metadata = {
   title: "Stats dataset — Proof of Architect",
@@ -62,7 +62,7 @@ type Field = {
 const CURRENT_FIELDS: Field[] = [
   { key: "domain", type: "string", units: "snapshot schema id: proofofarchitect.stats/1" },
   { key: "updatedAt", type: "string", units: "ISO-8601 UTC, time of the on-chain reads" },
-  { key: "chainId", type: "integer", units: "5042002 (Arc)" },
+  { key: "chainId", type: "integer", units: `${ARC_CHAIN_ID} (Arc)` },
   { key: "contract", type: "string", units: "0x address used for the reads" },
   { key: "site", type: "string", units: "canonical site URL" },
   { key: "wave", type: "integer", units: "1-based current wave" },
@@ -80,12 +80,17 @@ const CURRENT_FIELDS: Field[] = [
   {
     key: "currentRequiredBits",
     type: "integer",
-    units: "bits (difficulty for a fresh wallet: no streak, no stake)",
+    units: "bits (difficulty for a fresh wallet: no streak, no stake) — display value",
   },
   {
-    key: "stakingDiscountBits",
+    key: "currentRequiredMilli",
+    type: "integer",
+    units: "milli-bits (v3.4 fractional difficulty; thousandths of a bit)",
+  },
+  {
+    key: "stakingDiscountMilli",
     type: "integer (optional)",
-    units: "bits; v3.1 cores only, omitted on a v3 core",
+    units: "milli-bits (v3.4 staking PoW boost); omitted when unavailable",
   },
 ];
 
@@ -167,8 +172,8 @@ export default function StatsDocsPage() {
         <Code>{`{
   "domain": "proofofarchitect.stats/1",
   "updatedAt": "2026-09-16T21:08:56.181Z",
-  "chainId": 5042002,
-  "contract": "0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b",
+  "chainId": ${ARC_CHAIN_ID},
+  "contract": "0x8f5795343C10b316296f6767a10e87CC40E62491",
   "site": "${SITE_URL}",
   "wave": 1,
   "priceUsdc": "1",
@@ -189,7 +194,7 @@ export default function StatsDocsPage() {
           <span className="mono">"0"</span> means free). All{" "}
           <span className="mono">*Bits</span> fields are leading-zero-bit
           difficulties.{" "}
-          <span className="mono">stakingDiscountBits</span> is read from the staking
+          <span className="mono">stakingDiscountMilli</span> is read from the staking
           module and is present on the current deployment.
         </p>
       </div>
@@ -238,9 +243,11 @@ export default function StatsDocsPage() {
             <span className="mono">
               totalMinted, maxSupply, freeClaims, claimsLeft, currentWave, currentPrice, baseBits, mintPaused
             </span>
-            ) plus <span className="mono">requiredBits(0x0)</span> for{" "}
-            <span className="mono">currentRequiredBits</span>.{" "}
-            <span className="mono">stakingDiscountBits(0x0)</span> is added when
+            ) plus <span className="mono">requiredBits(0x0)</span> /{" "}
+            <span className="mono">requiredMilli(0x0)</span> for{" "}
+            <span className="mono">currentRequiredBits</span> /{" "}
+            <span className="mono">currentRequiredMilli</span>.{" "}
+            <span className="mono">stakingDiscountMilli(0x0)</span> is added when
             a staking module is wired and omitted otherwise.
           </li>
           <li>
@@ -273,7 +280,7 @@ export default function StatsDocsPage() {
           Quote the URL, the dataset id and the <span className="mono">updatedAt</span>{" "}
           timestamp so the number is reproducible:
         </p>
-        <Code>{`Proof of Architect stats — chainId 5042002, contract 0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b,
+        <Code>{`Proof of Architect stats — chainId ${ARC_CHAIN_ID}, contract 0x8f5795343C10b316296f6767a10e87CC40E62491,
 dataset proofofarchitect.stats/1, ${SITE_URL}/stats/current.json, updatedAt <ISO-8601 UTC>.`}</Code>
         <ul className="small" style={{ margin: "10px 0 0", paddingLeft: 20 }}>
           <li>

@@ -666,7 +666,104 @@ contract PowMintNFTv3_1Test is Test {
         tokenId = n.totalMinted();
     }
 
+    // =============================================== v3.3 anti-sybil delta
+
+    /// v3.3: cooldown is a FLAT schedule by streak level (5/10/15/20/25 min), capped at 25,
+    /// with no wave multiplication. Each in-window mint escalates the streak by one level.
+    function test_V33_CooldownScheduleByStreakLevel() public {
+        // Large epochSize / regWindow isolate the streak layer (no epoch bits, regulator flat).
+        PowMintNFTv3_1 s = _deploy(4, 1e17, 100, 1, 220, 500, 0, 100, 60);
+        vm.deal(alice, 1000 ether);
+
+        uint256[6] memory levelSecs = [uint256(300), 600, 900, 1200, 1500, 1500];
+
+        assertEq(s.cooldown(alice), 0, "no streak -> 0");
+
+        for (uint256 i; i < 6; ++i) {
+            _mineNow(s, alice); // no warp → always inside the window → streak escalates
+            assertEq(s.streakBits(alice), (i + 1) * 2, "streak level");
+            assertEq(s.cooldown(alice), levelSecs[i], "cooldown by streak level");
+        }
+        // level 6 (streakBits 12) stays capped at 25 minutes.
+        assertEq(s.cooldown(alice), 1500, "capped at 25 min");
+    }
+
+    /// v3.3: a wallet at streak level N stays hot for its level-N window and resets after it.
+    function test_V33_StreakResetsAfterWindowElapses() public {
+        PowMintNFTv3_1 s = _deploy(4, 1e17, 100, 1, 220, 500, 0, 100, 60);
+        vm.deal(alice, 1000 ether);
+
+        _mineNow(s, alice); // level 1
+        _mineNow(s, alice); // still inside the 5-min window → level 2
+        assertEq(s.streakBits(alice), 4);
+        assertEq(s.cooldown(alice), 600, "level 2 = 10 min");
+        assertTrue(s.streakActive(alice));
+
+        uint256 last = block.timestamp;
+
+        vm.warp(last + 599);
+        assertTrue(s.streakActive(alice), "hot just before the 10-min boundary");
+        assertEq(s.requiredBits(alice), 4 + 4, "base + streak while hot");
+
+        vm.warp(last + 600);
+        assertFalse(s.streakActive(alice), "cold at the 10-min boundary");
+        assertEq(s.requiredBits(alice), 4, "streak dropped to base");
+
+        // the next mint resets then re-extends from level 0 → level 1 (5-min window).
+        _mineNow(s, alice);
+        assertEq(s.streakBits(alice), 2, "reset then re-extend");
+        assertEq(s.cooldown(alice), 300, "back to 5 min");
+    }
+
+    /// v3.3: pace regulator with regWindow=5 / paceTarget=25 uses an ASYMMETRIC step —
+    /// +2 bits on a fast window, −1 bit on a slow window.
+    function test_V33_Regulator_AsymmetricStep() public {
+        // baseBits=8, epochSize=100 (epoch stays 0), regWindow=5, paceTarget=25.
+        PowMintNFTv3_1 r = _deploy(8, 1e17, 100, 1, 220, 500, 0, 5, 25);
+        assertEq(r.regWindow(), 5, "window default");
+        assertEq(r.paceTargetS(), 25, "target default");
+        assertEq(r.loadAdjust(), 0);
+
+        // FAST window: 5 back-to-back mints (avg 0 < 0.8*25 = 20) → +2 bits.
+        for (uint256 i; i < 5; ++i) {
+            _mineNow(r, _miner(i));
+        }
+        assertEq(r.loadAdjust(), 2, "fast window tightens by +2");
+
+        // a second fast window adds another +2 (contrast with the −1 step below).
+        for (uint256 i = 5; i < 10; ++i) {
+            _mineNow(r, _miner(i));
+        }
+        assertEq(r.loadAdjust(), 4, "second fast window: +2 again");
+
+        // SLOW window: 5 mints spaced 1000s (avg 1000 > 1.2*25 = 30) → −1 bit.
+        uint256 t = block.timestamp;
+        for (uint256 i = 10; i < 15; ++i) {
+            t += 1000;
+            vm.warp(t);
+            _mineNow(r, _miner(i));
+        }
+        assertEq(r.loadAdjust(), 3, "slow window loosens by -1");
+    }
+
     // ---------------------------------------------------------------- misc
+
+    function _miner(uint256 i) internal pure returns (address) {
+        return address(uint160(0x9000 + i));
+    }
+
+    /// @dev Grind-mint on `n` at the current timestamp (no warp): builds streaks and fills
+    ///      regulator windows fast (used by the v3.3 delta tests).
+    function _mineNow(PowMintNFTv3_1 n, address miner) internal returns (uint256 tokenId) {
+        uint256 bits = n.requiredBits(miner);
+        uint256 nonce = _findNonceFrom(address(n), miner, bits, _nonceCursor[miner]);
+        _nonceCursor[miner] = nonce + 1;
+        (uint256 due,) = n.currentMintDue();
+        vm.deal(miner, due + 1 ether);
+        vm.prank(miner);
+        n.mint{value: due}(nonce);
+        tokenId = n.totalMinted();
+    }
 
     function _enableModuleLocal(PowMintNFTv3_1 n, address m) internal {
         n.setModule(m, true);

@@ -1,7 +1,7 @@
 # examples/ — headless agent reference
 
 This folder holds self-contained reference scripts for driving Proof of Architect
-**without the website**, using the same minimal Python stack the internal scripts use
+**without the website**, using the same minimal Python stack the `ops/` scripts use
 (`web3` + `eth_abi` + `eth_utils`). `agent_craft.py` is the canonical example of the
 new salt-based craft flow: it escrows two House Cards on the `CraftingController`,
 invents a fresh random `bytes32` salt per commit → `keccak256(abi.encode(choices, salt))`
@@ -17,7 +17,7 @@ environment — the script only ever signs a transaction with the key you supply
 prints it, and refuses to touch a key you did not set):
 
 ```bash
-CONTROLLER=0x1111111111111111111111111111111111111111 PRIVATE_KEY=0x<throwaway> \
+CONTROLLER=<ops-wallet-address> PRIVATE_KEY=0x<throwaway> \
   python3 examples/agent_craft.py --cards 7,8 --tier 1 --choices "0:0,1:1"
 ```
 

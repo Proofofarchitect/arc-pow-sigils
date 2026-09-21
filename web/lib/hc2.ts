@@ -34,19 +34,20 @@ import { ARC_TRAITS_SLOTS, deriveAttributesV2 } from "./traits_v2";
  *   through the shared `weightedPickFromSeed` (`prng.ts`), so HC/2 wildcards
  *   are identical to a normal mint derivation for the same slot index. No file
  *   outside this module is modified to achieve parity.
- * * `childSeed` is `keccak256(abi.encodePacked(...))` over the exact packed
- *   layout of spec §1; the string literal bytes are produced with viem
- *   `stringToHex("PoA_CRAFT_v1")` (12 bytes, unpadded).
+ * * The v2 child PRE-seed is `keccak256(abi.encodePacked(...))` over the exact
+ *   packed layout of §1; the string literal bytes are produced with viem
+ *   `stringToHex("PoA_CRAFT_v2")` (12 bytes, unpadded). The DISPLAY seed fed to
+ *   the derivation is `keccak256(preSeed ‖ blockhash(mintBlock + 2))`.
  * * Choice-able slots are 0..11; `legendary` (12) is ALWAYS derived from the
- *   childSeed, and `golden`/`bug` conditional rules are evaluated on the FINAL
- *   values (inherited included), fed by childSeed word streams 13/14.
+ *   display seed, and `golden`/`bug` conditional rules are evaluated on the FINAL
+ *   values (inherited included), fed by display-seed word streams 13/14.
  * * ARC-traits/2 port (`deriveHC2V2`): identical inheritance semantics but over
  *   `ARC_TRAITS_SLOTS` with `deriveAttributesV2` parents. Choice-able slots are
  *   indices 0..11; indices 12/13/14 (quote/lore/hair_color) are always wildcard.
  *   The v2 set has no golden/bug conditional rules, so the result is always
- *   `{ attributes, golden: false }`. `childSeed` is trait-set independent (the
- *   choices live only in the controller's `Crafted` event), so the §1 formula
- *   above is reused verbatim.
+ *   `{ attributes, golden: false }`. The pre-seed formula is trait-set
+ *   independent (the choices live in the controller's `Crafted` calldata), so the
+ *   §1 formula above is reused verbatim.
  */
 
 export type Hc2Choice = { slot: number; parent: 0 | 1 };
@@ -72,19 +73,27 @@ export function maxChosen(boostTier: number): number {
 }
 
 /**
- * §1 — childSeed = keccak256(abi.encodePacked(...)) over the frozen layout:
+ * §1 — child PRE-SEED = keccak256(abi.encodePacked(...)) over the frozen v2 layout:
  *
- *   "PoA_CRAFT_v1"    // 12-byte string, unpadded
- *   seedLow  bytes32   // parent with the SMALLER tokenId
- *   seedHigh bytes32   // parent with the LARGER tokenId
+ *   "PoA_CRAFT_v2"    // 12-byte string, unpadded
+ *   seedLow  bytes32   // parent with the SMALLER tokenId (RAW seedOf, as the contract packs it)
+ *   seedHigh bytes32   // parent with the LARGER tokenId (RAW seedOf)
  *   uint256  minId     // 32B big-endian
  *   uint256  maxId     // 32B big-endian
- *   uint8    door      // 1B (0 = CRAFT_2_1, the only door in v1)
+ *   uint8    door      // 1B (0 = CRAFT_2_1, the only door in v2)
  *   uint8    boostTier // 1B
  *   uint64   craftNonce// 8B big-endian
- *   bytes32  entropy   // blockhash(commitBlock + 2)
+ *   bytes32  choicesHash // keccak256(abi.encode(SlotChoice[])) — NO entropy
  *
- * Parents are canonicalized by the caller (position `seedLow` = smaller id).
+ * The contract stores this as `seedOf[childId]` (the emitted `Crafted.childSeed`).
+ * Post-inclusion entropy is added OFF-CHAIN: the display seed is
+ * `keccak256(preSeed ‖ blockhash(mintBlockOf[childId] + 2))` (see
+ * `computeDisplaySeed` / `lib/display-seed.ts`). `deriveHC2*` must be fed the
+ * DISPLAY seed, never the pre-seed.
+ *
+ * NOTE: the on-chain pre-seed packs the RAW `seedOf` of both parents (the core
+ * `seedOf` mapping), whereas the HC/2 derivation of the PARENTS' attributes uses
+ * their display seeds — callers must not mix the two (see `hc2chain.ts`).
  */
 export function computeChildSeed(p: {
   seedLow: Hex;
@@ -94,12 +103,12 @@ export function computeChildSeed(p: {
   door?: number; // default 0 (CRAFT_2_1)
   boostTier: number;
   craftNonce: bigint;
-  entropy: Hex;
+  choices: Hc2Choice[];
 }): Hex {
   const door = p.door ?? 0;
   return keccak256(
     concatHex([
-      stringToHex("PoA_CRAFT_v1"),
+      stringToHex("PoA_CRAFT_v2"),
       p.seedLow,
       p.seedHigh,
       toHex(p.minId, { size: 32 }),
@@ -107,9 +116,18 @@ export function computeChildSeed(p: {
       toHex(door, { size: 1 }),
       toHex(p.boostTier, { size: 1 }),
       toHex(p.craftNonce, { size: 8 }),
-      p.entropy,
+      encodeChoicesHash(p.choices),
     ]),
   );
+}
+
+/**
+ * Post-inclusion display seed = keccak256(preSeed ‖ entropy), where `entropy`
+ * is `blockhash(mintBlockOf[childId] + 2)`. Mirrors the core's off-chain seed
+ * derivation (identical to `lib/display-seed.ts::deriveDisplaySeed`).
+ */
+export function computeDisplaySeed(preSeed: Hex, entropy: Hex): Hex {
+  return keccak256(concatHex([preSeed, entropy]));
 }
 
 /**
@@ -119,14 +137,27 @@ export function computeChildSeed(p: {
  */
 export function encodeChoicesHash(choices: Hc2Choice[]): Hex {
   const encoded = encodeAbiParameters(
-    [{ type: "(uint8,uint8)[]" }],
-    [choices.map((c) => [c.slot, c.parent] as const)],
+    [
+      {
+        type: "tuple[]",
+        components: [
+          { name: "slot", type: "uint8" },
+          { name: "parent", type: "uint8" },
+        ],
+      },
+    ],
+    [choices.map((c) => ({ slot: c.slot, parent: c.parent }))],
   );
   return keccak256(encoded);
 }
 
 /**
- * §2 — derive the 15 final HC/2 slots from `childSeed` + parent seeds.
+ * §2 — derive the 15 final HC/2 slots from the DISPLAY seed + parent DISPLAY seeds.
+ *
+ * `displaySeed` = `computeDisplaySeed(preSeed, blockhash(mintBlock+2))` (v3.4
+ * post-inclusion entropy). `seedLow`/`seedHigh` are the parents' DISPLAY seeds
+ * (their art attributes were derived from those), NOT the raw `seedOf` the
+ * on-chain pre-seed packed.
  *
  * * Choice-able slot (0..11) in `choices`: inherit the chosen parent's value
  *   UNLESS both parents agree, in which case it becomes a wildcard.
@@ -202,7 +233,10 @@ export function deriveHC2(
 }
 
 /**
- * ARC-traits/2 (§2) — derive the 15 final v2 slots from `childSeed` + parents.
+ * ARC-traits/2 (§2) — derive the 15 final v2 slots from the DISPLAY seed + parents.
+ *
+ * `displaySeed` is the post-inclusion seed (§1 pre-seed mixed with the block
+ * hash); `seedLow`/`seedHigh` are the parents' DISPLAY seeds.
  *
  * Mirrors `deriveHC2` but over `ARC_TRAITS_SLOTS` with `deriveAttributesV2`
  * parents and no golden/bug logic (the artist set has no such categories):

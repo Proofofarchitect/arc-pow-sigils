@@ -6,6 +6,8 @@ import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/site";
 import "./poa/variants/03-with-characters.css";
 import { SiteFooter } from "./site-footer";
 import WalletCorner from "./wallet-corner";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // Brand fonts — same pairing as the pre-launch landing:
 // Space Grotesk (UI/headings) + IBM Plex Mono (micro-labels, numbers, addresses).
@@ -150,6 +152,8 @@ export default function RootLayout({
         </header>
         {children}
         <SiteFooter />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

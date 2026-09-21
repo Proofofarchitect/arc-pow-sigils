@@ -36,7 +36,7 @@ function buildDatasetJsonLd(snapshot: StatsSnapshot | null) {
     name: "Proof of Architect — collection statistics",
     description:
       "Live, verifiable stats for the Proof of Architect proof-of-work NFT " +
-      "collection on Arc (ChainID 5042002): wave, price, supply, " +
+      `collection on Arc (ChainID ${ARC_CHAIN_ID}): wave, price, supply, ` +
       "free claims, difficulty bits and mint status, read directly from the " +
       "on-chain contract. Snapshot as JSON plus an append-only JSON Lines history.",
     url: `${SITE_URL}/stats`,
@@ -111,8 +111,13 @@ export default async function StatsPage() {
           k: "Fresh-wallet difficulty",
           v: `${snapshot.currentRequiredBits} bits`,
         },
-        ...(snapshot.stakingDiscountBits !== undefined
-          ? [{ k: "Staking discount", v: `${snapshot.stakingDiscountBits} bits` }]
+        ...(snapshot.stakingDiscountMilli !== undefined
+          ? [
+              {
+                k: "Staking discount",
+                v: `${(snapshot.stakingDiscountMilli / 1000).toFixed(3)} bits (${snapshot.stakingDiscountMilli} milli-bits)`,
+              },
+            ]
           : []),
         { k: "Chain ID", v: String(snapshot.chainId) },
         { k: "Contract", v: snapshot.contract },

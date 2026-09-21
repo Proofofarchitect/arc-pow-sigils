@@ -1555,6 +1555,11 @@ input[type="text"]:focus-visible {
   background: #fff0b7;
   border-color: #9b5700;
 }
+.badge-unique {
+  color: #7a3fa8;
+  background: #f3e8ff;
+  border-color: #7a3fa8;
+}
 
 .panel-heading {
   display: flex;

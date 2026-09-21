@@ -1,9 +1,9 @@
 # Arc PoW Sigils — web frontend (MVP)
 
 Next.js (App Router, TypeScript) frontend for the **PowMintNFT** collection on
-Arc testnet. Reads the contract with [viem]; the art/metadata layer renders
-deterministic **House Card** PNGs (15 seed-derived slots) + OpenSea JSON from
-each token's on-chain seed.
+Arc. Reads the contract with [viem]; the art/metadata layer renders
+deterministic **ARC-traits/2** PNGs (15 seed-derived slots, native 1254×1254) +
+OpenSea JSON from each token's on-chain seed.
 
 ## Stack
 
@@ -18,9 +18,9 @@ Copy `.env.local.example` to `.env.local` and adjust if needed:
 | Variable | Default | Purpose |
 |---|---|---|
 | `NEXT_PUBLIC_ARC_RPC_URL` | `https://rpc.testnet.arc.io` | Arc testnet JSON-RPC endpoint |
-| `NEXT_PUBLIC_CONTRACT_ADDRESS` | `0xc7D2C2cC9291485ec8B727333B6a1478Dd66c3D5` | PowMintNFT v2 address override |
-| `NEXT_PUBLIC_MIN_MAX_FEE_GWEI` | `25` | Minimum `maxFeePerGas` in gwei (floor is 20; Arc drops txs below) |
-| `NEXT_PUBLIC_SITE_URL` | `https://powcats.example` | Canonical public URL for sitemap/llms.txt/JSON-LD/OpenAPI — **set before deploy** |
+| `NEXT_PUBLIC_CONTRACT_ADDRESS` | `0x8f5795343C10b316296f6767a10e87CC40E62491` | PowMintNFT v3.4 address override |
+| `NEXT_PUBLIC_MIN_MAX_FEE_GWEI` | `50` | Minimum `maxFeePerGas` in gwei (floor is 20; Arc drops txs below) |
+| `NEXT_PUBLIC_SITE_URL` | `https://proofofarchitect.builders` | Canonical public URL for sitemap/llms.txt/JSON-LD/OpenAPI — **set before deploy** |
 
 All are optional — sane Arc defaults are baked in, so the app boots with no env.
 
@@ -39,10 +39,10 @@ npm start        # serve the production build
 |---|---|
 | `/` | Collection — grid of minted tokens (totalMinted/maxSupply/price header) |
 | `/mine` | Connect wallet, live difficulty/price, Mine (worker) + Mint |
-| `/token/[id]` | Token detail — owner, seedOf, nonceOf, workFor, tokenURI, image, all House Card traits |
-| `/api/meta/[id]` | OpenSea-compatible metadata JSON (House Card traits from seed) |
-| `/api/image/[id]` | Deterministic House Card PNG rendered from the on-chain seed (`?master=1` → 3072×3072) |
-| `/api/mcp` | Remote MCP server (streamable HTTP) — 5 read-only collection tools |
+| `/token/[id]` | Token detail — owner, seedOf, nonceOf, workFor, tokenURI, image, all ARC-traits traits |
+| `/api/meta/[id]` | OpenSea-compatible metadata JSON (ARC-traits from the on-chain seed) |
+| `/api/image/[id]` | Deterministic ARC-traits PNG rendered from the on-chain seed (1254×1254; `?master=1` → 3762×3762) |
+| `/api/mcp` | Remote MCP server (streamable HTTP) — 6 read-only collection tools |
 | `/robots.txt` | Everyone welcome — no crawler blocks (owner policy); AI bots explicitly listed + sitemap ref |
 | `/sitemap.xml` | Pages + one URL per minted token (read from chain, ISR 10 min) |
 | `/llms.txt`, `/llms-full.txt` | llms.txt v2 map + full agent documentation |
@@ -56,14 +56,14 @@ npm start        # serve the production build
 - Chain config, contract ABI, all views (`currentPrice`, `requiredBits`,
   `totalMinted`, `maxSupply`, `freeSupply`, `ownerOf`, `tokenURI`, `seedOf`,
   `nonceOf`, `mintPaused`).
-- Metadata + image API routes: real `seedOf` read → canonical House Card trait
-  derivation (`lib/prng.ts`, `lib/traits.ts`) → OpenSea JSON / composited PNG.
+- Metadata + image API routes: real `seedOf` read → canonical ARC-traits
+  derivation (`lib/prng.ts`, `lib/traits_v2.ts`) → OpenSea JSON / composited PNG.
 - `/mine`: wallet connect via injected `window.ethereum`, chain switch/add for
   Arc, one-click **Start mining** (real PoW web worker) → live stats
   (hashes / H/s / elapsed / best bits) → auto-stop when a nonce clears the
   on-chain `requiredBits`, local re-verification, then `mint(nonce)` with
   `maxFeePerGas = max(50 gwei, 2× baseFee)` (never below 20 gwei) and
-  `value == currentPrice()`, followed by a receipt wait and stats refresh.
+  `value == currentMintDue().due`, followed by a receipt wait and stats refresh.
   Manual-nonce minting also works.
 
 **Miner worker — installed and verified:**
@@ -80,56 +80,53 @@ npm start        # serve the production build
   `public/miner/` so the served copy stays byte-identical to the tested one.
 
 **Stubbed / pending:**
-- **`setBaseURI` re-point**: `tokenURI` currently returns
-  `https://powcats.example/api/meta/<id>` (placeholder). The owner will re-point
-  it to this deployment's `/api/meta/` later. Until then the UI uses the local
-  `/api/image/[id]` route directly, which is seed-derived and always correct.
-- **Art factory cross-check**: metadata/art traits now follow the canonical
-  **House Card** spec (`art/spec.json` + `art/test_vectors.json`) and are a
-  faithful port of `art/pipeline.py`. Parity is asserted by `npm run check:traits`
-  (5 seeds × 15 slots + golden flag). Re-run it after any trait/weight change.
+- **`setBaseURI` re-point**: `tokenURI` returns
+  `https://proofofarchitect.builders/api/meta/<id>`. Until it is re-pointed at
+  this deployment's `/api/meta/`, the UI uses the local `/api/image/[id]` route
+  directly, which is seed-derived and always correct.
+- **Art factory cross-check**: metadata/art traits follow the artist
+  **ARC-traits/2** spec (`art/v2/spec.json` + `art/v2/vectors_traits.json`) and
+  are a faithful port of `art/arc-traits/tools/v2lib.py`. Parity is asserted by
+  `npm run check:traits2` (5 seeds × 15 slots); the legacy house-card/1 set is
+  still gated by `npm run check:traits`. Re-run after any trait/weight change.
 - **WalletConnect / wallet-agnostic connect (later)**: `/mine` currently relies
   on an injected EIP-1193 provider (`window.ethereum`, e.g. MetaMask). Mobile /
   WalletConnect support is intentionally deferred; wire it in without changing
   the mining or mint path.
 
-## House Card renderer
+## ARC-traits/2 renderer
 
-The art stack is the **House Card** system (15 slots), a byte-for-byte semantic
-port of `art/pipeline.py`. Derivation lives in `lib/traits.ts` (identical PRNG,
-per-slot counter reset, integer weights ×10 from `art/spec.json`); PNG
-composition lives in `lib/renderer.ts` (server-side `sharp`).
+The live art stack is the artist **ARC-traits/2** set (15 slots), a byte-for-byte
+semantic port of `art/arc-traits/tools/v2lib.py` on `art/v2/spec.json`. Set
+`NEXT_PUBLIC_TRAITS_SET=v2` and the client (token page) and the server
+(`/api/meta`, `/api/image`) agree on the set; anything else renders the legacy
+house-card/1 set (`lib/traits.ts` + `lib/renderer.ts`), whose assets stay in
+`public/traits` for rollback.
 
-- **Assets:** real art ships from **`web/public/traits/<slot>/<slug>[__<body>].png`**
-  (slot = spec slot name, slug = kebab-case value: `Reverse Cap 404` →
-  `reverse-cap-404`). Head slots (`face`/`eyes`/`headwear`) carry per-body
-  variants (`<slug>__guy|girl|reptile|alien.png`); the compositor prefers the
-  variant of the card's body and falls back to the flat file. Source of truth
-  and served copy are kept identical: `art/assets/` ⇄ `web/public/traits/`
-  (rebuilt from the accepted layer catalog `art/svg/catalog/layers_png` via
-  `import_catalog.py`). `None` values and missing files are skipped, so a
-  partial tree still renders; the two parked backgrounds (Testnet Grid, Faucet
-  Screen) fall back to House Grid until their concepts land.
-- **Sizes:** real masters are 128×128. The compositor works at native 512
-  (×4 nearest — pixel-exact) and upscales with a nearest kernel —
-  **1024×1024** by default and **3072×3072** for `?master=1` (OpenSea requires
-  masters **≥3000**). Same seed → byte-identical output.
-- **Golden overlay:** `golden` is a flag overlay (`public/traits/golden/<slug>.png`,
-  event ∈ `House Cat`/`Fat Rat`), composited **last** over the normal stack.
-  It only fires when `legendary == None`; metadata adds
-  `{ trait_type: "Golden", value: "Yes" }` when true.
+- **Derivation:** `lib/traits_v2.ts` — the same PRNG machinery as house-card/1
+  (per-slot keccak256 word streams + rejection-sampled weighted pick). PNG
+  composition lives in `lib/renderer_v2.ts` (server-side `sharp`).
+- **Slots (15):** `background, head, outfit, hair, eyes, nose, mouth, eyewear,
+  headwear, companion` (10 rendered layers) plus `hair_color` — a render
+  modifier that selects `hair-colors/<color>/<style>.png` (fallback
+  `hair/<style>.png`) — and 4 metadata-only text rows (`era, origin, quote,
+  lore`). `head` is the base character (replaces v1's body species).
+- **Assets:** served from `web/public/traits-v2/`; every layer is a full
+  1254×1254 PNG. `None` values and missing files are skipped, so a partial tree
+  still renders. Nose/mouth for the Ice/Pale/Reptile heads resolve through
+  `head-variants/<head>/<slot>/<value>.png` when present.
+- **Sizes:** native canvas is **1254×1254**; `?master=1` emits the
+  **3762×3762** master (×3 exact). Same seed → byte-identical output.
+- **No golden/bug:** v2 drops the v1 golden/bug conditional rules. The rare gold
+  pieces are ordinary weighted values instead — headwear `Gold Kippah` and
+  companion `Gold Fly`, 0.5% each (spec v2.3).
 - **Preview mode:** until real mints fill the grid, the collection/token pages
-  can render deterministic preview cards (`keccak256("poa-preview" ‖ id)`) for
-  ids 1..N — set `NEXT_PUBLIC_PREVIEW_CAP=N` (0 = off, the production default;
-  the testnet deployment runs 24). Minted tokens always win over previews.
-  Preview cards keep outfit/face/headwear/eyes/backgrounds and exclude only
-  the noise animations — companion animals, tool artifacts and bugs (plus
-  cat/rat golden events) via `lib/preview.ts` — preview-only, the canon spec
-  and real mints are untouched. The body (personality) is cycled across the
-  four species (Builder/Clerk/Architect/Shadow) so every character is
-  represented.
-- **Cross-check gate:** `npm run check:traits` asserts `lib/traits.ts` against
-  `art/test_vectors.json` (5 seeds × 15 slots + golden). Treat a red gate as a
+  can render deterministic preview cards for ids 1..N — set
+  `NEXT_PUBLIC_PREVIEW_CAP=N` (0 = off, the production default; the testnet
+  deployment runs 24). Minted tokens always win over previews.
+- **Cross-check gate:** `npm run check:traits` asserts `lib/traits.ts` (v1) and
+  `npm run check:traits2` asserts `lib/traits_v2.ts` against
+  `art/v2/vectors_traits.json` (5 seeds × 15 slots). Treat a red gate as a
   build blocker.
 
 ## Deploy notes
@@ -141,7 +138,7 @@ composition lives in `lib/renderer.ts` (server-side `sharp`).
 - Once live, point the contract's `setBaseURI` at
   `https://<deployment>/api/meta/` so marketplaces resolve metadata here.
 - **AI-discoverability**: set `NEXT_PUBLIC_SITE_URL` before deploying, then run
-  the AI-discovery activation script (probe + IndexNow, run from repo tooling).
+  `bash ops/ai_discovery/activate.sh https://<domain> [--send]` (probe 10/10 + IndexNow).
   Full launch order — `launch runbook` §4; design notes — `discovery notes`.
 
 [viem]: https://viem.sh

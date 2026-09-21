@@ -79,14 +79,24 @@ function slugify(value: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-/** Suggested cache headers for the image route. */
+/**
+ * Cache headers for the image route. Minted cards are deterministic and
+ * immutable -> keep them a year at the CDN; preview / not-yet-minted renders
+ * change once the token mints -> short TTL (PREVIEW_CACHE_CONTROL).
+ */
 export const IMAGE_CACHE_CONTROL =
-  "public, s-maxage=3600, stale-while-revalidate=86400";
+  "public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable";
 
-export function imageHeaders(): Record<string, string> {
+/** Short TTL for preview / not-yet-minted renders (content changes on mint). */
+export const PREVIEW_CACHE_CONTROL =
+  "public, s-maxage=60, stale-while-revalidate=300";
+
+export function imageHeaders(
+  cacheControl: string = IMAGE_CACHE_CONTROL,
+): Record<string, string> {
   return {
     "Content-Type": "image/png",
-    "Cache-Control": IMAGE_CACHE_CONTROL,
+    "Cache-Control": cacheControl,
     "X-Content-Type-Options": "nosniff",
   };
 }

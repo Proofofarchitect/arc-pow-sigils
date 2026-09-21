@@ -1,8 +1,11 @@
 // Parity gate: web/lib/hc2.ts (TS mirror) must match the Python reference
 // vectors in art/test_vectors_hc2_v2.json (hc2/2 — ARC-traits/2 crafted set).
 //
-// Per vector: (1) computeChildSeed == childSeed (trait-set independent §1),
-// (2..16) all 15 deriveHC2V2 attributes == attributes. = 16 checks/vector.
+// v3.4 post-inclusion scheme. Per vector:
+//   (1)   computeChildSeed(choices) == childSeed   (v2 PRE-seed, no entropy)
+//   (2)   computeDisplaySeed(childSeed, entropy) == displaySeed
+//   (3..17) all 15 deriveHC2V2 attributes (from the DISPLAY seed) == attributes
+//   (18)  golden flag false
 //
 // Exact string equality + lowercase hex equality (no tolerance).
 //
@@ -12,7 +15,7 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { computeChildSeed, deriveHC2V2 } from "../lib/hc2.ts";
+import { computeChildSeed, computeDisplaySeed, deriveHC2V2 } from "../lib/hc2.ts";
 import { ARC_TRAITS_SLOTS } from "../lib/traits_v2.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -26,28 +29,42 @@ const failures = [];
 
 for (let i = 0; i < doc.vectors.length; i++) {
   const vector = doc.vectors[i];
+  const choices = vector.choices.map(([slot, parent]) => ({ slot, parent }));
 
-  // (1) childSeed — same packed keccak256 as house-card/1 (§1 is set-independent).
-  const childSeed = computeChildSeed({
+  // (1) v2 PRE-seed — packed keccak256 over "PoA_CRAFT_v2" + choices hash.
+  const preSeed = computeChildSeed({
     seedLow: vector.seedLow,
     seedHigh: vector.seedHigh,
     minId: BigInt(vector.minId),
     maxId: BigInt(vector.maxId),
     boostTier: vector.boostTier,
     craftNonce: BigInt(vector.craftNonce),
-    entropy: vector.entropy,
+    choices,
   });
   checks++;
-  if (childSeed !== vector.childSeed) {
+  if (preSeed !== vector.childSeed) {
     failures.push(
-      `vector[${i}] childSeed: expected ${vector.childSeed} got ${childSeed}`,
+      `vector[${i}] childSeed (pre-seed): expected ${vector.childSeed} got ${preSeed}`,
     );
   }
 
-  // (2..16) all 15 v2 attributes from the reference childSeed (isolates
-  // derivation from any childSeed issue).
-  const choices = vector.choices.map(([slot, parent]) => ({ slot, parent }));
-  const result = deriveHC2V2(vector.childSeed, vector.seedLow, vector.seedHigh, choices);
+  // (2) DISPLAY seed = keccak256(preSeed ‖ entropy).
+  const displaySeed = computeDisplaySeed(preSeed, vector.entropy);
+  checks++;
+  if (displaySeed !== vector.displaySeed) {
+    failures.push(
+      `vector[${i}] displaySeed: expected ${vector.displaySeed} got ${displaySeed}`,
+    );
+  }
+
+  // (3..17) all 15 v2 attributes derived from the reference DISPLAY seed
+  // (isolates derivation from any pre-seed/display-seed issue).
+  const result = deriveHC2V2(
+    vector.displaySeed,
+    vector.seedLow,
+    vector.seedHigh,
+    choices,
+  );
 
   for (const name of SLOTS) {
     checks++;
@@ -76,5 +93,5 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `PASS ${doc.vectors.length}/${doc.vectors.length} vectors \u00b7 ${checks} checks (childSeed + 15 v2 attributes + golden flag)`,
+  `PASS ${doc.vectors.length}/${doc.vectors.length} vectors \u00b7 ${checks} checks (pre-seed + displaySeed + 15 v2 attributes + golden flag)`,
 );

@@ -2,15 +2,16 @@ import { concatHex, keccak256, toHex, type Address, type Hex } from "viem";
 import { ARC_CHAIN_ID, CONTRACT_ADDRESS } from "./contract";
 
 /**
- * Client-side re-implementation of the contract's PoW check, matching
- * PowMintNFT.sol exactly:
+ * Client-side re-implementation of the contract's PoW check (v3.4):
  *
  *   work = keccak256(abi.encodePacked(block.chainid, address(this), miner, nonce))
- *   valid <=> leadingZeroBits(work) >= requiredBits(miner)
+ *   valid <=> uint256(work) < targetFor(miner)          (FRACTIONAL difficulty)
  *
- * The miner worker targets this hash. Keeping a local copy lets the UI verify a
- * found nonce before paying gas (the contract would revert with BelowFloor
- * otherwise).
+ * v3.4 expresses difficulty in milli-bits, so the authoritative check is the
+ * fractional target (`work < target`, read on-chain via `targetFor`), NOT a
+ * "leading zero bits >= requiredBits" comparison. The worker still grinds to
+ * `ceil(requiredMilli/1000)` leading zero bits — a conservative superset of the
+ * target — and the page re-verifies each candidate against the exact target.
  */
 
 /** Count leading zero bits of a 32-byte hash (bitstring order). clz(0)=256. */
@@ -56,17 +57,32 @@ export function computeWork(
 }
 
 /**
+ * The authoritative v3.4 acceptance check: a work hash is valid iff its uint256
+ * value is strictly below `targetFor(miner)` (a fractional target that can sit
+ * between whole leading-zero-bit values).
+ */
+export function meetsTarget(work: Hex, target: bigint): boolean {
+  return BigInt(work) < target;
+}
+
+/** Display bits for a milli-bits difficulty: `ceil(milli / 1000)`. */
+export function milliToBits(milli: bigint): number {
+  return Number((milli + 999n) / 1000n);
+}
+
+/**
  * Minimal single-threaded grind used as a last-resort fallback and for local
  * verification. NOT meant for production mining — the web worker does the real
- * work. Returns the first nonce meeting `requiredBits`, or null if the budget
- * (`maxAttempts`) is exhausted.
+ * work. Grinds to `ceil(milli/1000)` leading zero bits (a superset of the exact
+ * fractional target); callers re-check candidates with `meetsTarget`.
  */
 export function grindNonceSync(
   miner: Address,
-  requiredBits: number,
+  milli: bigint,
   startNonce = 0n,
   maxAttempts = 250_000,
 ): { nonce: bigint; work: Hex; bits: number } | null {
+  const requiredBits = milliToBits(milli);
   for (let i = 0; i < maxAttempts; i++) {
     const nonce = startNonce + BigInt(i);
     const work = computeWork(miner, nonce);

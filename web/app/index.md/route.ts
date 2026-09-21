@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/lib/site";
+import { ARC_CHAIN_ID } from "@/lib/contract";
 
 /**
  * /index.md — markdown version of the collection page (llms.txt v2 convention).
@@ -9,7 +10,7 @@ export const revalidate = 3600;
 export function GET() {
   const body = `# Proof of Architect — collection overview
 
-> Proof-of-work minted NFT collection on Arc (Circle L1, chainId 5042002). Mine a keccak-256 nonce in the browser or on GPU; the winning hash becomes the token's on-chain seed and the Architector art derives from it deterministically.
+> Proof-of-work minted NFT collection on Arc (Circle L1, chainId ${ARC_CHAIN_ID}). Mine a keccak-256 nonce in the browser or on GPU; the winning hash becomes the token's on-chain seed and the Architector art derives from it deterministically.
 
 ## What you get
 
@@ -17,7 +18,7 @@ Each token is an "Architector": 10 rendered pixel-art layers (background, body, 
 
 ## Key numbers
 
-- Contract: 0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b (Arc, ERC-721, symbol PARC, v3.2, verified on arcscan)
+- Contract: 0x8f5795343C10b316296f6767a10e87CC40E62491 (Arc, ERC-721, symbol PARC, v3.4, verified on arcscan)
 - Supply: 15,042 = 42 free claim codes + 15,000 paid, tokenId 1..15,042
 - Paid price: 1.0 USDC at wave 1, doubling every wave of 1,000 mints with no cap (last wave 16,384 USDC)
 - Free claims: 42 code-gated mints (non-transferable until wave 5)

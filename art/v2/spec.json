@@ -1,8 +1,8 @@
 {
  "theme": "arc-traits-v2",
- "version": "2.2",
- "_note": "Weights v2.2 applied 2026-09-20: chase tier <=1% (11 values, ~75-150 copies at 15,042); era palette switched to mainnet (Genesis/Day One/Season One/House/Expansion/Private Mainnet); origin: Testnet Wanderer -> Early Wanderer; quote/lore values unchanged; slots/order append-only.",
- "_source": "art/v2/layers_png (imported from the 2026-09-19 artist handoff)",
+ "version": "2.3",
+ "_note": "v2.2 (2026-09-20): chase tier <=1% (11 values, ~75-150 copies at 15,042); era palette switched to mainnet (Genesis/Day One/Season One/House/Expansion/Private Mainnet); origin: Testnet Wanderer -> Early Wanderer. v2.3 (2026-09-20, handoff-2026-09-20): golden rare traits appended — headwear 'Gold Kippah' (w5, 0.5%), companion 'Gold Fly' (w5, 0.5%); 'None' rebalanced 34.0%->33.5% (headwear) and 33.0%->32.5% (companion); layer set = gold traits + centred halo + scene-fit backgrounds/eyewear/companions. Slots/order append-only.",
+ "_source": "art/v2/layers_png (imported from the 2026-09-20 artist handoff, 'arc gold rare v2')",
  "prng": {
   "hash": "keccak256 (Ethereum keccak, NOT NIST SHA3)",
   "payload": "seed_bytes32 || uint8(slotIndex) || uint16(repeatCounter)",
@@ -369,8 +369,8 @@
    "values": [
     {
      "name": "None",
-     "weight": 340,
-     "percent": 34.0
+     "weight": 335,
+     "percent": 33.5
     },
     {
      "name": "Cap",
@@ -401,6 +401,11 @@
      "name": "Crown",
      "weight": 10,
      "percent": 1.0
+    },
+    {
+     "name": "Gold Kippah",
+     "weight": 5,
+     "percent": 0.5
     }
    ]
   },
@@ -413,8 +418,8 @@
    "values": [
     {
      "name": "None",
-     "weight": 330,
-     "percent": 33.0
+     "weight": 325,
+     "percent": 32.5
     },
     {
      "name": "Dog",
@@ -460,6 +465,11 @@
      "name": "Winged Rat",
      "weight": 10,
      "percent": 1.0
+    },
+    {
+     "name": "Gold Fly",
+     "weight": 5,
+     "percent": 0.5
     }
    ]
   },

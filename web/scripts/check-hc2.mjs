@@ -1,11 +1,15 @@
 // Parity gate: web/lib/hc2.ts (TS mirror) must match the Python reference
-// vectors in art/test_vectors_hc2.json (hc2/1).
+// vectors in art/test_vectors_hc2.json (hc2/1 — house-card crafted set).
 //
-// Per vector: (1) computeChildSeed == childSeed, (2..16) all 15 deriveHC2
-// attributes == attributes, (17) golden flag consistency
-// (attributes.golden !== "None"  <->  result.golden). = 17 checks/vector.
+// Per vector: (1..15) all 15 deriveHC2 attributes == attributes, (16) golden
+// flag consistency. = 16 checks/vector.
 //
-// Exact string equality + lowercase hex equality (no tolerance).
+// NOTE (v3.4): the v1 childSeed FORMULA (`PoA_CRAFT_v1` + entropy) no longer
+// exists on-chain — crafting uses the v2 pre-seed (`PoA_CRAFT_v2`, no entropy)
+// followed by a post-inclusion display seed. `deriveHC2` itself is unchanged and
+// still used for the house-card HC/2 path, and its attributes are a pure
+// function of the seed, so this gate feeds the reference `childSeed` as the
+// seed input (the derivation is what is under test here).
 //
 // Run with tsx (which can import TypeScript from an .mjs entrypoint):
 //   npm run check:hc2
@@ -13,7 +17,7 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { computeChildSeed, deriveHC2 } from "../lib/hc2.ts";
+import { deriveHC2 } from "../lib/hc2.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const vectorsPath = resolve(here, "../../art/test_vectors_hc2.json");
@@ -43,25 +47,8 @@ const failures = [];
 for (let i = 0; i < doc.vectors.length; i++) {
   const vector = doc.vectors[i];
 
-  // (1) childSeed — packed keccak256.
-  const childSeed = computeChildSeed({
-    seedLow: vector.seedLow,
-    seedHigh: vector.seedHigh,
-    minId: BigInt(vector.minId),
-    maxId: BigInt(vector.maxId),
-    boostTier: vector.boostTier,
-    craftNonce: BigInt(vector.craftNonce),
-    entropy: vector.entropy,
-  });
-  checks++;
-  if (childSeed !== vector.childSeed) {
-    failures.push(
-      `vector[${i}] childSeed: expected ${vector.childSeed} got ${childSeed}`,
-    );
-  }
-
-  // (2..16) all 15 attributes from the reference childSeed (isolates derivation
-  // from any childSeed issue).
+  // (1..15) all 15 attributes derived from the reference seed (isolates the
+  // derivation from the retired childSeed formula).
   const choices = vector.choices.map(([slot, parent]) => ({ slot, parent }));
   const result = deriveHC2(vector.childSeed, vector.seedLow, vector.seedHigh, choices);
 
@@ -76,7 +63,7 @@ for (let i = 0; i < doc.vectors.length; i++) {
     }
   }
 
-  // (17) golden flag consistency.
+  // (16) golden flag consistency.
   checks++;
   const expectedGolden = vector.attributes.golden !== "None";
   if (expectedGolden !== result.golden) {
@@ -95,5 +82,5 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `PASS ${doc.vectors.length}/${doc.vectors.length} vectors \u00b7 ${checks} checks (childSeed + 15 attributes + golden flag)`,
+  `PASS ${doc.vectors.length}/${doc.vectors.length} vectors \u00b7 ${checks} checks (15 attributes + golden flag)`,
 );

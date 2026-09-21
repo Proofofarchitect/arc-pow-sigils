@@ -20,10 +20,10 @@ import { SITE_URL } from "./site";
  * serializable (no bigints) so it can be served verbatim as `/stats/current.json`
  * and rendered server-side (no client JS) on `/stats`.
  *
- * v3 vs v3.1 tolerance: fields that only exist on a v3.1 core (e.g.
- * `stakingDiscountBits`, and future burn/forge counters) are read through
+ * v3 vs v3.1 tolerance: fields that only exist on a v3.1+ core (e.g.
+ * `stakingDiscountMilli`, and future burn/forge counters) are read through
  * `optionalRead` and OMITTED from the snapshot when the currently-configured
- * contract (v3) does not expose them — a missing read never fails the snapshot.
+ * contract does not expose them — a missing read never fails the snapshot.
  */
 
 /** Stable identifier for the snapshot schema; also used as the Dataset identifier. */
@@ -43,10 +43,12 @@ export type StatsSnapshot = {
   claimsLeft: number;
   mintPaused: boolean;
   baseBits: number;
-  /** Baseline difficulty (bits) for a fresh wallet with no streak/stake bonus. */
+  /** Baseline difficulty (leading zero bits) for a fresh wallet with no streak/stake bonus. */
   currentRequiredBits: number;
-  /** v3.1-only: PoW-boost from the StakingVault module; omitted on v3. */
-  stakingDiscountBits?: number;
+  /** v3.4: baseline difficulty in MILLI-BITS (thousandths of a bit) for a fresh wallet. */
+  currentRequiredMilli: number;
+  /** v3.4-only: PoW-boost from the StakingVault module, in MILLI-BITS; omitted when unavailable. */
+  stakingDiscountMilli?: number;
 };
 
 function getClient() {
@@ -81,24 +83,33 @@ async function optionalRead<T>(read: () => Promise<T>): Promise<T | undefined> {
 export async function getStatsSnapshot(): Promise<StatsSnapshot> {
   const { client, contractAddress } = getClient();
 
-  const [stats, currentRequiredBits, stakingDiscountBits] = await Promise.all([
-    getCollectionStats(),
-    client.readContract({
-      address: contractAddress,
-      abi: POW_MINT_NFT_ABI,
-      functionName: "requiredBits",
-      args: [zeroAddress],
-    }),
-    // v3.1-only: reverts on the v3 deployment -> omitted gracefully.
-    optionalRead(() =>
+  const [stats, currentRequiredBits, currentRequiredMilli, stakingDiscountMilli] =
+    await Promise.all([
+      getCollectionStats(),
       client.readContract({
         address: contractAddress,
         abi: POW_MINT_NFT_ABI,
-        functionName: "stakingDiscountBits",
+        functionName: "requiredBits",
         args: [zeroAddress],
       }),
-    ),
-  ]);
+      optionalRead(() =>
+        client.readContract({
+          address: contractAddress,
+          abi: POW_MINT_NFT_ABI,
+          functionName: "requiredMilli",
+          args: [zeroAddress],
+        }),
+      ),
+      // v3.4-only: reverts on older cores -> omitted gracefully.
+      optionalRead(() =>
+        client.readContract({
+          address: contractAddress,
+          abi: POW_MINT_NFT_ABI,
+          functionName: "stakingDiscountMilli",
+          args: [zeroAddress],
+        }),
+      ),
+    ]);
 
   const snapshot: StatsSnapshot = {
     domain: STATS_DOMAIN,
@@ -115,10 +126,14 @@ export async function getStatsSnapshot(): Promise<StatsSnapshot> {
     mintPaused: stats.mintPaused,
     baseBits: stats.baseBits,
     currentRequiredBits: Number(currentRequiredBits),
+    currentRequiredMilli:
+      currentRequiredMilli !== undefined
+        ? Number(currentRequiredMilli)
+        : Number(currentRequiredBits) * 1000,
   };
 
-  if (stakingDiscountBits !== undefined) {
-    snapshot.stakingDiscountBits = Number(stakingDiscountBits);
+  if (stakingDiscountMilli !== undefined) {
+    snapshot.stakingDiscountMilli = Number(stakingDiscountMilli);
   }
 
   return snapshot;

@@ -1,0 +1,225 @@
+{
+ "domain": "arc-uniques/1",
+ "created": "2026-09-20",
+ "note": "18 one-of-one whole-scene pieces, exactly one copy each, hidden token ids (commit-reveal). Names are DRAFT pending owner approval.",
+ "source": "arc-gold-rare-v2-2026-09-20 / rare-concepts/concepts (handoff-2026-09-20)",
+ "max_supply": 15042,
+ "pieces": [
+  {
+   "code": "P01",
+   "slug": "p01-visionary",
+   "name": "The Visionary",
+   "category": "People",
+   "file": "p01-visionary.png",
+   "sha256": "1263e20679da46ba661be40884dd298e5d12b5df310114e006164b3655af0943",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P02",
+   "slug": "p02-builder",
+   "name": "The Builder",
+   "category": "People",
+   "file": "p02-builder.png",
+   "sha256": "2d25653f57dcd20b34bf69747c28396852b3924fac37ec8234eb8f41248276e2",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P03",
+   "slug": "p03-analyst",
+   "name": "The Analyst",
+   "category": "People",
+   "file": "p03-analyst.png",
+   "sha256": "0219928c8a3a580af5eada593db1cfbacbae5e381b7ee7233b03a335c78b5333",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P04",
+   "slug": "p04-thinker",
+   "name": "The Thinker",
+   "category": "People",
+   "file": "p04-thinker.png",
+   "sha256": "f78b425ce4e1b5ec3a3fc0e94f2a344c73477cd377e7cbf711274548882e169d",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P05",
+   "slug": "p05-operator",
+   "name": "The Operator",
+   "category": "People",
+   "file": "p05-operator.png",
+   "sha256": "526b6576235bef3e1cfec08c58622d5b103045fea7061e8fd69fdd7f3ea47ecd",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P06",
+   "slug": "p06-dreamer",
+   "name": "The Dreamer",
+   "category": "People",
+   "file": "p06-dreamer.png",
+   "sha256": "c260b42164fe8259ad4c4a272a5caea383373ad570a5a9bc8c72b179dd32361b",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P07",
+   "slug": "p07-mentor",
+   "name": "The Mentor",
+   "category": "People",
+   "file": "p07-mentor.png",
+   "sha256": "7c04e96a3fb2da87937103c8ab50753fb520c40a9ed96a281d3a380d01befbbc",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P08",
+   "slug": "p08-diplomat",
+   "name": "The Diplomat",
+   "category": "People",
+   "file": "p08-diplomat.png",
+   "sha256": "ad6cada7640db5950643cbc948265adf5b525c862b3a17fd52a4b3f16e9b11e5",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P09",
+   "slug": "p09-principal",
+   "name": "The Principal",
+   "category": "People",
+   "file": "p09-principal.png",
+   "sha256": "c9a66e50f812cdbf7bd7c029809442983c7bab86d6fe163bb073cace0feb7f6c",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P10",
+   "slug": "p10-optimist",
+   "name": "The Optimist",
+   "category": "People",
+   "file": "p10-optimist.png",
+   "sha256": "e55ca32d8027c159deea4a14a6556a2f000e4669348fafe15053710487c6a90d",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P11",
+   "slug": "p11-satoshi",
+   "name": "Satoshi",
+   "category": "Mythic",
+   "file": "p11-satoshi.png",
+   "sha256": "83d927484a062cf6b71c6d7afdd7726adc7025033cd8e28248b5b3c14b8add40",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P12",
+   "slug": "p12-specter",
+   "name": "Specter",
+   "category": "Mythic",
+   "file": "p12-specter.png",
+   "sha256": "a484d05d6d4df273183e59ede14ec338f323d7ab2a1488f721d850b2b5f5130b",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P13",
+   "slug": "p13-zombie",
+   "name": "Zombie",
+   "category": "Mythic",
+   "file": "p13-zombie.png",
+   "sha256": "7ea0b5fd0f0452bb20a36942f24cb6420748fdf87f7650bbc0c900380d35a98f",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P14",
+   "slug": "p14-phantom",
+   "name": "Phantom",
+   "category": "Mythic",
+   "file": "p14-phantom.png",
+   "sha256": "111337eaeed2fe6541c3b95fcb76f34f92a379ee41ecc82bcd1fd8b4a960f2f3",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P15",
+   "slug": "p15-black-cat",
+   "name": "Black Cat",
+   "category": "Mythic",
+   "file": "p15-black-cat.png",
+   "sha256": "c08e127899fdf08bd1a32063ac7ecca8bb0a3b3afb971213c6a5403694d701bf",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P16",
+   "slug": "p16-unicorn",
+   "name": "Unicorn",
+   "category": "Mythic",
+   "file": "p16-unicorn.png",
+   "sha256": "799e84ad94f91c505af86f172259bbdc81578d4e29ff435c4eb378fc83abf424",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P17",
+   "slug": "p17-cosmic",
+   "name": "Cosmic Entity",
+   "category": "Mythic",
+   "file": "p17-cosmic.png",
+   "sha256": "f6dfb5bf2f02c277bf6c5cdd3bd3ccb35a5b14c25c77b400b107f546c072eb6b",
+   "canvas": [
+    1254,
+    1254
+   ]
+  },
+  {
+   "code": "P18",
+   "slug": "p18-cipherpunk",
+   "name": "Cipherpunk",
+   "category": "Mythic",
+   "file": "p18-cipherpunk.png",
+   "sha256": "b9e1475162b1f3ea062da2c30c97ea25b9194147290542d96ce29fabe2d69a1d",
+   "canvas": [
+    1254,
+    1254
+   ]
+  }
+ ]
+}

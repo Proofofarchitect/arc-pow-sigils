@@ -12,7 +12,7 @@ a deterministic reference rate (~0.17 MH/s in pure Python per project notes).
 
 Usage:
     python3 cpu_mine.py --bits 12
-    python3 cpu_mine.py --bits 20 --miner 0x1c35...  (takes a few seconds)
+    python3 cpu_mine.py --bits 20 --miner 0x1111...  (takes a few seconds)
 """
 import argparse
 import sys

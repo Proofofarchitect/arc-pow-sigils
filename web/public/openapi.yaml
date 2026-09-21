@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Proof of Architect API
-  version: 3.0.0
+  version: 3.4.0
   description: >-
     Metadata and image endpoints for Proof of Architect — a proof-of-work
     minted NFT collection on Arc (Circle L1, chainId 5042002). Metadata is

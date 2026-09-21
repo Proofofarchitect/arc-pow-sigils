@@ -1,19 +1,21 @@
 import type { Address } from "viem";
+import { CANON_CORE } from "./canonical";
 
 /**
- * Deployed PowMintNFTv3_1 (v3.2, mainnet-config) address on Arc testnet.
+ * Deployed PowMintNFTv3_4 core (v3.4 canon) on Arc testnet.
+ * Default comes from the single source of truth (./canonical.ts).
  * Override with NEXT_PUBLIC_CONTRACT_ADDRESS if the contract is redeployed.
  */
 export const CONTRACT_ADDRESS: Address =
   (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS?.trim() as Address | undefined) ||
-  "0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b";
+  CANON_CORE;
 
-/** Chain id of Arc testnet. */
-export const ARC_CHAIN_ID = 5042002;
+/** Chain id of the configured Arc network (env-driven, see ./arc.ts). */
+export { ARC_CHAIN_ID } from "./arc";
 
 /**
  * Minimal ABI surface used by the frontend. Signatures/types are taken verbatim
- * from contracts/src/PowMintNFTv3_1.sol (v3.1 keeps the v3 surface) — do not guess names or types.
+ * from contracts/src/PowMintNFTv3_4.sol — do not guess names or types.
  */
 export const POW_MINT_NFT_ABI = [
   // --- write ---
@@ -59,11 +61,28 @@ export const POW_MINT_NFT_ABI = [
     outputs: [{ name: "", type: "uint256" }],
   },
   {
+    // v3.4 display difficulty: ceil(requiredMilli/1000) leading zero bits.
     type: "function",
     name: "requiredBits",
     stateMutability: "view",
     inputs: [{ name: "miner", type: "address" }],
     outputs: [{ name: "", type: "uint8" }],
+  },
+  {
+    // v3.4 fractional difficulty in MILLI-BITS (thousandths of a bit).
+    type: "function",
+    name: "requiredMilli",
+    stateMutability: "view",
+    inputs: [{ name: "miner", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+  {
+    // v3.4 work target: valid iff uint256(workFor(miner,nonce)) < targetFor(miner).
+    type: "function",
+    name: "targetFor",
+    stateMutability: "view",
+    inputs: [{ name: "miner", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }],
   },
   {
     type: "function",
@@ -73,14 +92,13 @@ export const POW_MINT_NFT_ABI = [
     outputs: [{ name: "", type: "uint8" }],
   },
   {
-    // v3.1 only: PoW-boost set by the StakingVault module (0..MAX_DISCOUNT_BITS).
-    // On the v3 deployment this function does not exist — callers must tolerate
-    // the revert (the /stake + /mine indicators fall back silently).
+    // v3.4: PoW-boost set by the StakingVault module, in MILLI-BITS (uint16).
+    // 0..MAX_DISCOUNT_MILLI (6000 = 6 bits); can be fractional (500 = 0.5 bit).
     type: "function",
-    name: "stakingDiscountBits",
+    name: "stakingDiscountMilli",
     stateMutability: "view",
     inputs: [{ name: "wallet", type: "address" }],
-    outputs: [{ name: "", type: "uint8" }],
+    outputs: [{ name: "", type: "uint16" }],
   },
   {
     type: "function",
@@ -175,6 +193,15 @@ export const POW_MINT_NFT_ABI = [
     stateMutability: "view",
     inputs: [{ name: "id", type: "uint256" }],
     outputs: [{ name: "", type: "uint256" }],
+  },
+  {
+    // v3.4: block the token was minted/forged in (0 for claim tokens). Feeds
+    // the post-inclusion display seed (see lib/display-seed.ts).
+    type: "function",
+    name: "mintBlockOf",
+    stateMutability: "view",
+    inputs: [{ name: "id", type: "uint256" }],
+    outputs: [{ name: "", type: "uint64" }],
   },
   // --- events ---
   {

@@ -5,28 +5,14 @@ import {
   getAddress,
   http,
   type Address,
-  type Hex,
 } from "viem";
 import { arcTestnet, ARC_RPC_URL } from "@/lib/arc";
 import { rpcFetch } from "@/lib/rpc";
-import { CONTRACT_ADDRESS, POW_MINT_NFT_ABI } from "@/lib/contract";
+import { ARC_CHAIN_ID, CONTRACT_ADDRESS, POW_MINT_NFT_ABI } from "@/lib/contract";
 import { getCollectionStats, getOnChainToken } from "@/lib/chain";
-import {
-  CRAFT_ADDRESS,
-  CONTROLLER_ABI,
-  ENTROPY_DELAY,
-  MIN_REVEAL_DELAY,
-  REVEAL_WINDOW,
-  encodeChoicesHash,
-  type SlotChoice,
-} from "@/lib/craft";
+import { CRAFT_ADDRESS, CONTROLLER_ABI } from "@/lib/craft";
 import { formatUsdc } from "@/lib/format";
-import { computeWork, leadingZeroBits } from "@/lib/pow";
-import { attributeMap, deriveAttributes } from "@/lib/traits";
-import { deriveAttributesV2 } from "@/lib/traits_v2";
-import { rarityForSeed } from "@/lib/rarity";
-import { rarityForSeedV2 } from "@/lib/rarity_v2";
-import { IS_V2 } from "@/lib/traits-set";
+import { computeWork } from "@/lib/pow";
 import { SITE_URL } from "@/lib/site";
 import { guardMcpRequest } from "@/lib/mcp-guard";
 
@@ -72,13 +58,6 @@ function parseAddress(value: string): Address | null {
 }
 
 /**
- * Salt policy surfaced by `craft_info` (HC/2 spec §3 / W3-01 fix). Plain prose so
- * an agent can quote it verbatim; the controller cannot check salt entropy.
- */
-const SALT_POLICY =
-  "preimage = keccak256(abi.encode(SlotChoice[], bytes32 salt)); generate 32 random bytes per commit; keep secret until reveal; contract cannot verify salt entropy; salt=0 re-enables brute-force (≈94k choices for tier 0); lost salt ⇒ refund() only after commitBlock+258 (fee forfeited unless forgePaused)";
-
-/**
  * Condense an unexpected error into one short, leak-free line. Strips stack
  * frames and library version markers (e.g. "Version: viem@2.x.y") so raw
  * internals never reach the MCP client (external pentest finding F4).
@@ -116,23 +95,40 @@ function craftClient() {
   });
 }
 
-/** Map `[slot, parent]` pairs from the tool input to the controller's tuple. */
-function toSlotChoices(choices: readonly [number, number][]): SlotChoice[] {
-  return choices.map(([slot, parent]) => ({ slot, parent: parent as 0 | 1 }));
-}
+type Difficulty = { bits: number; milli: bigint; target: bigint };
 
-async function readRequiredBits(miner: Address): Promise<number> {
+/**
+ * v3.4 difficulty for a miner: leading-zero bits (display), milli-bits and the
+ * exact work target (`work < target`).
+ */
+async function readDifficulty(miner: Address): Promise<Difficulty> {
   const client = createPublicClient({
     chain: arcTestnet,
     transport: http(ARC_RPC_URL, { timeout: 15_000, fetchFn: rpcFetch(6) }),
   });
 
-  return client.readContract({
-    address: CONTRACT_ADDRESS,
-    abi: POW_MINT_NFT_ABI,
-    functionName: "requiredBits",
-    args: [miner],
-  });
+  const [bits, milli, target] = await Promise.all([
+    client.readContract({
+      address: CONTRACT_ADDRESS,
+      abi: POW_MINT_NFT_ABI,
+      functionName: "requiredBits",
+      args: [miner],
+    }),
+    client.readContract({
+      address: CONTRACT_ADDRESS,
+      abi: POW_MINT_NFT_ABI,
+      functionName: "requiredMilli",
+      args: [miner],
+    }),
+    client.readContract({
+      address: CONTRACT_ADDRESS,
+      abi: POW_MINT_NFT_ABI,
+      functionName: "targetFor",
+      args: [miner],
+    }),
+  ]);
+
+  return { bits: Number(bits), milli, target };
 }
 
 const handler = createMcpHandler(
@@ -152,7 +148,7 @@ const handler = createMcpHandler(
             collection: "Proof of Architect",
             site: SITE_URL,
             contract: CONTRACT_ADDRESS,
-            chainId: 5042002,
+            chainId: ARC_CHAIN_ID,
             totalMinted: Number(s.totalMinted),
             maxSupply: Number(s.maxSupply),
             freeClaims: Number(s.freeClaims),
@@ -173,7 +169,7 @@ const handler = createMcpHandler(
       {
         title: "Get token",
         description:
-          "Details of a minted Proof of Architect token: owner, on-chain seed (the winning PoW work hash, or the claim hash for a free claim), nonce, tokenURI, image and metadata URLs. Art is a deterministic Architector derived from the seed.",
+          "Details of a minted Proof of Architect token: owner, raw on-chain seed (the winning PoW work hash, claim hash, or craft pre-seed), the DISPLAY seed (post-inclusion seed that drives traits/art), nonce, tokenURI, image and metadata URLs.",
         inputSchema: z.object({
           tokenId: z.number().int().min(1).describe("1-based token id"),
         }),
@@ -184,11 +180,15 @@ const handler = createMcpHandler(
           return json({
             tokenId,
             owner: token.owner,
-            seed: token.seed,
+            seedOf: token.seed,
+            displaySeed: token.displaySeed,
+            mintBlock: token.mintBlock.toString(),
+            pending: token.pending,
             nonce: token.nonce.toString(),
             tokenURI: `${SITE_URL}/api/meta/${tokenId}`,
             imageUrl: `${SITE_URL}/api/image/${tokenId}`,
             metadataUrl: `${SITE_URL}/api/meta/${tokenId}`,
+            note: "Traits/art derive from displaySeed = keccak256(seedOf ‖ blockhash(mintBlock + 2)) for minted/forged tokens; claim tokens (mintBlock 0) keep seedOf. pending=true means the entropy block is not mined yet.",
           });
         } catch (err) {
           return failInternal("get_token", err);
@@ -201,7 +201,7 @@ const handler = createMcpHandler(
       {
         title: "Required bits",
         description:
-          "Current proof-of-work difficulty (leading zero bits) for a wallet. Difficulty has three layers: a wave base (baseBits 30 + 2 bits per wave), a load regulator (pace target 30 s/mint over a 25-mint window, ±20% dead zone, 0..64 bits), and a per-wallet streak (+2 bits per extra mint while inside a wave-scaled cooldown of 60 s × wave; the streak resets once the cooldown passes).",
+          "Current proof-of-work difficulty (leading zero bits) for a wallet. Difficulty has three layers: a wave base (baseBits 30 + 2 bits per wave), a load regulator (pace target 25 s/mint over a 5-mint window, ±20% dead zone, 0..64 bits; +2 bits when fast, -1 bit when slow), and a per-wallet streak (+2 bits per extra mint while inside a flat 5–25 min streak-level cooldown, capped at 25; the streak resets once the cooldown passes).",
         inputSchema: z.object({
           miner: z.string().describe("0x-prefixed EVM address"),
         }),
@@ -211,13 +211,15 @@ const handler = createMcpHandler(
         if (!address) return fail(`Invalid EVM address: ${miner}`);
 
         try {
-          const bits = await readRequiredBits(address);
+          const d = await readDifficulty(address);
           return json({
             miner: address,
-            requiredBits: bits,
+            requiredBits: d.bits,
+            requiredMilli: d.milli.toString(),
+            target: d.target.toString(),
             formula:
-              "baseBits(30) + 2*waveIndex + loadAdjust + activeStreakBits (capped at 250)",
-            note: "Difficulty is per wallet and per wave. Nonces are single-use.",
+              "requiredMilli = (baseBits(30) + 2*waveIndex + loadAdjust + activeStreakBits)*1000 - stakingDiscountMilli, floored at baseBits*1000 (capped at 250 bits). Valid iff uint256(work) < targetFor(miner).",
+            note: "Difficulty is per wallet and per wave. Nonces are single-use. requiredBits is the display value (ceil of requiredMilli/1000).",
           });
         } catch (err) {
           return failInternal("required_bits", err);
@@ -230,7 +232,7 @@ const handler = createMcpHandler(
       {
         title: "Verify nonce",
         description:
-          "Verify a mined nonce WITHOUT sending a transaction: recomputes work = keccak256(chainId, contract, miner, nonce), counts leading zero bits and compares against the wallet's current required bits.",
+          "Verify a mined nonce WITHOUT sending a transaction: recomputes work = keccak256(chainId, contract, miner, nonce) and checks it against the wallet's current fractional work target (valid iff uint256(work) < targetFor(miner)).",
         inputSchema: z.object({
           miner: z.string().describe("0x-prefixed EVM address of the miner"),
           nonce: z
@@ -245,17 +247,18 @@ const handler = createMcpHandler(
 
         try {
           const work = computeWork(address, BigInt(nonce));
-          const bits = leadingZeroBits(work);
-          const required = await readRequiredBits(address);
+          const d = await readDifficulty(address);
+          const valid = BigInt(work) < d.target;
 
           return json({
             miner: address,
             nonce,
             work,
-            leadingZeroBits: bits,
-            requiredBits: required,
-            valid: bits >= required,
-            note: "valid is checked against the CURRENT difficulty; a nonce mined before a wave escalation or regulator tightening may no longer pass.",
+            requiredBits: d.bits,
+            requiredMilli: d.milli.toString(),
+            target: d.target.toString(),
+            valid,
+            note: "valid is checked against the CURRENT fractional target; a nonce mined before a wave escalation or regulator tightening may no longer pass.",
           });
         } catch (err) {
           return failInternal("verify_nonce", err);
@@ -305,45 +308,11 @@ const handler = createMcpHandler(
     );
 
     server.registerTool(
-      "verify_rarity",
-      {
-        title: "Verify rarity",
-        description:
-          "Rarity of a minted token, derived from its on-chain seed: the canonical rarity/1 information-content score in bits, its tier (Standard, Notable, Rare, Epic, Mythic), whether a golden event fired, and which legendary trait it rolled. Matches the `rarity` field served at /api/meta/{id}.",
-        inputSchema: z.object({
-          tokenId: z.number().int().min(1).describe("1-based token id"),
-        }),
-      },
-      async ({ tokenId }) => {
-        try {
-          const token = await getOnChainToken(BigInt(tokenId));
-          const { score, tier } = IS_V2
-            ? rarityForSeedV2(token.seed)
-            : rarityForSeed(token.seed);
-          const derived = IS_V2
-            ? deriveAttributesV2(token.seed)
-            : deriveAttributes(token.seed);
-
-          return json({
-            tokenId,
-            seed: token.seed,
-            score: Number(score.toFixed(2)),
-            tier,
-            golden: derived.golden,
-            legendary: IS_V2 ? "None" : attributeMap(derived).legendary,
-          });
-        } catch (err) {
-          return failInternal("verify_rarity", err);
-        }
-      }
-    );
-
-    server.registerTool(
       "craft_info",
       {
         title: "Craft info",
         description:
-          "Read-only view of the CraftingController v1 (commit-reveal Architector crafting) on Arc: pause flag, craftFee, per-tier boostCost / feeFor / maxChosen (tiers 0..3), committedFees, lastCommitId, and the reveal/entropy window constants (ENTROPY_DELAY, MIN_REVEAL_DELAY, REVEAL_WINDOW). Also returns the salt policy: the commit preimage is keccak256(abi.encode(SlotChoice[], salt)) and the salt is a 32-byte client secret the contract cannot verify.",
+          "Read-only view of CraftingControllerV2 (ONE-SHOT crafting, no commit/reveal/refund): pause flag, craftFee (fixed 5 USDC), per-tier boostCost / feeFor / maxChosen (tiers 0..3), totalFeesCollected, craftNonce, bounds (MAX_SLOT 11, MAX_BOOST_TIER 3, LOCK_WAVES 5) and the child pre-seed formula. A craft is a single payable craft(cardA, cardB, choices, boostTier) that burns both cards and forges the child atomically; the child art is only final after the entropy block.",
         inputSchema: z.object({}),
       },
       async () => {
@@ -361,12 +330,12 @@ const handler = createMcpHandler(
           const [
             paused,
             craftFee,
-            committedFees,
-            lastCommitId,
+            totalFeesCollected,
+            craftNonce,
             nft,
-            entropyDelay,
-            minRevealDelay,
-            revealWindow,
+            maxSlot,
+            maxBoostTier,
+            lockWaves,
           ] = await Promise.all([
             client.readContract({
               address,
@@ -381,12 +350,12 @@ const handler = createMcpHandler(
             client.readContract({
               address,
               abi: CONTROLLER_ABI,
-              functionName: "committedFees",
+              functionName: "totalFeesCollected",
             }),
             client.readContract({
               address,
               abi: CONTROLLER_ABI,
-              functionName: "lastCommitId",
+              functionName: "craftNonce",
             }),
             client.readContract({
               address,
@@ -396,17 +365,17 @@ const handler = createMcpHandler(
             client.readContract({
               address,
               abi: CONTROLLER_ABI,
-              functionName: "ENTROPY_DELAY",
+              functionName: "MAX_SLOT",
             }),
             client.readContract({
               address,
               abi: CONTROLLER_ABI,
-              functionName: "MIN_REVEAL_DELAY",
+              functionName: "MAX_BOOST_TIER",
             }),
             client.readContract({
               address,
               abi: CONTROLLER_ABI,
-              functionName: "REVEAL_WINDOW",
+              functionName: "LOCK_WAVES",
             }),
           ]);
 
@@ -446,121 +415,30 @@ const handler = createMcpHandler(
 
           return json({
             controller: address,
-            chainId: 5042002,
+            chainId: ARC_CHAIN_ID,
             nft,
             paused,
             craftFee: craftFee.toString(),
             craftFeeUSDC: formatUsdc(craftFee),
-            committedFees: committedFees.toString(),
-            committedFeesUSDC: formatUsdc(committedFees),
-            lastCommitId: lastCommitId.toString(),
-            windows: {
-              entropyDelay: Number(entropyDelay),
-              minRevealDelay: Number(minRevealDelay),
-              revealWindow: Number(revealWindow),
+            totalFeesCollected: totalFeesCollected.toString(),
+            craftNonce: craftNonce.toString(),
+            bounds: {
+              maxSlot: Number(maxSlot),
+              maxBoostTier: Number(maxBoostTier),
+              lockWaves: Number(lockWaves),
             },
             tiers: tierRows,
-            saltPolicy: SALT_POLICY,
+            model:
+              "one-shot: craft(cardA, cardB, SlotChoice[] choices, uint8 boostTier) payable; both cards burned + child forged atomically; no commit/reveal/refund. child pre-seed = keccak256('PoA_CRAFT_v2' ‖ seedLow ‖ seedHigh ‖ minId ‖ maxId ‖ door ‖ tier ‖ nonce ‖ keccak256(abi.encode(choices))); display seed adds blockhash(childMintBlock + 2).",
           });
         } catch (err) {
           return failInternal("craft_info", err);
         }
       }
     );
-
-    server.registerTool(
-      "verify_craft_commit",
-      {
-        title: "Verify craft commit",
-        description:
-          "Verify a crafting commit WITHOUT sending a transaction: reads commits(commitId) from the CraftingController, recomputes keccak256(abi.encode(choices, salt)) the same way the contract does, and reports whether the computed hash matches the on-chain choicesHash. Also returns the settlement flags, the player and boost tier, and the reveal window (head block, revealFromBlock, revealUntilBlock, canRevealNow).",
-        inputSchema: z.object({
-          commitId: z
-            .number()
-            .int()
-            .min(1)
-            .describe("1-based commit id (see CraftingController.lastCommitId())"),
-          choices: z
-            .array(
-              z.tuple([
-                z.number().int().min(0).describe("slot 0..11"),
-                z.number().int().min(0).describe("parent: 0 = cardA, 1 = cardB"),
-              ])
-            )
-            .describe(
-              "Reveal choices as [slot, parent] pairs, in the exact order hashed at commit"
-            ),
-          salt: z
-            .string()
-            .regex(/^0x[0-9a-fA-F]{64}$/)
-            .describe("32-byte client secret (0x + 64 hex) used at commit"),
-        }),
-      },
-      async ({ commitId, choices, salt }) => {
-        if (!CRAFT_ADDRESS) {
-          return fail(
-            "CraftingController is not configured for this deployment (NEXT_PUBLIC_CRAFT_ADDRESS is unset)."
-          );
-        }
-
-        try {
-          const client = craftClient();
-          const [
-            player,
-            cardA,
-            cardB,
-            choicesHashOnChain,
-            boostTier,
-            ,
-            commitBlock,
-            ,
-            revealed,
-            refunded,
-          ] = await client.readContract({
-            address: CRAFT_ADDRESS,
-            abi: CONTROLLER_ABI,
-            functionName: "commits",
-            args: [BigInt(commitId)],
-          });
-
-          const head = await client.getBlockNumber();
-          const computedHash = encodeChoicesHash(
-            toSlotChoices(choices),
-            salt as Hex
-          );
-          const match =
-            computedHash.toLowerCase() === choicesHashOnChain.toLowerCase();
-
-          const revealFromBlock = commitBlock + MIN_REVEAL_DELAY;
-          const revealUntilBlock = commitBlock + REVEAL_WINDOW;
-          const settled = revealed || refunded;
-          const canRevealNow =
-            !settled && head >= revealFromBlock && head <= revealUntilBlock;
-
-          return json({
-            commitId,
-            match,
-            settled: { revealed, refunded },
-            player,
-            boostTier: Number(boostTier),
-            window: {
-              head: head.toString(),
-              revealFromBlock: revealFromBlock.toString(),
-              revealUntilBlock: revealUntilBlock.toString(),
-              canRevealNow,
-            },
-            choicesHashOnChain,
-            computedHash,
-            note: "match compares the locally recomputed keccak256(abi.encode(choices, salt)) with the on-chain choicesHash. canRevealNow is false once the commit is settled (revealed or refunded).",
-          });
-        } catch (err) {
-          return failInternal("verify_craft_commit", err);
-        }
-      }
-    );
   },
   {
-    serverInfo: { name: "proof-of-architect", version: "3.0.0" },
+    serverInfo: { name: "proof-of-architect", version: "3.4.0" },
   }
 );
 

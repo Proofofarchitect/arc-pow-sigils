@@ -2,13 +2,15 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { createPublicClient, http, type Address, type Hex } from "viem";
+import { createPublicClient, http, type Address } from "viem";
 import { arcTestnet, ARC_RPC_URL, explorerUrl } from "@/lib/arc";
 import { rpcFetch } from "@/lib/rpc";
 import { CONTRACT_ADDRESS, POW_MINT_NFT_ABI } from "@/lib/contract";
+import { readDisplaySeed } from "@/lib/display-seed";
+import { milliToBits } from "@/lib/pow";
 import { rarityForSeed, type RarityTier } from "@/lib/rarity";
 import { rarityForSeedV2 } from "@/lib/rarity_v2";
-import { IS_V2, TRAITS_IMAGE_QS } from "@/lib/traits-set";
+import { IS_V2, imageQuery } from "@/lib/traits-set";
 import { useWalletRestore } from "@/lib/useWalletRestore";
 import { STAKE_TIERS, VAULT_ABI, VAULT_ADDRESS } from "@/lib/staking";
 import { formatUsdc } from "@/lib/format";
@@ -123,7 +125,7 @@ function Card({
           // eslint-disable-next-line @next/next/no-img-element
           <img
             className="thumb"
-            src={`/api/image/${row.id}${TRAITS_IMAGE_QS}`}
+            src={`/api/image/${row.id}${imageQuery(384)}`}
             alt={`Proof of Architect ${number}`}
             loading="lazy"
             onError={() => setBroken(true)}
@@ -170,7 +172,7 @@ export default function ProfilePage() {
   const [summary, setSummary] = useState<Summary | null>(null);
   const [walletBits, setWalletBits] = useState<{
     required: number;
-    discount: number;
+    discountMilli: number;
   } | null>(null);
   const [cards, setCards] = useState<CardRow[] | null>(null);
   const [staked, setStaked] = useState<StakedRow[] | null>(null);
@@ -256,32 +258,31 @@ export default function ProfilePage() {
 
   const loadWalletBits = useCallback(async (who: Address) => {
     let required = 0;
-    let discount = 0;
+    let discountMilli = 0;
     try {
-      required = Number(
-        await publicClient.readContract({
-          address: CONTRACT_ADDRESS,
-          abi: POW_MINT_NFT_ABI,
-          functionName: "requiredBits",
-          args: [who],
-        }),
-      );
+      const milli = await publicClient.readContract({
+        address: CONTRACT_ADDRESS,
+        abi: POW_MINT_NFT_ABI,
+        functionName: "requiredMilli",
+        args: [who],
+      });
+      required = milliToBits(milli);
     } catch {
       /* leave 0 */
     }
     try {
-      discount = Number(
+      discountMilli = Number(
         await publicClient.readContract({
           address: CONTRACT_ADDRESS,
           abi: POW_MINT_NFT_ABI,
-          functionName: "stakingDiscountBits",
+          functionName: "stakingDiscountMilli",
           args: [who],
         }),
       );
     } catch {
-      /* v3 core without the boost — fine */
+      /* no boost configured — fine */
     }
-    setWalletBits({ required, discount });
+    setWalletBits({ required, discountMilli });
   }, []);
 
   const scanCards = useCallback(
@@ -344,13 +345,13 @@ export default function ProfilePage() {
             if (index >= rows.length) return;
             const row = rows[index];
             try {
-              const seed = await publicClient.readContract({
-                address: CONTRACT_ADDRESS,
-                abi: POW_MINT_NFT_ABI,
-                functionName: "seedOf",
-                args: [BigInt(row.id)],
-              });
-              row.tier = (IS_V2 ? rarityForSeedV2(seed as Hex) : rarityForSeed(seed as Hex)).tier;
+              const { displaySeed } = await readDisplaySeed(
+                publicClient,
+                BigInt(row.id),
+              );
+              row.tier = (
+                IS_V2 ? rarityForSeedV2(displaySeed) : rarityForSeed(displaySeed)
+              ).tier;
             } catch {
               /* no seed (race right after mint) — no badge */
             }
@@ -410,13 +411,10 @@ export default function ProfilePage() {
         }
         let rarity: RarityTier | null = null;
         try {
-          const seed = await publicClient.readContract({
-            address: CONTRACT_ADDRESS,
-            abi: POW_MINT_NFT_ABI,
-            functionName: "seedOf",
-            args: [BigInt(id)],
-          });
-          rarity = (IS_V2 ? rarityForSeedV2(seed as Hex) : rarityForSeed(seed as Hex)).tier;
+          const { displaySeed } = await readDisplaySeed(publicClient, BigInt(id));
+          rarity = (
+            IS_V2 ? rarityForSeedV2(displaySeed) : rarityForSeed(displaySeed)
+          ).tier;
         } catch {
           /* no badge */
         }
@@ -617,9 +615,10 @@ export default function ProfilePage() {
                 <span className="value">
                   {walletBits ? `${walletBits.required} bits` : "…"}
                 </span>
-                {walletBits && walletBits.discount > 0 && (
+                {walletBits && walletBits.discountMilli > 0 && (
                   <span className="small muted">
-                    staking boost −{walletBits.discount} bits
+                    staking boost −{(walletBits.discountMilli / 1000).toFixed(1)}{" "}
+                    bits
                   </span>
                 )}
               </div>

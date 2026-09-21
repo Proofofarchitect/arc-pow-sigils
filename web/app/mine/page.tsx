@@ -15,7 +15,7 @@ import { CONTRACT_ADDRESS, POW_MINT_NFT_ABI, ARC_CHAIN_ID } from "@/lib/contract
 import type { Eip1193Provider } from "@/lib/ethereum";
 import { formatUsdc, shortAddress } from "@/lib/format";
 import { rpcFetch, humanizeRpcError } from "@/lib/rpc";
-import { computeWork, leadingZeroBits } from "@/lib/pow";
+import { computeWork, leadingZeroBits, meetsTarget, milliToBits } from "@/lib/pow";
 import {
   disconnectWalletConnect,
   getWalletConnectProvider,
@@ -83,6 +83,10 @@ type Stats = {
   claimsLeft: bigint;
   wave: bigint;
   requiredBits: number;
+  /** v3.4 fractional difficulty (milli-bits). */
+  requiredMilli: bigint;
+  /** exact work target: valid iff uint256(work) < target. */
+  target: bigint;
   paused: boolean;
 };
 
@@ -113,9 +117,9 @@ export default function MinePage() {
   const engineRef = useRef<"cpu" | "gpu">("cpu");
   const autoMintedRef = useRef<string | null>(null);
 
-  // PoW-boost from the staking vault (core v3.1 only). Read-only indicator;
-  // silently stays "—" when the core has no hook or the RPC hiccups.
-  const [discountBits, setDiscountBits] = useState<number | null>(null);
+  // PoW-boost from the staking vault, in MILLI-BITS (v3.4). Read-only
+  // indicator; silently stays "—" when the RPC hiccups.
+  const [discountMilli, setDiscountMilli] = useState<number | null>(null);
 
   const [workerAvailable, setWorkerAvailable] = useState<boolean | null>(null);
   const [gpuWorkerAvailable, setGpuWorkerAvailable] = useState<boolean | null>(
@@ -181,44 +185,48 @@ export default function MinePage() {
     setHasInjected(!!window.ethereum);
   }, []);
 
-  // Live per-wallet difficulty numbers (required bits + staking boost),
+  // Live per-wallet difficulty numbers (required milli-bits + staking boost),
   // re-read silently around the loud `refreshStats` path.
   //
-  // Why: the worker grinds against a SNAPSHOT of `requiredBits` taken when the
+  // Why: the worker grinds against a SNAPSHOT of the difficulty taken when the
   // session starts, while the page filter compares candidates to the CURRENT
   // state value. Without a periodic re-read, a target that DECREASES on-chain
   // (streak cooldown expired, staking boost applied, regulator loosened) is
   // never pulled in — the session keeps grinding at a stale, harder bar until
-  // a manual Refresh or a page reload (the "difficulty never cools down /
-  // boost only works after restart" report). Poll pulls the value both ways.
+  // a manual Refresh or a page reload. Poll pulls the value both ways.
   const pollDifficulty = useCallback(async (miner: Address) => {
     try {
-      const [need, boost] = await Promise.all([
+      const [milli, boost, target] = await Promise.all([
         publicClient.readContract({
           address: CONTRACT_ADDRESS,
           abi: POW_MINT_NFT_ABI,
-          functionName: "requiredBits",
+          functionName: "requiredMilli",
           args: [miner],
         }),
-        // v3 core has no staking hook: keep the indicator blank, not the poll dead.
         publicClient
           .readContract({
             address: CONTRACT_ADDRESS,
             abi: POW_MINT_NFT_ABI,
-            functionName: "stakingDiscountBits",
+            functionName: "stakingDiscountMilli",
             args: [miner],
           })
           .then((v) => Number(v))
           .catch(() => null),
+        publicClient.readContract({
+          address: CONTRACT_ADDRESS,
+          abi: POW_MINT_NFT_ABI,
+          functionName: "targetFor",
+          args: [miner],
+        }),
       ]);
-      const bits = Number(need);
+      const bits = milliToBits(milli);
       lastBitsRef.current = bits;
       setStats((prev) =>
-        prev && prev.requiredBits !== bits
-          ? { ...prev, requiredBits: bits }
+        prev && (prev.requiredBits !== bits || prev.target !== target)
+          ? { ...prev, requiredBits: bits, requiredMilli: milli, target }
           : prev,
       );
-      setDiscountBits(boost);
+      setDiscountMilli(boost);
     } catch {
       // Silent by design — the manual Refresh keeps the loud error handling.
     }
@@ -227,7 +235,7 @@ export default function MinePage() {
   // Initial read on (re)connect.
   useEffect(() => {
     if (!address) {
-      setDiscountBits(null);
+      setDiscountMilli(null);
       return;
     }
     void pollDifficulty(address);
@@ -300,16 +308,34 @@ export default function MinePage() {
           }),
         ]);
 
-        const requiredBits = miner
-          ? Number(
-              await publicClient.readContract({
-                address: CONTRACT_ADDRESS,
-                abi: POW_MINT_NFT_ABI,
-                functionName: "requiredBits",
-                args: [miner],
-              }),
-            )
-          : 0;
+        let requiredBits = 0;
+        let requiredMilli = 0n;
+        let target = 0n;
+        if (miner) {
+          const [bits, milli, tgt] = await Promise.all([
+            publicClient.readContract({
+              address: CONTRACT_ADDRESS,
+              abi: POW_MINT_NFT_ABI,
+              functionName: "requiredBits",
+              args: [miner],
+            }),
+            publicClient.readContract({
+              address: CONTRACT_ADDRESS,
+              abi: POW_MINT_NFT_ABI,
+              functionName: "requiredMilli",
+              args: [miner],
+            }),
+            publicClient.readContract({
+              address: CONTRACT_ADDRESS,
+              abi: POW_MINT_NFT_ABI,
+              functionName: "targetFor",
+              args: [miner],
+            }),
+          ]);
+          requiredBits = Number(bits);
+          requiredMilli = milli;
+          target = tgt;
+        }
 
         const next: Stats = {
           price,
@@ -319,6 +345,8 @@ export default function MinePage() {
           claimsLeft,
           wave,
           requiredBits,
+          requiredMilli,
+          target,
           paused,
         };
         setStats(next);
@@ -583,18 +611,18 @@ export default function MinePage() {
       const bits = leadingZeroBits(work);
       if (bits < needed) return; // worker artifact/bug; keep grinding
 
-      // On-chain gate: fresh difficulty + nonceUsed(). Without this, a
+      // On-chain gate: fresh fractional target + nonceUsed(). Without this, a
       // restarted session that rescans the same space can re-found and
       // re-submit an already-mined nonce — the contract reverts NonceUsed()
       // and the wallet burns gas for nothing.
       acceptingRef.current = true;
       void (async () => {
         try {
-          const [freshNeed, used] = await Promise.all([
+          const [freshTarget, used] = await Promise.all([
             publicClient.readContract({
               address: CONTRACT_ADDRESS,
               abi: POW_MINT_NFT_ABI,
-              functionName: "requiredBits",
+              functionName: "targetFor",
               args: [address],
             }),
             publicClient.readContract({
@@ -610,16 +638,18 @@ export default function MinePage() {
             return;
           }
 
-          const needNow = Number(freshNeed);
-          if (bits < needNow) {
-            if (needNow !== needed) await refreshStats(address);
+          // Authoritative v3.4 check: uint256(work) < targetFor(miner).
+          if (!meetsTarget(work, freshTarget)) {
+            // Target moved (or the candidate is short of the fractional bar):
+            // pull the fresh difficulty and keep grinding.
+            await refreshStats(address);
             return;
           }
 
           setFoundNonce(nonce);
           setBestBits((prev) => (prev === null ? bits : Math.max(prev, bits)));
           setStatus(
-            `Found nonce ${nonce} (${bits} bits ≥ ${needNow}). Ready to mint.`,
+            `Found nonce ${nonce} (${bits} bits, beats the target). Ready to mint.`,
           );
           teardownWorker();
         } catch {
@@ -897,18 +927,24 @@ export default function MinePage() {
   }, [resumeTick, address]);
 
   const wrongChain = chainId !== null && chainId !== ARC_CHAIN_ID;
-  const activeNonce = useMemo(
-    () => foundNonce ?? (/^\d+$/.test(manualNonce) ? BigInt(manualNonce) : null),
-    [foundNonce, manualNonce],
-  );
+  // Manual nonce is a READ-ONLY local verification (no mint): traits are only
+  // known after minting (the art seed is post-inclusion), so there is nothing
+  // to preview. We simply report whether the nonce beats the live target.
+  const manualCheck = useMemo(() => {
+    if (!/^\d+$/.test(manualNonce) || !address || !stats) return null;
+    const work = computeWork(address, BigInt(manualNonce));
+    const bits = leadingZeroBits(work);
+    return { bits, valid: meetsTarget(work, stats.target) };
+  }, [manualNonce, address, stats]);
 
+  const gpuName = gpuSupport.name ? ` (${gpuSupport.name})` : "";
   const miningStatusText = mining
-    ? `Grinding${engine === "gpu" ? " on GPU" : ""}… ${formatAttempts(attempts)} attempts`
+    ? `Grinding${engine === "gpu" ? ` on GPU${gpuName}` : ""}… ${formatAttempts(attempts)} attempts`
     : activeWorkerAvailable === null
       ? "checking worker…"
       : activeWorkerAvailable
         ? engine === "gpu"
-          ? "GPU worker ready"
+          ? `GPU worker ready — ${gpuSupport.name ?? "WebGPU"}`
           : "worker ready"
         : "worker unavailable";
 
@@ -1043,9 +1079,9 @@ export default function MinePage() {
                   <div className="stat">
                     <div className="label">Your PoW boost</div>
                     <div className="value">
-                      {!address || discountBits === null
+                      {!address || discountMilli === null
                         ? "—"
-                        : `${discountBits} bits`}
+                        : `${(discountMilli / 1000).toFixed(1)} bits`}
                     </div>
                   </div>
                   <div className="stat">
@@ -1083,12 +1119,14 @@ export default function MinePage() {
                 </p>
                 <p className="muted small" style={{ marginTop: 10 }}>
                   Difficulty rises +2 bits per wave and +2 per quick consecutive
-                  mint; the streak resets after a pause (60 s × wave without a
-                  mint). Your staking boost (up to 6 bits) offsets those penalty
-                  bits and can&rsquo;t push the target below the base floor — at
-                  wave 1 a calm wallet still mines at base bits. Both values
+                  mint; the streak cools down on a flat 5 → 10 → 15 → 20 → 25
+                  minute ladder by streak level (capped at 25 min; no wave
+                  scaling). Your staking boost (up to 6 bits) offsets those
+                  penalty bits and can&rsquo;t push the target below the base
+                  floor — a calm wallet still mines at base bits. Both values
                   re-read automatically; the running grinder always compares
-                  candidates against the live target.
+                  candidates against the live fractional target (work &lt;
+                  targetFor).
                 </p>
                 {stats?.paused && (
                   <div className="banner warn">Minting is currently paused.</div>
@@ -1216,7 +1254,7 @@ export default function MinePage() {
 
         <div className="field">
           <label className="muted small" htmlFor="manual-nonce">
-            Manual nonce
+            Verify a nonce (local, read-only)
           </label>
           <input
             id="manual-nonce"
@@ -1226,17 +1264,32 @@ export default function MinePage() {
             onChange={(e) => setManualNonce(e.target.value.trim())}
           />
         </div>
+        {manualCheck && (
+          <p className="muted small" style={{ marginTop: 6 }}>
+            nonce <span className="mono">{manualNonce}</span>: {manualCheck.bits}{" "}
+            leading zero bits —{" "}
+            <span className={manualCheck.valid ? "mono" : "mono"}>
+              {manualCheck.valid
+                ? "beats the live target"
+                : "below the live target"}
+            </span>
+            . Traits are only known after minting (the art seed is
+            post-inclusion), so a nonce cannot be previewed against its art.
+          </p>
+        )}
 
-        <div className="field">
-          <button
-            className="primary"
-            onClick={() => activeNonce !== null && mint(activeNonce)}
-            disabled={activeNonce === null || busy || !address || wrongChain}
-          >
-            {busy ? "Minting…" : activeNonce !== null ? `Mint (nonce ${activeNonce})` : "Mint"}
-          </button>
-          {foundNonce !== null && <span className="pill ok">ready</span>}
-        </div>
+        {foundNonce !== null && (
+          <div className="field">
+            <button
+              className="primary"
+              onClick={() => mint(foundNonce)}
+              disabled={busy || !address || wrongChain}
+            >
+              {busy ? "Minting…" : `Mint (nonce ${foundNonce.toString()})`}
+            </button>
+            <span className="pill ok">ready</span>
+          </div>
+        )}
 
         {status && !error && <div className="banner ok">{status}</div>}
         {error && <div className="banner error">{error}</div>}
@@ -1274,7 +1327,7 @@ export default function MinePage() {
         aria-hidden="true"
         dangerouslySetInnerHTML={{
           __html:
-            "<!-- house fragment: the door verifies. -->",
+            "<!-- the first stone is spoken here: write DOORWAY exactly (one word, uppercase), hash it with keccak-256, keep the first six hex characters. -->",
         }}
       />
     </>

@@ -28,7 +28,7 @@ Flow implemented here (matching HC/2 spec v1.0.1):
   Use a **throwaway test key / your own key ONLY**. Never paste a mainnet key into a shell
   you do not control. It is testnet-oriented (chain 5042002) and read-only until the commit.
 
-Dependencies (same stack as the internal tooling): eth_abi, eth_utils, web3 (eth_account ships with web3).
+Dependencies (same stack as `ops/`): eth_abi, eth_utils, web3 (eth_account ships with web3).
 No new third-party imports are introduced.
 
 Usage:
@@ -178,7 +178,7 @@ def load_config():
 
 
 def send(w3, acct, fn, value=0, gas=1_000_000):
-    """Sign + broadcast one legacy tx (mirrors the internal broadcast helper)."""
+    """Sign + broadcast one legacy tx (mirrors ops/v3_1_testnet/v31lib.py)."""
     tx = {
         "chainId": CHAIN_ID,
         "nonce": w3.eth.get_transaction_count(acct.address, "pending"),

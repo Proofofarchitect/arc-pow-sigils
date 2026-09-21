@@ -10,7 +10,9 @@ import { CONTRACT_ADDRESS } from "./contract";
  * the feed must never break the page.
  */
 
-const EXPLORER_API = "https://explorer.testnet.arc.io/api/v2";
+const EXPLORER_API =
+  process.env.NEXT_PUBLIC_ARC_EXPLORER_API?.trim() ||
+  "https://explorer.testnet.arc.io/api/v2";
 const CACHE_MS = 20_000;
 const FETCH_TIMEOUT_MS = 6_000;
 

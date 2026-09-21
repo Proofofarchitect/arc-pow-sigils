@@ -29,8 +29,10 @@
 /** Path of the worker asset, served from `public/miner/miner-worker.js`. */
 export const WORKER_PATH = "/miner/miner-worker.js";
 
-/** Path of the WebGPU worker — same message protocol as WORKER_PATH. */
-export const GPU_WORKER_PATH = "/miner/miner-gpu-worker.js";
+/** Path of the WebGPU worker — same message protocol as WORKER_PATH.
+ *  The ?v= cache-buster must be bumped whenever the worker file changes:
+ *  workers are served statically and a stale copy silently keeps old bugs. */
+export const GPU_WORKER_PATH = "/miner/miner-gpu-worker.js?v=3";
 
 /** A candidate nonce reported by the worker. */
 export type MinerCandidate = {
@@ -53,7 +55,7 @@ export type StartOptions = {
   requiredBits?: number;
 };
 
-export type StartedMessage = { type: "started"; startNonce: string };
+export type StartedMessage = { type: "started"; startNonce: string; adapter?: string };
 
 export type ProgressMessage = {
   type: "progress";

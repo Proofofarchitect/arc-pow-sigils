@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SITE_URL } from "@/lib/site";
+import { ARC_CHAIN_ID } from "@/lib/contract";
 
 export const metadata: Metadata = {
   title: "Documentation — Proof of Architect",
@@ -83,11 +84,11 @@ const DOC_PAGES: DocLink[] = [
   {
     href: "/craft",
     title: "Crafting (HC/2)",
-    summary: "Forge a new Architector from two you own — commit/reveal with a client secret salt.",
+    summary: "Forge a new Architector from two you own — one-shot craft, no commit/reveal.",
     points: [
-      "Two-phase: commit(cardA, cardB, slotChoicesHash, boostTier) with the exact fee, then reveal(commitId, choices, salt) after +3 blocks (window [commit+3, commit+258]).",
-      "slotChoicesHash = keccak256(abi.encode(SlotChoice[], salt)); the salt is a per-commit 32-byte client secret — back it up or only refund() remains.",
-      "Staking tiers 0..5 (lock 0/7/30/90/180/365 days) grant a PoW bits discount; staking is a hard lock with no early exit — only tier 0 (flexible) can be unstaked any time.",
+      "One-shot: craft(cardA, cardB, choices, boostTier) payable with the exact feeFor(tier) burns both parents and forges the child atomically — no commit, no reveal, no refund.",
+      "choices is a (uint8 slot, uint8 parent)[] with strictly increasing slots; the child pre-seed packs both parents' raw seedOf and the display seed adds blockhash(childMintBlock + 2) (post-inclusion entropy).",
+      "Staking tiers 0..5 (lock 0/7/30/90/180/365 days) grant a PoW milli-bits discount; staking is a hard lock with no early exit — only tier 0 (flexible) can be unstaked any time.",
       "Agent walkthrough with viem and the correct tuple[] typing: /docs/agent-access.",
     ],
   },
@@ -145,7 +146,7 @@ export default function DocsIndexPage() {
       <h1>Documentation</h1>
       <p className="muted">
         Proof of Architect is a proof-of-work minted NFT collection on Arc, Circle&#39;s
-        EVM L1 (chainId 5042002). These pages document the
+        EVM L1 (chainId {ARC_CHAIN_ID}). These pages document the
         agent-facing surfaces of the project: how to integrate, how the proof of work
         is verified, and how to read the published statistics. Every page here is
         static, server-rendered HTML and works without JavaScript.
@@ -225,10 +226,10 @@ export default function DocsIndexPage() {
       <p className="small muted" style={{ marginTop: 18 }}>
         Contract (Arc):{" "}
         <span className="mono">
-          0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b
+          0x8f5795343C10b316296f6767a10e87CC40E62491
         </span>
         . Explorer:{" "}
-        <a href="https://testnet.arcscan.app/address/0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b">
+        <a href="https://testnet.arcscan.app/address/0x8f5795343C10b316296f6767a10e87CC40E62491">
           arcscan
         </a>
         . This is the live collection contract.

@@ -15,15 +15,14 @@ import {
   CRAFT_ADDRESS,
   SITE_URL,
   controllerAbi,
-  encodeChoicesHash,
   formatUsdc,
   imageUrl,
-  leadingZeroBits,
+  meetsTarget,
   metadataUrl,
   publicClient,
   powMintAbi,
+  readDisplaySeed,
   workFor,
-  type SlotChoice,
 } from "./chain.js";
 
 /** Build a successful JSON text result. */
@@ -62,14 +61,9 @@ function failInternal(tool: string, err: unknown) {
 }
 
 /**
- * Salt policy surfaced by `craft_info` (HC/2 spec §3 / W3-01 fix). Plain prose so
- * an agent can quote it verbatim; the controller cannot check salt entropy.
+ * Fallback on-chain config mirroring the deploy defaults (used only if a read
+ * ever returns zero). Values are otherwise always read live from the contract.
  */
-const SALT_POLICY =
-  "preimage = keccak256(abi.encode(SlotChoice[], bytes32 salt)); generate 32 random bytes per commit; keep secret until reveal; contract cannot verify salt entropy; salt=0 re-enables brute-force (≈94k choices for tier 0); lost salt ⇒ refund() only after commitBlock+258 (fee forfeited unless forgePaused)";
-
-// Fallback on-chain config mirroring the v3 deploy defaults (used only if a read
-// ever returns zero). Values are otherwise always read live from the contract.
 const DEFAULTS = {
   epochSize: 1000n, // 15 paid waves × 1000
   priceStart: 1000000000000000000n, // 1 USDC
@@ -172,8 +166,9 @@ server.registerTool(
   {
     title: "Get token",
     description:
-      "Read a minted token: owner, seed, nonce, tokenURI, plus off-chain " +
-      "image and metadata urls. Returns an error if the token does not exist.",
+      "Read a minted token: owner, raw seedOf, the DISPLAY seed " +
+      "(post-inclusion seed that drives traits/art), nonce, tokenURI, plus " +
+      "off-chain image and metadata urls. Returns an error if the token does not exist.",
     inputSchema: {
       tokenId: z
         .number()
@@ -185,19 +180,14 @@ server.registerTool(
   async ({ tokenId }) => {
     const id = BigInt(tokenId);
     try {
-      const [owner, seed, nonce, tokenURI] = await Promise.all([
+      const [owner, display, nonce, tokenURI] = await Promise.all([
         publicClient.readContract({
           address: CONTRACT_ADDRESS,
           abi: powMintAbi,
           functionName: "ownerOf",
           args: [id],
         }),
-        publicClient.readContract({
-          address: CONTRACT_ADDRESS,
-          abi: powMintAbi,
-          functionName: "seedOf",
-          args: [id],
-        }),
+        readDisplaySeed(id),
         publicClient.readContract({
           address: CONTRACT_ADDRESS,
           abi: powMintAbi,
@@ -215,12 +205,17 @@ server.registerTool(
       return ok({
         tokenId,
         owner,
-        seed,
+        seedOf: display.seedOf,
+        displaySeed: display.displaySeed,
+        mintBlock: display.mintBlock.toString(),
+        pending: display.pending,
         nonce: nonce.toString(),
         tokenURI,
         image: imageUrl(id),
         metadata: metadataUrl(id),
         siteUrl: SITE_URL,
+        note:
+          "Traits/art derive from displaySeed = keccak256(seedOf ‖ blockhash(mintBlock + 2)) for minted/forged tokens; claim tokens (mintBlock 0) keep seedOf. pending=true means the entropy block is not mined yet.",
       });
     } catch (err) {
       return failInternal("get_token", err);
@@ -234,9 +229,9 @@ server.registerTool(
   {
     title: "Required bits",
     description:
-      "Current PoW difficulty for a miner: requiredBits(miner) as leading zero " +
-      "bits, plus its three layers (wave base, load regulator, active streak) " +
-      "and the wallet's mint count.",
+      "Current PoW difficulty for a miner: requiredBits (display leading zero " +
+      "bits), requiredMilli (v3.4 milli-bits) and the exact work target, plus " +
+      "its layers (wave base, load regulator, active streak) and the wallet's mint count.",
     inputSchema: {
       miner: z
         .string()
@@ -246,47 +241,69 @@ server.registerTool(
   },
   async ({ miner }) => {
     try {
-      const [bits, mints, baseBits, loadAdjust, streakBits, currentWave] =
-        await Promise.all([
-          publicClient.readContract({
-            address: CONTRACT_ADDRESS,
-            abi: powMintAbi,
-            functionName: "requiredBits",
-            args: [miner as Address],
-          }),
-          publicClient.readContract({
-            address: CONTRACT_ADDRESS,
-            abi: powMintAbi,
-            functionName: "mintCount",
-            args: [miner as Address],
-          }),
-          publicClient.readContract({
-            address: CONTRACT_ADDRESS,
-            abi: powMintAbi,
-            functionName: "baseBits",
-          }),
-          publicClient.readContract({
-            address: CONTRACT_ADDRESS,
-            abi: powMintAbi,
-            functionName: "loadAdjust",
-          }),
-          publicClient.readContract({
-            address: CONTRACT_ADDRESS,
-            abi: powMintAbi,
-            functionName: "streakBits",
-            args: [miner as Address],
-          }),
-          publicClient.readContract({
-            address: CONTRACT_ADDRESS,
-            abi: powMintAbi,
-            functionName: "currentWave",
-          }),
-        ]);
+      const [
+        bits,
+        milli,
+        target,
+        mints,
+        baseBits,
+        loadAdjust,
+        streakBits,
+        currentWave,
+      ] = await Promise.all([
+        publicClient.readContract({
+          address: CONTRACT_ADDRESS,
+          abi: powMintAbi,
+          functionName: "requiredBits",
+          args: [miner as Address],
+        }),
+        publicClient.readContract({
+          address: CONTRACT_ADDRESS,
+          abi: powMintAbi,
+          functionName: "requiredMilli",
+          args: [miner as Address],
+        }),
+        publicClient.readContract({
+          address: CONTRACT_ADDRESS,
+          abi: powMintAbi,
+          functionName: "targetFor",
+          args: [miner as Address],
+        }),
+        publicClient.readContract({
+          address: CONTRACT_ADDRESS,
+          abi: powMintAbi,
+          functionName: "mintCount",
+          args: [miner as Address],
+        }),
+        publicClient.readContract({
+          address: CONTRACT_ADDRESS,
+          abi: powMintAbi,
+          functionName: "baseBits",
+        }),
+        publicClient.readContract({
+          address: CONTRACT_ADDRESS,
+          abi: powMintAbi,
+          functionName: "loadAdjust",
+        }),
+        publicClient.readContract({
+          address: CONTRACT_ADDRESS,
+          abi: powMintAbi,
+          functionName: "streakBits",
+          args: [miner as Address],
+        }),
+        publicClient.readContract({
+          address: CONTRACT_ADDRESS,
+          abi: powMintAbi,
+          functionName: "currentWave",
+        }),
+      ]);
 
       const wave = Number(currentWave);
       return ok({
         miner,
-        bits: Number(bits),
+        requiredBits: Number(bits),
+        requiredMilli: milli.toString(),
+        target: target.toString(),
         mintsByWallet: Number(mints),
         wave,
         epochIndex: wave - 1,
@@ -294,8 +311,8 @@ server.registerTool(
         loadAdjust: Number(loadAdjust),
         streakBits: Number(streakBits),
         note:
-          "Difficulty = baseBits + 2×epochIndex + loadAdjust + streakBits, capped at 250. " +
-          "The streak term only applies while the wallet is inside its wave-scaled cooldown.",
+          "requiredMilli = (baseBits + 2×epochIndex + loadAdjust + streakBits)*1000 − stakingDiscountMilli, floored at baseBits*1000 (capped at 250 bits). " +
+          "Valid iff uint256(workFor(miner, nonce)) < target. The streak term only applies while the wallet is inside its cooldown.",
       });
     } catch (err) {
       return failInternal("required_bits", err);
@@ -310,7 +327,8 @@ server.registerTool(
     title: "Verify nonce",
     description:
       "Verify a mined nonce WITHOUT sending a transaction: reads workFor(miner, " +
-      "nonce), counts leading zero bits locally and compares to requiredBits(miner).",
+      "nonce) and checks it against the wallet's fractional work target " +
+      "(valid iff uint256(work) < targetFor(miner)).",
     inputSchema: {
       miner: z
         .string()
@@ -325,7 +343,7 @@ server.registerTool(
   async ({ miner, nonce }) => {
     try {
       const nonceBig = BigInt(nonce);
-      const [workOnChain, required] = await Promise.all([
+      const [workOnChain, target] = await Promise.all([
         publicClient.readContract({
           address: CONTRACT_ADDRESS,
           abi: powMintAbi,
@@ -335,15 +353,13 @@ server.registerTool(
         publicClient.readContract({
           address: CONTRACT_ADDRESS,
           abi: powMintAbi,
-          functionName: "requiredBits",
+          functionName: "targetFor",
           args: [miner as Address],
         }),
       ]);
 
       // Local recomputation (independent of the RPC round-trip).
       const workLocal = workFor(miner as Address, nonceBig);
-      const bits = leadingZeroBits(workLocal);
-      const need = Number(required);
       const matchesOnChain =
         workLocal.toLowerCase() === (workOnChain as string).toLowerCase();
 
@@ -352,9 +368,9 @@ server.registerTool(
         nonce,
         work: workLocal,
         workMatchesOnChain: matchesOnChain,
-        leadingZeroBits: bits,
-        requiredBits: need,
-        valid: bits >= need,
+        target: target.toString(),
+        valid: meetsTarget(workLocal, target),
+        note: "valid is checked against the CURRENT fractional target; a nonce mined before a wave escalation or regulator tightening may no longer pass.",
       });
     } catch (err) {
       return failInternal("verify_nonce", err);
@@ -460,11 +476,13 @@ server.registerTool(
   {
     title: "Craft info",
     description:
-      "Read-only view of the CraftingController v1 (commit-reveal House Card " +
-      "crafting): paused, craftFee, per-tier boostCost/feeFor/maxChosen (0..3), " +
-      "committedFees, lastCommitId and the reveal/entropy window constants " +
-      "(ENTROPY_DELAY, MIN_REVEAL_DELAY, REVEAL_WINDOW). Also returns the salt " +
-      "policy: preimage = keccak256(abi.encode(SlotChoice[], salt)).",
+      "Read-only view of CraftingControllerV2 (ONE-SHOT crafting, no " +
+      "commit/reveal/refund): paused, craftFee (fixed 5 USDC), per-tier " +
+      "boostCost/feeFor/maxChosen (0..3), totalFeesCollected, craftNonce, " +
+      "bounds (MAX_SLOT 11, MAX_BOOST_TIER 3, LOCK_WAVES 5) and the child " +
+      "pre-seed formula. A craft is a single payable " +
+      "craft(cardA, cardB, choices, boostTier) that burns both cards and forges " +
+      "the child atomically; the child art is only final after the entropy block.",
     inputSchema: {},
   },
   async () => {
@@ -474,12 +492,12 @@ server.registerTool(
       const [
         paused,
         craftFee,
-        committedFees,
-        lastCommitId,
+        totalFeesCollected,
+        craftNonce,
         nft,
-        entropyDelay,
-        minRevealDelay,
-        revealWindow,
+        maxSlot,
+        maxBoostTier,
+        lockWaves,
       ] = await Promise.all([
         publicClient.readContract({
           address: CRAFT_ADDRESS,
@@ -494,12 +512,12 @@ server.registerTool(
         publicClient.readContract({
           address: CRAFT_ADDRESS,
           abi: controllerAbi,
-          functionName: "committedFees",
+          functionName: "totalFeesCollected",
         }),
         publicClient.readContract({
           address: CRAFT_ADDRESS,
           abi: controllerAbi,
-          functionName: "lastCommitId",
+          functionName: "craftNonce",
         }),
         publicClient.readContract({
           address: CRAFT_ADDRESS,
@@ -509,17 +527,17 @@ server.registerTool(
         publicClient.readContract({
           address: CRAFT_ADDRESS,
           abi: controllerAbi,
-          functionName: "ENTROPY_DELAY",
+          functionName: "MAX_SLOT",
         }),
         publicClient.readContract({
           address: CRAFT_ADDRESS,
           abi: controllerAbi,
-          functionName: "MIN_REVEAL_DELAY",
+          functionName: "MAX_BOOST_TIER",
         }),
         publicClient.readContract({
           address: CRAFT_ADDRESS,
           abi: controllerAbi,
-          functionName: "REVEAL_WINDOW",
+          functionName: "LOCK_WAVES",
         }),
       ]);
 
@@ -564,125 +582,19 @@ server.registerTool(
         paused,
         craftFee: craftFee.toString(),
         craftFeeUSDC: formatUsdc(craftFee),
-        committedFees: committedFees.toString(),
-        committedFeesUSDC: formatUsdc(committedFees),
-        lastCommitId: lastCommitId.toString(),
-        windows: {
-          entropyDelay: Number(entropyDelay),
-          minRevealDelay: Number(minRevealDelay),
-          revealWindow: Number(revealWindow),
+        totalFeesCollected: totalFeesCollected.toString(),
+        craftNonce: craftNonce.toString(),
+        bounds: {
+          maxSlot: Number(maxSlot),
+          maxBoostTier: Number(maxBoostTier),
+          lockWaves: Number(lockWaves),
         },
         tiers: tierRows,
-        saltPolicy: SALT_POLICY,
+        model:
+          "one-shot: craft(cardA, cardB, SlotChoice[] choices, uint8 boostTier) payable; both cards burned + child forged atomically; no commit/reveal/refund. child pre-seed = keccak256('PoA_CRAFT_v2' ‖ seedLow ‖ seedHigh ‖ minId ‖ maxId ‖ door ‖ tier ‖ nonce ‖ keccak256(abi.encode(choices))); display seed adds blockhash(childMintBlock + 2).",
       });
     } catch (err) {
       return failInternal("craft_info", err);
-    }
-  },
-);
-
-// ------------------------------------------------------- verify_craft_commit
-server.registerTool(
-  "verify_craft_commit",
-  {
-    title: "Verify craft commit",
-    description:
-      "Verify a crafting commit WITHOUT sending a transaction: reads " +
-      "commits(commitId) from the CraftingController, recomputes " +
-      "keccak256(abi.encode(choices, salt)) the same way the contract does, and " +
-      "reports whether it matches the on-chain choicesHash, plus settlement " +
-      "flags, player, boost tier and the reveal window.",
-    inputSchema: {
-      commitId: z
-        .number()
-        .int()
-        .positive()
-        .describe("1-based commit id (see CraftingController.lastCommitId())."),
-      choices: z
-        .array(
-          z.tuple([
-            z.number().int().min(0).describe("slot 0..11"),
-            z.number().int().min(0).describe("parent: 0 = cardA, 1 = cardB"),
-          ]),
-        )
-        .describe(
-          "Reveal choices as [slot, parent] pairs, in the exact order hashed at commit.",
-        ),
-      salt: z
-        .string()
-        .regex(/^0x[0-9a-fA-F]{64}$/)
-        .describe("32-byte client secret (0x + 64 hex) used at commit."),
-    },
-  },
-  async ({ commitId, choices, salt }) => {
-    try {
-      const [commit, head, minRevealDelay, revealWindow] = await Promise.all([
-        publicClient.readContract({
-          address: CRAFT_ADDRESS,
-          abi: controllerAbi,
-          functionName: "commits",
-          args: [BigInt(commitId)],
-        }),
-        publicClient.getBlockNumber(),
-        publicClient.readContract({
-          address: CRAFT_ADDRESS,
-          abi: controllerAbi,
-          functionName: "MIN_REVEAL_DELAY",
-        }),
-        publicClient.readContract({
-          address: CRAFT_ADDRESS,
-          abi: controllerAbi,
-          functionName: "REVEAL_WINDOW",
-        }),
-      ]);
-
-      const [
-        player,
-        cardA,
-        cardB,
-        choicesHashOnChain,
-        boostTier,
-        ,
-        commitBlock,
-        ,
-        revealed,
-        refunded,
-      ] = commit;
-
-      const slotChoices: SlotChoice[] = choices.map(([slot, parent]) => ({
-        slot,
-        parent,
-      }));
-      const computedHash = encodeChoicesHash(slotChoices, salt as Hex);
-      const match =
-        computedHash.toLowerCase() === choicesHashOnChain.toLowerCase();
-
-      const revealFromBlock = commitBlock + minRevealDelay;
-      const revealUntilBlock = commitBlock + revealWindow;
-      const settled = revealed || refunded;
-      const canRevealNow =
-        !settled && head >= revealFromBlock && head <= revealUntilBlock;
-
-      return ok({
-        commitId,
-        match,
-        settled: { revealed, refunded },
-        player,
-        boostTier: Number(boostTier),
-        window: {
-          head: head.toString(),
-          revealFromBlock: revealFromBlock.toString(),
-          revealUntilBlock: revealUntilBlock.toString(),
-          canRevealNow,
-        },
-        choicesHashOnChain,
-        computedHash,
-        note:
-          "match compares the locally recomputed keccak256(abi.encode(choices, salt)) " +
-          "with the on-chain choicesHash. canRevealNow is false once settled.",
-      });
-    } catch (err) {
-      return failInternal("verify_craft_commit", err);
     }
   },
 );

@@ -4,6 +4,7 @@ import { attributesForMetadata } from "@/lib/traits";
 import { getTraitsForToken } from "@/lib/hc2chain";
 import { SITE_URL } from "@/lib/site";
 import { IS_V2 } from "@/lib/traits-set";
+import { uniquePieceForId } from "@/lib/uniques";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -36,6 +37,30 @@ export async function GET(
     // resolve via HC/2 (Crafted log + parent seeds). Crafted fallbacks surface
     // as `crafted: true` + `craftedLookup: "unavailable"`.
     const traits = await getTraitsForToken(tokenId);
+
+    // Sealed 1-of-1 (arc-uniques/1): minimal metadata — the whole-scene piece
+    // replaces the composite render, so the 15 seed traits are not shown.
+    const piece = uniquePieceForId(tokenId);
+    if (piece) {
+      return NextResponse.json(
+        {
+          name: `Architector #${tokenId} — ${piece.name}`,
+          description:
+            `One of 18 legendary one-of-one Architectors hidden in the collection. ` +
+            `${piece.name} (${piece.category}) — whole-scene artwork, revealed at mint. ` +
+            `Served by ${SITE_URL}.`,
+          image: `${SITE_URL}/api/image/${tokenId}`,
+          external_url: `${SITE_URL}/token/${tokenId}`,
+          attributes: [
+            { trait_type: "Set", value: "Unique" },
+            { trait_type: "Piece", value: piece.name },
+            { trait_type: "Class", value: piece.category },
+          ],
+          unique: true,
+        },
+        { headers: { "Cache-Control": CACHE_CONTROL } },
+      );
+    }
 
     const body: Record<string, unknown> = {
       name: `Proof of Architect #${tokenId}`,

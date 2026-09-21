@@ -8,21 +8,30 @@ import {
 import { arcTestnet, ARC_RPC_URL } from "./arc";
 import { rpcFetch } from "./rpc";
 import { CONTRACT_ADDRESS, POW_MINT_NFT_ABI } from "./contract";
+import { readDisplaySeed } from "./display-seed";
 
 /**
  * Server-side on-chain reads for the metadata/image routes.
  *
- * Reads seedOf / nonceOf / ownerOf from the deployed PowMintNFT. These are the
- * same functions the canonical metadata spec consumes; only the ABI source
- * (lib/contract.ts) and the chain definition differ from the reference stub.
+ * Reads `seedOf` / `mintBlockOf` / `nonceOf` / `ownerOf` from the deployed
+ * PowMintNFT v3.4. The DISPLAY seed (`displaySeed`) — the post-inclusion seed
+ * that drives traits / rarity / art — is derived HERE (via `lib/display-seed.ts`)
+ * so every consumer (/api/meta, /api/image, MCP) inherits one derivation.
  */
 
 const CACHE_TTL_MS = 60_000;
 
 export type OnChainToken = {
+  /** Raw `seedOf[id]` — the work hash / claim hash / craft pre-seed. */
   seed: Hex;
+  /** Post-inclusion display seed used for traits / rarity / art. */
+  displaySeed: Hex;
   nonce: bigint;
   owner: Address;
+  /** `mintBlockOf[id]` — 0 for claim tokens. */
+  mintBlock: bigint;
+  /** True while `mintBlockOf + 2` has not been mined yet (display seed not final). */
+  pending: boolean;
 };
 
 type CachedRead = {
@@ -68,13 +77,8 @@ export async function getOnChainToken(tokenId: bigint): Promise<OnChainToken> {
 
   const { client, contractAddress } = getClient();
 
-  const [seed, nonce, owner] = await Promise.all([
-    client.readContract({
-      address: contractAddress,
-      abi: POW_MINT_NFT_ABI,
-      functionName: "seedOf",
-      args: [tokenId],
-    }),
+  const [token, nonce, owner] = await Promise.all([
+    readDisplaySeed(client, tokenId, contractAddress),
     client.readContract({
       address: contractAddress,
       abi: POW_MINT_NFT_ABI,
@@ -89,7 +93,14 @@ export async function getOnChainToken(tokenId: bigint): Promise<OnChainToken> {
     }),
   ]);
 
-  const value: OnChainToken = { seed, nonce, owner };
+  const value: OnChainToken = {
+    seed: token.seedOf,
+    displaySeed: token.displaySeed,
+    nonce,
+    owner,
+    mintBlock: token.mintBlock,
+    pending: token.pending,
+  };
 
   cache.set(cacheKey, {
     value,

@@ -16,7 +16,7 @@ import {PowMintNFTv3_1} from "../src/PowMintNFTv3_1.sol";
 ///   NAME ("Proof of Architect"), SYMBOL ("PARC"), BASE_URI ("https://example.com/api/meta/"),
 ///   BASE_BITS (30), PRICE_START (1e18), EPOCH_SIZE (1000), FREE_CLAIMS (42),
 ///   MAX_SUPPLY (15042), ROYALTY_BPS (500), MINT_FEE_BPS (250),
-///   REG_WINDOW (25), PACE_TARGET_S (30)
+///   REG_WINDOW (5), PACE_TARGET_S (25)
 ///
 /// Post-deploy (see v3.1 spec §7): verify on arcscan, smoke (incl. burn/forge cycle),
 /// then owner → Safe (nominate/accept). Modules (CraftingController/StakingVault) attach later
@@ -36,8 +36,8 @@ contract DeployV3_1 is Script {
         uint256 maxSupply_ = vm.envOr("MAX_SUPPLY", uint256(15042));
         uint96 royaltyBps_ = uint96(vm.envOr("ROYALTY_BPS", uint256(500)));
         uint256 mintFeeBps_ = vm.envOr("MINT_FEE_BPS", uint256(250));
-        uint256 regWindow_ = vm.envOr("REG_WINDOW", uint256(25));
-        uint256 paceTargetS_ = vm.envOr("PACE_TARGET_S", uint256(30));
+        uint256 regWindow_ = vm.envOr("REG_WINDOW", uint256(5));
+        uint256 paceTargetS_ = vm.envOr("PACE_TARGET_S", uint256(25));
 
         require(treasury != address(0), "TREASURY required");
 

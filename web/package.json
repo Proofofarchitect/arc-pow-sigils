@@ -11,10 +11,14 @@
     "check:rarity": "tsx scripts/check-rarity.mjs",
     "check:hc2": "tsx scripts/check-hc2.mjs",
     "check:hc2v2": "tsx scripts/check-hc2-v2.mjs",
-    "check:traits2": "tsx scripts/check-traits-v2.mjs"
+    "check:traits2": "tsx scripts/check-traits-v2.mjs",
+    "render:uniques": "tsx scripts/render-unique-smoke.mjs",
+    "check:addresses": "node scripts/check-addresses.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "^2.0.0",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "@walletconnect/ethereum-provider": "^2.25.0",
     "mcp-handler": "^2.1.1",
     "next": "^15.1.0",

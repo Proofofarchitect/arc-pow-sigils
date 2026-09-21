@@ -1,11 +1,12 @@
 import {
   createPublicClient,
+  concatHex,
   defineChain,
-  encodeAbiParameters,
   encodePacked,
+  fallback,
+  keccak256,
   formatUnits,
   http,
-  keccak256,
   parseAbi,
   type Address,
   type Hex,
@@ -18,8 +19,31 @@ import {
  * IMPORTANT: the native gas token is USDC with 18 decimals (NOT ETH, NOT 6).
  * Kept local to this package on purpose — do not import across packages.
  */
+const ARC_CHAIN_ID_ENV = Number(process.env.ARC_CHAIN_ID?.trim() || 5042002);
+/**
+ * RPC endpoints (comma-separated list, first = primary). Official alternates:
+ * Blockdaemon / dRPC / QuickNode (see Arc docs). Failover via viem `fallback`.
+ */
+const ARC_RPC_URLS_ENV = (
+  process.env.ARC_RPC_URL?.trim() || "https://rpc.testnet.arc.io"
+)
+  .split(",")
+  .map((url) => url.trim())
+  .filter((url) => url.length > 0);
+const ARC_RPC_ENV = ARC_RPC_URLS_ENV[0] ?? "https://rpc.testnet.arc.io";
+const ARC_EXPLORER_ENV =
+  process.env.ARC_EXPLORER_URL?.trim() || "https://testnet.arcscan.app";
+const ARC_IS_TESTNET_ENV = (process.env.ARC_IS_TESTNET ?? "true") !== "false";
+
+/**
+ * Arc chain definition (env-driven: testnet 5042002 by default, mainnet 5042
+ * with `ARC_CHAIN_ID=5042`).
+ *
+ * IMPORTANT: the native gas token is USDC with 18 decimals (NOT ETH, NOT 6).
+ * Kept local to this package on purpose — do not import across packages.
+ */
 export const arcTestnet = defineChain({
-  id: 5042002,
+  id: ARC_CHAIN_ID_ENV,
   name: "Arc Testnet",
   nativeCurrency: {
     name: "USDC",
@@ -28,40 +52,39 @@ export const arcTestnet = defineChain({
   },
   rpcUrls: {
     default: {
-      http: ["https://rpc.testnet.arc.io"],
+      http: ARC_RPC_URLS_ENV,
     },
   },
   blockExplorers: {
     default: {
       name: "ArcScan",
-      url: "https://testnet.arcscan.app",
+      url: ARC_EXPLORER_ENV,
     },
   },
-  testnet: true,
+  testnet: ARC_IS_TESTNET_ENV,
 });
 
-/** Arc testnet chain id. */
-export const CHAIN_ID = 5042002;
+/** Arc chain id (env-driven). */
+export const CHAIN_ID = ARC_CHAIN_ID_ENV;
 
 /** USDC native decimals on Arc. */
 export const USDC_DECIMALS = 18;
 
-/** Deployed PowMintNFTv3_1 (v3.2, testnet, migration 2026-09-19) address; override with CONTRACT_ADDRESS. */
+/** Deployed PowMintNFTv3_4 core (v3.4 canon, Arc testnet) address; override with CONTRACT_ADDRESS. */
 export const CONTRACT_ADDRESS: Address =
   (process.env.CONTRACT_ADDRESS?.trim() as Address | undefined) ||
-  "0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b";
+  "0x8f5795343C10b316296f6767a10e87CC40E62491";
 
-/** RPC endpoint; override with ARC_RPC_URL. */
-export const ARC_RPC_URL: string =
-  process.env.ARC_RPC_URL?.trim() || arcTestnet.rpcUrls.default.http[0];
+/** Primary RPC endpoint (list override via comma-separated ARC_RPC_URL). */
+export const ARC_RPC_URL: string = ARC_RPC_ENV;
 
 /**
- * Deployed CraftingController (Phase-2 stream C, commit-reveal crafting, fixed 5 USDC
- * fee — migration 2026-09-19) on Arc testnet; override with CRAFT_ADDRESS.
+ * Deployed CraftingControllerV2 (ONE-SHOT crafting, fixed 5 USDC fee) on Arc
+ * testnet; override with CRAFT_ADDRESS.
  */
 export const CRAFT_ADDRESS: Address =
   (process.env.CRAFT_ADDRESS?.trim() as Address | undefined) ||
-  "0x1542c820cF8644Abb91BF5c275097f89578FC3A9";
+  "0x5F7f7D3E641D09565Cf6f81D461bA09910f6685F";
 
 const rawSite = process.env.SITE_URL?.trim() || "https://proofofarchitect.builders";
 /** Site base (no trailing slash) used to build off-chain image/metadata urls. */
@@ -69,7 +92,7 @@ export const SITE_URL = rawSite.replace(/\/$/, "");
 
 /**
  * Minimal ABI surface used by the server. Signatures/types are taken verbatim
- * from contracts/src/PowMintNFTv3_1.sol (v3.1 keeps the v3 surface) — do not guess names or types.
+ * from contracts/src/PowMintNFTv3_4.sol (v3.4) — do not guess names or types.
  */
 export const POW_MINT_NFT_ABI = [
   // --- economics / supply ---
@@ -168,6 +191,27 @@ export const POW_MINT_NFT_ABI = [
   },
   {
     type: "function",
+    name: "requiredMilli",
+    stateMutability: "view",
+    inputs: [{ name: "miner", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+  {
+    type: "function",
+    name: "targetFor",
+    stateMutability: "view",
+    inputs: [{ name: "miner", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+  {
+    type: "function",
+    name: "stakingDiscountMilli",
+    stateMutability: "view",
+    inputs: [{ name: "wallet", type: "address" }],
+    outputs: [{ name: "", type: "uint16" }],
+  },
+  {
+    type: "function",
     name: "mintCount",
     stateMutability: "view",
     inputs: [{ name: "", type: "address" }],
@@ -220,6 +264,14 @@ export const POW_MINT_NFT_ABI = [
     inputs: [{ name: "id", type: "uint256" }],
     outputs: [{ name: "", type: "uint256" }],
   },
+  {
+    // v3.4: block the token was minted/forged in (0 for claim tokens).
+    type: "function",
+    name: "mintBlockOf",
+    stateMutability: "view",
+    inputs: [{ name: "id", type: "uint256" }],
+    outputs: [{ name: "", type: "uint64" }],
+  },
 ] as const;
 
 /** ABI parsed form for typed readContract calls. */
@@ -237,6 +289,9 @@ export const powMintAbi = parseAbi([
   "function loadAdjust() view returns (uint8)",
   "function mintPaused() view returns (bool)",
   "function requiredBits(address miner) view returns (uint8)",
+  "function requiredMilli(address miner) view returns (uint256)",
+  "function targetFor(address miner) view returns (uint256)",
+  "function stakingDiscountMilli(address wallet) view returns (uint16)",
   "function mintCount(address) view returns (uint256)",
   "function streakBits(address) view returns (uint256)",
   "function workFor(address miner, uint256 nonce) view returns (bytes32)",
@@ -244,19 +299,18 @@ export const powMintAbi = parseAbi([
   "function tokenURI(uint256 id) view returns (string)",
   "function seedOf(uint256 id) view returns (bytes32)",
   "function nonceOf(uint256 id) view returns (uint256)",
+  "function mintBlockOf(uint256 id) view returns (uint64)",
 ]);
 
-/** viem public client singleton (read-only, HTTP transport). */
+/** viem public client singleton (read-only, HTTP transport with endpoint failover). */
 export const publicClient: PublicClient = createPublicClient({
   chain: arcTestnet,
-  transport: http(ARC_RPC_URL),
+  transport: fallback(ARC_RPC_URLS_ENV.map((url) => http(url))),
 });
 
 /**
- * Minimal ABI surface for the CraftingController v1 (Phase-2 stream C).
- * Signatures are taken verbatim from `contracts/src/CraftingController.sol`.
- * `commits` is a public mapping of a struct, so its getter exposes the ten
- * fields in declaration order.
+ * Minimal ABI surface for CraftingControllerV2 (ONE-SHOT crafting).
+ * Signatures are taken verbatim from `contracts/src/CraftingControllerV2.sol`.
  */
 export const controllerAbi = parseAbi([
   "function paused() view returns (bool)",
@@ -264,40 +318,95 @@ export const controllerAbi = parseAbi([
   "function boostCost(uint8 tier) view returns (uint256)",
   "function feeFor(uint8 tier) view returns (uint256)",
   "function maxChosen(uint8 tier) view returns (uint256)",
-  "function committedFees() view returns (uint256)",
-  "function lastCommitId() view returns (uint256)",
-  "function ENTROPY_DELAY() view returns (uint256)",
-  "function MIN_REVEAL_DELAY() view returns (uint256)",
-  "function REVEAL_WINDOW() view returns (uint256)",
+  "function totalFeesCollected() view returns (uint256)",
+  "function craftNonce() view returns (uint64)",
   "function nft() view returns (address)",
-  "function commits(uint256) view returns (address player, uint256 cardA, uint256 cardB, bytes32 choicesHash, uint8 boostTier, uint64 nonce, uint64 commitBlock, uint256 fee, bool revealed, bool refunded)",
+  "function registry() view returns (address)",
+  "function points() view returns (address)",
+  "function DOOR_CRAFT_2_1() view returns (uint8)",
+  "function MAX_SLOT() view returns (uint8)",
+  "function MAX_BOOST_TIER() view returns (uint8)",
+  "function LOCK_WAVES() view returns (uint256)",
+  "function CRAFT_FEE() view returns (uint256)",
 ]);
 
 /** One inherited slot: `parent` is 0 (cardA) or 1 (cardB); `slot` is 0..11. */
 export type SlotChoice = { slot: number; parent: number };
 
+/** Blocks between a mint and the block whose hash seeds its art (core SEED_DELAY_BLOCKS). */
+export const SEED_DELAY_BLOCKS = 2n;
+
+/** The block whose hash supplies post-inclusion display entropy. */
+export function entropyBlockFor(mintBlock: bigint): bigint {
+  return mintBlock + SEED_DELAY_BLOCKS;
+}
+
 /**
- * Reproduce the on-chain commit preimage (W3-01 fix):
- *   keccak256(abi.encode(SlotChoice[] choices, bytes32 salt))
- * Byte layout: head [offset to array = 0x40, salt (32)] ++ tail [length, then
- * each (slot, parent) tuple padded to 32 bytes]. Mirrors `lib/craft.ts`.
+ * Post-inclusion display seed = keccak256(seedOf ‖ blockhash(mintBlock + 2)).
+ * Claim tokens (mintBlock 0) keep the deterministic seed.
  */
-export function encodeChoicesHash(choices: SlotChoice[], salt: Hex): Hex {
-  return keccak256(
-    encodeAbiParameters(
-      [
-        {
-          type: "tuple[]",
-          components: [
-            { name: "slot", type: "uint8" },
-            { name: "parent", type: "uint8" },
-          ],
-        },
-        { type: "bytes32" },
-      ],
-      [choices, salt],
-    ),
-  );
+export function deriveDisplaySeed(
+  seedOf: Hex,
+  mintBlock: bigint,
+  entropyBlockHash: Hex,
+): Hex {
+  if (mintBlock === 0n) return seedOf;
+  return keccak256(concatHex([seedOf, entropyBlockHash]));
+}
+
+export type DisplaySeed = {
+  seedOf: Hex;
+  mintBlock: bigint;
+  displaySeed: Hex;
+  pending: boolean;
+};
+
+/** Read seedOf + mintBlockOf and derive the display seed for a token. */
+export async function readDisplaySeed(
+  tokenId: bigint,
+  client: PublicClient = publicClient,
+): Promise<DisplaySeed> {
+  const [seedOf, mintBlock] = await Promise.all([
+    client.readContract({
+      address: CONTRACT_ADDRESS,
+      abi: powMintAbi,
+      functionName: "seedOf",
+      args: [tokenId],
+    }),
+    client.readContract({
+      address: CONTRACT_ADDRESS,
+      abi: powMintAbi,
+      functionName: "mintBlockOf",
+      args: [tokenId],
+    }),
+  ]);
+
+  if (mintBlock === 0n) {
+    return { seedOf, mintBlock, displaySeed: seedOf, pending: false };
+  }
+
+  const entropyBlock = entropyBlockFor(mintBlock);
+  const head = await client.getBlockNumber();
+  if (head < entropyBlock) {
+    return { seedOf, mintBlock, displaySeed: seedOf, pending: true };
+  }
+
+  const block = await client.getBlock({ blockNumber: entropyBlock });
+  if (!block.hash) {
+    return { seedOf, mintBlock, displaySeed: seedOf, pending: true };
+  }
+
+  return {
+    seedOf,
+    mintBlock,
+    displaySeed: deriveDisplaySeed(seedOf, mintBlock, block.hash),
+    pending: false,
+  };
+}
+
+/** v3.4 acceptance: valid iff uint256(work) < targetFor(miner). */
+export function meetsTarget(work: Hex, target: bigint): boolean {
+  return BigInt(work) < target;
 }
 
 /**

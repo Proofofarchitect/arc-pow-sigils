@@ -7,10 +7,11 @@ import { createPublicClient, http } from "viem";
 import { arcTestnet, ARC_RPC_URL } from "@/lib/arc";
 import { rpcFetch } from "@/lib/rpc";
 import { CONTRACT_ADDRESS, POW_MINT_NFT_ABI } from "@/lib/contract";
+import { readDisplaySeed } from "@/lib/display-seed";
 import { formatUsdc } from "@/lib/format";
 import { rarityForSeed, type RarityTier } from "@/lib/rarity";
 import { rarityForSeedV2 } from "@/lib/rarity_v2";
-import { IS_V2, TRAITS_IMAGE_QS } from "@/lib/traits-set";
+import { IS_V2, imageQuery } from "@/lib/traits-set";
 import { PREVIEW_CAP, previewCardMeta } from "@/lib/preview";
 import LiveFeed from "./live-feed";
 
@@ -80,7 +81,7 @@ function TokenCard({
           // (instead of shipping the full 1024px file per card).
           <Image
             className="thumb"
-            src={`/api/image/${id}${TRAITS_IMAGE_QS}`}
+            src={`/api/image/${id}${imageQuery(384)}`}
             alt={`Proof of Architect #${id}`}
             width={1024}
             height={1024}
@@ -227,13 +228,13 @@ export default function CollectionPage() {
         if (index >= targets.length) return;
         const id = targets[index];
         try {
-          const seed = await publicClient.readContract({
-            address: CONTRACT_ADDRESS,
-            abi: POW_MINT_NFT_ABI,
-            functionName: "seedOf",
-            args: [BigInt(id)],
-          });
-          result.set(id, IS_V2 ? rarityForSeedV2(seed) : rarityForSeed(seed));
+          // Rarity is computed from the DISPLAY seed (post-inclusion entropy),
+          // not the raw seedOf.
+          const { displaySeed } = await readDisplaySeed(publicClient, BigInt(id));
+          result.set(
+            id,
+            IS_V2 ? rarityForSeedV2(displaySeed) : rarityForSeed(displaySeed),
+          );
         } catch {
           // Tolerate per-token failures silently: this id drops out of
           // tier-filtering and sorts to the end. No user-facing error.

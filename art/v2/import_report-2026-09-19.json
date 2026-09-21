@@ -1,0 +1,2096 @@
+{
+ "groups": {
+  "slots": {
+   "background": {
+    "category": "background",
+    "count": 10,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_beach.png",
+      "sha256": "d9a6d1b88e43915507ed419556b4756ce91e397d388f5f7bd118d061ad088078",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/background/beach.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_city.png",
+      "sha256": "1adf975eae3d3f33c0c8db743cc46c84264baec1ae5afce08bb921186266b902",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/background/city.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_construction.png",
+      "sha256": "edd2f08d5a1ef8db01290757808184bac4b548ffe79510eebbd770f1eedebad0",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/background/construction.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_forest.png",
+      "sha256": "a031e44c89a80c624efd50f413ecab4babc9d7e5018f099316fd453299092a77",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/background/forest.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_lab.png",
+      "sha256": "9c0995cf08a1194f75d9ee0bffcf218a3f8b28f925267cec9b308b9eef1cd2c2",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/background/lab.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_night.png",
+      "sha256": "d59a0094e4bf8a4332468395e663847ffa5df332f18dc53cc41479c7528a1f3a",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/background/night.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_office.png",
+      "sha256": "52d534f5b7dedefeb501a63870e40a3fede881dbe33eb9feb46978c006464f30",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/background/office.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_snow.png",
+      "sha256": "bf3b8e90d4f63d3be4539eaa5a5c2942e876f164c802395c18964ce9e88f205c",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/background/snow.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_space.png",
+      "sha256": "378cb0ae4222c73ecf4137857db61d7d42c02f59d5d84e5bc77ac8485b246019",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/background/space.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_sunset.png",
+      "sha256": "e8a7abdffdce0de738bfd7e457c3063af077f3eca16a4197128fdb8cfb5284bb",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/background/sunset.png"
+     }
+    ]
+   },
+   "outfit": {
+    "category": "body",
+    "count": 12,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_analyst.png",
+      "sha256": "afe13240da654c66294a317474c049e87d594422769199b3ec424da10e0c306b",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/outfit/analyst.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_architect.png",
+      "sha256": "00a431cd42486e58c2e4b34b87099a732021366ad987012bf30e1cfdff014efa",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/outfit/architect.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_builder.png",
+      "sha256": "96239346642db1155946539bbeacfae7105e14de541e5896a9c23be699b46f89",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/outfit/builder.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_coat.png",
+      "sha256": "00fd3a4d0a1762b2db9d877bf0558b732c884464b62b89306788d11e320bc3d3",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/outfit/coat.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_engineer.png",
+      "sha256": "97402b870fa2004e0271362f72dae744e58c9310935ac0854166101531c62543",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/outfit/engineer.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_hacker.png",
+      "sha256": "c6bcba1108181497e8404f0a1cd2d69d5d81ffb371ee35afef0c6624706753c8",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/outfit/hacker.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_hoodie.png",
+      "sha256": "9de339e3141d3e503bee04751e00098e8404a04fe62c5fb5cabfe67b5eaca5bf",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/outfit/hoodie.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_jacket.png",
+      "sha256": "81339a8bc64295116ae3a38b03c1d93a965a02d6cae3725c184d149663c2b22e",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/outfit/jacket.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_lab-coat.png",
+      "sha256": "14196da9fabc317e5eaac5a60ea21e7e6142025b7a4c537052d0b0867f111130",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/outfit/lab-coat.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_techwear.png",
+      "sha256": "b4ec5a7b2732ceed009b4c881312b770542dd9abfd419840ca525ca92c2536cd",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/outfit/techwear.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_tee.png",
+      "sha256": "da12cf171d8ac33a160f6e7eb9f33e8d09aaa4a299fc85e23e55ad78390e036a",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/outfit/tee.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_vest.png",
+      "sha256": "bd1ecc1a22f9a40302dc846995def3814fd83dc66447c18d54a4de9cd469773e",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/outfit/vest.png"
+     }
+    ]
+   },
+   "head": {
+    "category": "head",
+    "count": 6,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/03_head/03_head_default.png",
+      "sha256": "4b30dbc7085c78b7454553f3a7ac6e8550cf6649d347cc4c4250beb9fb6193f1",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/head/default.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/03_head/03_head_female.png",
+      "sha256": "9deba1c8f90e366710c50b5e06cd46fef29ff5a47ff842d4c38b22753575e343",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/head/female.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/03_head/03_head_ice.png",
+      "sha256": "02ca35b85c86fc2e1140cf02e89fa50ab6c2dda1581831f22d9328eeb89322ac",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/head/ice.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/03_head/03_head_pale.png",
+      "sha256": "ac2492c436e21f7bd0c8f1ea475b540790af625d743fd5750997bc03c6bed923",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/head/pale.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/03_head/03_head_reptile.png",
+      "sha256": "fe034f1a5f0f9e1ecce02f7c281a386944c21aa2814177bd9a29fa830e131e70",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/head/reptile.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/03_head/03_head_scar.png",
+      "sha256": "a71293f0869196237f5d47abc2c9b7ef0661c924cdb464c5dcac4f514181ccbc",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/head/scar.png"
+     }
+    ]
+   },
+   "hair": {
+    "category": "hair",
+    "count": 3,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/04_hair/04_hair_curly.png",
+      "sha256": "1a9ec5a351e0c03cc3733b7face22563da659f66f28e2157561d33b1150a58d0",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair/curly.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/04_hair/04_hair_long.png",
+      "sha256": "3065cfdc199bf639212aabe54c9a040f1c3fe705383ca8f1be6b254768c0e7ec",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair/long.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/04_hair/04_hair_short.png",
+      "sha256": "05d2266d2a21c000dd2db108b18716e73ede562e14885b52853c60952afc20b3",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair/short.png"
+     }
+    ]
+   },
+   "eyes": {
+    "category": "eyes",
+    "count": 5,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/05_eyes/05_eyes_default.png",
+      "sha256": "8a255a9ca89da7b8b1b102c77673303dc3df7fe79b7597e46d6796d564d9367b",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/eyes/default.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/05_eyes/05_eyes_explorer.png",
+      "sha256": "e0d636bdcb0f27c05caaab69b79ad5c4ef87335338776ae095f0a6bf5ca3ba04",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/eyes/explorer.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/05_eyes/05_eyes_laser.png",
+      "sha256": "b0358639a7bb342a4d2d1f27a7b4acfb9167b853b85cb4f1441d55486ab4cadf",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/eyes/laser.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/05_eyes/05_eyes_red.png",
+      "sha256": "285456a4f104d257927172a478c6c5cef29753fc125affd611819b37f1010a4c",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/eyes/red.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/05_eyes/05_eyes_soft.png",
+      "sha256": "d42500d37661a309835f2bcd3211ed36bd498d30a2d8de58d6e58cb89cd7be29",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/eyes/soft.png"
+     }
+    ]
+   },
+   "eyewear": {
+    "category": "eyewear",
+    "count": 4,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/06_eyewear/06_eyewear_glasses.png",
+      "sha256": "2d02773ed1411fe2df597734aa894189f04b31e06e1bf8dfc2efeaba87502785",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/eyewear/glasses.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/06_eyewear/06_eyewear_mono.png",
+      "sha256": "6fba1d7e022b4ce6c4b8c75e07990c1ef0bb559c1d087a56693203629fc68673",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/eyewear/mono.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/06_eyewear/06_eyewear_sunglasses.png",
+      "sha256": "e6a6ea2df52c4cdf9e091d4e6c799c6420132d04b89e14dba96742d809802780",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/eyewear/sunglasses.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/06_eyewear/06_eyewear_usdc-lenses.png",
+      "sha256": "309551b8776d58d7ef59202fa37d7425a3aac21dc19dea97d23fadb34b7c57df",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/eyewear/usdc-lenses.png"
+     }
+    ]
+   },
+   "headwear": {
+    "category": "headwear",
+    "count": 6,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/07_headwear/07_headwear_beanie.png",
+      "sha256": "364aaa34a3977e7e62516608b5ba3598fe62b05ee97ee93fc08c7ab669b0e147",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/headwear/beanie.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/07_headwear/07_headwear_cap.png",
+      "sha256": "415435f94c3521922fe93c56c6f25f16e49a6d9252fdb109442f903ad4951508",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/headwear/cap.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/07_headwear/07_headwear_crown.png",
+      "sha256": "485fbcf514eab7735baea9a3546f9e583e425fb6ceb61ff379ca9b678d73f693",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/headwear/crown.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/07_headwear/07_headwear_halo.png",
+      "sha256": "62d0df49e15d0aa0a92a01e538d84b38517d5d73bab8c5d2b41f767c11ea9ea0",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/headwear/halo.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/07_headwear/07_headwear_hard-hat.png",
+      "sha256": "e7bb57ace0f3e5b596a2945e53108ded690f5eb435588b387f49f3455f38cf4c",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/headwear/hard-hat.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/07_headwear/07_headwear_headphones.png",
+      "sha256": "a79af0960e6442191ae7b9df17d43492e17731ca95586839cdb99304e258d454",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/headwear/headphones.png"
+     }
+    ]
+   },
+   "companion": {
+    "category": "companion",
+    "count": 9,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_ai-orb.png",
+      "sha256": "baff6949a2f6bbf46a3b3e465803684e1f07e78bd303595fcb3dd9e3fc9f8054",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/companion/ai-orb.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_bonkguy.png",
+      "sha256": "fa6084656f995f4666a1480901f8dcf2c59554c559f679cdafec2b487369d050",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/companion/bonkguy.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_cat.png",
+      "sha256": "67503033cb24639ebb4225ef001d6e9e06e4d9f7c2da8791d50630ca4b61ee1c",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/companion/cat.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_dog.png",
+      "sha256": "1030a3ea1fb189823ef6e063a67621a38a27decddb2f0fdbcdfb76c944f0be60",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/companion/dog.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_drone.png",
+      "sha256": "98dcdb82ec2172a88d5a9382450c5320757f5cebef16708b23fa7e3701147ccf",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/companion/drone.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_flying-rat.png",
+      "sha256": "ca6597e5dca7268e464cea458a0608ff0c39f14a1a6af4bf5702f0164e45eadb",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/companion/flying-rat.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_mouse.png",
+      "sha256": "28976d0ab0d4bcafca8b0ebc23d8eddb5215c5664ace11dc6d88993b89d46fab",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/companion/mouse.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_robot.png",
+      "sha256": "25671f5c4a39185033f90ef12417d4c1ae818900c0e86676f169c67d8c3e35b8",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/companion/robot.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_winged-rat.png",
+      "sha256": "0823881795d69370edebae29743b4659f43f548ac8d5468519e3ed92428f4c72",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/companion/winged-rat.png"
+     }
+    ]
+   },
+   "nose": {
+    "category": "nose",
+    "count": 5,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/14_nose/14_nose_angular.png",
+      "sha256": "25613b54598948111728abf5ffc27629a2f9bfa3c1a453682c612c31721e8cb9",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/nose/angular.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/14_nose/14_nose_button.png",
+      "sha256": "10c538e14e9f2a43690fa3a572d1ce48cd7ef5428a70e87f406343011968a35b",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/nose/button.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/14_nose/14_nose_default.png",
+      "sha256": "335e3d4607a855028948c8c99cd011e1ba77c55e0606919ab412abdf45214ffa",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/nose/default.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/14_nose/14_nose_rounded.png",
+      "sha256": "f57e2f7eecfa8689b8f1ef413c802d1703ee1cbdf17571d6091667eab0ba0f01",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/nose/rounded.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/14_nose/14_nose_straight.png",
+      "sha256": "6915d1394fcdbdeb8f59386d9b3abb08efd37b5e40000651b165ed13ba7000e1",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/nose/straight.png"
+     }
+    ]
+   },
+   "mouth": {
+    "category": "mouth",
+    "count": 9,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_default.png",
+      "sha256": "1ae0684925dfa3f34115e7bfed1f474ba3ce1719017ab2812681250370ad37af",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/mouth/default.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_fangs.png",
+      "sha256": "8b02aac361b0ae59cc6ebc263b59a5df9dec53730b140179f0f773bfa5c9d00f",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/mouth/fangs.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_frown.png",
+      "sha256": "eae8e171bd2140d196f79b2c9771514038dd6fd591570c46a94dd021097d1000",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/mouth/frown.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_grin.png",
+      "sha256": "db12ebd06943b67a43c751e9e208bfdc98bfeef3da5e4e709b5cbf918c52b67b",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/mouth/grin.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_open.png",
+      "sha256": "f59bcc180398d6f8d5d604389683b59f83c2ee2a76436c7a36c453bbc2814132",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/mouth/open.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_smile.png",
+      "sha256": "7f80decbe9c81153dd5617f550f740a058fc48eb633526353083ef10dbaa0c58",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/mouth/smile.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_smirk.png",
+      "sha256": "0b9f6b8fe3f606c547a8da0191d24b0ba188d0d89771a834029496df1454a922",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/mouth/smirk.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_soft.png",
+      "sha256": "20eee78b2c8d6ff9601bfc407e36e9727cbefa553e921d22b272b7494db2bd47",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/mouth/soft.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_surprised.png",
+      "sha256": "e2c23804836fc09a78a43054174073ac2e6aad47fa4f12c628a0b88c192e8d9b",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/mouth/surprised.png"
+     }
+    ]
+   }
+  },
+  "hair_colors": {
+   "black": {
+    "count": 3,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/black/04_hair_curly.png",
+      "sha256": "0d02266e58755fef7d10b8bc6830ee7a74d60a7ba76c5c3e690b86f9cde8e258",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/black/curly.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/black/04_hair_long.png",
+      "sha256": "961700fa975b785825f98283bf9f0fd9a80dd30cd7a7aed102ff9d3554bb0196",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/black/long.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/black/04_hair_short.png",
+      "sha256": "a484cf6e4e5e0a0b672f094a4bcf4a60baeab52569775ad58f21400e22b80187",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/black/short.png"
+     }
+    ]
+   },
+   "blond": {
+    "count": 3,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/blond/04_hair_curly.png",
+      "sha256": "40ddaa0d944cb98052bfcb980ad708b894ce8873540a5528092b6d044a2999fc",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/blond/curly.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/blond/04_hair_long.png",
+      "sha256": "3e37d7745893bb574b926e95b34c87205b0a556fbc1de8259bd64acee76d1a3d",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/blond/long.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/blond/04_hair_short.png",
+      "sha256": "fadcbf1421d66653ebc6760b11f453e3308978cd63e3849f13cd5f4d666be9bb",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/blond/short.png"
+     }
+    ]
+   },
+   "brown": {
+    "count": 3,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/brown/04_hair_curly.png",
+      "sha256": "1a9ec5a351e0c03cc3733b7face22563da659f66f28e2157561d33b1150a58d0",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/brown/curly.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/brown/04_hair_long.png",
+      "sha256": "3065cfdc199bf639212aabe54c9a040f1c3fe705383ca8f1be6b254768c0e7ec",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/brown/long.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/brown/04_hair_short.png",
+      "sha256": "05d2266d2a21c000dd2db108b18716e73ede562e14885b52853c60952afc20b3",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/brown/short.png"
+     }
+    ]
+   },
+   "ginger": {
+    "count": 3,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/ginger/04_hair_curly.png",
+      "sha256": "eb8b6f59520baf1b0b4511df8ab443c497b5604a54b3a198c27c887c6ffef39d",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/ginger/curly.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/ginger/04_hair_long.png",
+      "sha256": "4bc77007fad78cc63125c851c36646027aee01d0ae149c01cd8eb44ccead28ba",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/ginger/long.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/ginger/04_hair_short.png",
+      "sha256": "cbd965983fd3d447294f42607399647dcc8fda7a1a40a97610a8b3ecc378ac77",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/ginger/short.png"
+     }
+    ]
+   },
+   "green": {
+    "count": 3,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/green/04_hair_curly.png",
+      "sha256": "ce6ae76ba8b0dcfb58273ec64f41da3037e8f3a9bebcecdb3c1a5c077196f504",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/green/curly.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/green/04_hair_long.png",
+      "sha256": "5d6102bea1a5b31bbc061f6dfeb5612e00460a6dec62a20033cda3a797a108c4",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/green/long.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/green/04_hair_short.png",
+      "sha256": "269eb383b0b8ae1a477ccadc3b820da334c1a1835964fed0798742fa4c86ff3a",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/green/short.png"
+     }
+    ]
+   },
+   "ice": {
+    "count": 3,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/ice/04_hair_curly.png",
+      "sha256": "0d368003ddeb9121cb62e3ea3722c610244e9caf32c3f2e9375c650de8617421",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/ice/curly.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/ice/04_hair_long.png",
+      "sha256": "5dc8c47dd500408dcc4124da607086c34dbab23f977bfc1ee98fd05e1eef988c",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/ice/long.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/ice/04_hair_short.png",
+      "sha256": "b7a68af53788d73b58007e4a728eef66e3acf2d98c80253ec350ab10354c2b59",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/ice/short.png"
+     }
+    ]
+   },
+   "white": {
+    "count": 3,
+    "values": [
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/white/04_hair_curly.png",
+      "sha256": "a298d209e955db46cc3f435f1027666d1a329e04a18acd2f54574e8e76f1c27e",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/white/curly.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/white/04_hair_long.png",
+      "sha256": "d4a9782987e6ac070f6f9ee2916f8b7c5618d4602fdbbfd1fe6979b859bcda25",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/white/long.png"
+     },
+     {
+      "file": "<repo>/art/arc-traits/handoff-2026-09-19/hair-colors/white/04_hair_short.png",
+      "sha256": "6e137351fc1437992c70d7e0a2f2aedcc0ebc608a5c1476215320e30f5fcec52",
+      "size": [
+       1254,
+       1254
+      ],
+      "alpha_binary": true,
+      "target": "art/v2/layers_png/hair-colors/white/short.png"
+     }
+    ]
+   }
+  },
+  "head_variants": {
+   "ice": {
+    "nose": {
+     "count": 5,
+     "values": [
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/ice/14_nose/14_nose_angular.png",
+       "sha256": "c421024221839f5bdb71a18f7088244cdf30b0d75395d7c6b640acd19231c7f4",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/ice/nose/angular.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/ice/14_nose/14_nose_button.png",
+       "sha256": "faa547aadb1ccd78ae23826320567362c5e5b45f4ad4c0ddd75ac096971b279b",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/ice/nose/button.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/ice/14_nose/14_nose_default.png",
+       "sha256": "a29224a8b5438bb105d039e602320c869a68cec9cf7f031fc10467afcef104d4",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/ice/nose/default.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/ice/14_nose/14_nose_rounded.png",
+       "sha256": "dc49d5b26b79e203b70bc156b895f72515c7621d868f47ae56fc6556a7e65ee2",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/ice/nose/rounded.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/ice/14_nose/14_nose_straight.png",
+       "sha256": "d80d089b9a97e23c4d9964417484477dd15b2a90d8c6471c9aba739ae003e849",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/ice/nose/straight.png"
+      }
+     ]
+    },
+    "mouth": {
+     "count": 5,
+     "values": [
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/ice/15_mouth/15_mouth_default.png",
+       "sha256": "6d87e2050348d622d2e596a300bb9572754d092578d73a13202902b926f37dce",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/ice/mouth/default.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/ice/15_mouth/15_mouth_frown.png",
+       "sha256": "261fb3ce2a67ce57b3f6a325d37efae3532e836f56e8cddb2964c724601fc8a6",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/ice/mouth/frown.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/ice/15_mouth/15_mouth_smile.png",
+       "sha256": "752ec0b2f6b2bfac908b31a25bd9117527e173a02ca5cc1e94aa045fe167fb62",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/ice/mouth/smile.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/ice/15_mouth/15_mouth_smirk.png",
+       "sha256": "010752fab3730527cc0f7be95f0ecdf68838dd137b61e29821d173e2d16d04c0",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/ice/mouth/smirk.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/ice/15_mouth/15_mouth_soft.png",
+       "sha256": "3bc1d0694086a860772235d741aae15c468a3b1baa6879a29ad5d2d9e13bce5a",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/ice/mouth/soft.png"
+      }
+     ]
+    }
+   },
+   "pale": {
+    "nose": {
+     "count": 5,
+     "values": [
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/pale/14_nose/14_nose_angular.png",
+       "sha256": "879f8bdf7fe1a2474e1076a03cb50438241682c4a07fcde4c6b36a735b3c39d9",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/pale/nose/angular.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/pale/14_nose/14_nose_button.png",
+       "sha256": "0962cc0ee91b589d5f198f4de0746000513fe193c78cbd5d5f71d5f67ab83ce0",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/pale/nose/button.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/pale/14_nose/14_nose_default.png",
+       "sha256": "5662c6ad45765aadf8f3af3cbaabfdb0bb9ee30fa4a29ae5fa876f8f619f4df3",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/pale/nose/default.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/pale/14_nose/14_nose_rounded.png",
+       "sha256": "3b6354665cf44a15ade9227eeb4855873a1a0a55af99662984beb6060e63a6bd",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/pale/nose/rounded.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/pale/14_nose/14_nose_straight.png",
+       "sha256": "1d1d55ab567c924431e3ac62f60f25ab1f71b4d3e77938bf7647f7e0fd0ae669",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/pale/nose/straight.png"
+      }
+     ]
+    },
+    "mouth": {
+     "count": 5,
+     "values": [
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/pale/15_mouth/15_mouth_default.png",
+       "sha256": "e38a36bedd731df4c4fd5df3a799010bbcf23ad801d3b85f6b68b27a6aaa5b0c",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/pale/mouth/default.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/pale/15_mouth/15_mouth_frown.png",
+       "sha256": "84a8928240cc09438550d1b2c9bd4744e0471ca8e3dd7247f8bb1d279dbda0d7",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/pale/mouth/frown.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/pale/15_mouth/15_mouth_smile.png",
+       "sha256": "6774c9e990d84e2cf942813ebcce476386d97ac3e2d189fb9498c7ab3b5175c0",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/pale/mouth/smile.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/pale/15_mouth/15_mouth_smirk.png",
+       "sha256": "767f0fe8c80f5a8bb48318ecb64f7e5dfd31ac98995c6acf41936cb52fb80e94",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/pale/mouth/smirk.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/pale/15_mouth/15_mouth_soft.png",
+       "sha256": "2739d37452b2d19eba787b50eca6a61ab2ec5c56704b6e7074d056167648708c",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/pale/mouth/soft.png"
+      }
+     ]
+    }
+   },
+   "reptile": {
+    "nose": {
+     "count": 5,
+     "values": [
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/reptile/14_nose/14_nose_angular.png",
+       "sha256": "0f11474d6bd9e49fcdbdcd09da69432910f817c722fb3d6adc143d793a64cacf",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/reptile/nose/angular.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/reptile/14_nose/14_nose_button.png",
+       "sha256": "33a3d413ceb2524e309f4a1ae7e2b55f84f3d0668698cf6ebfa74ad704995d6f",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/reptile/nose/button.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/reptile/14_nose/14_nose_default.png",
+       "sha256": "3eb39706fbd9e7b44e1cdba20662cda137838b6eec2441313ba7b1e9536ba75f",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/reptile/nose/default.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/reptile/14_nose/14_nose_rounded.png",
+       "sha256": "5d99c19c30f3be109a907f008fc8677729335a77cec4bb2214ea932d9f9558d4",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/reptile/nose/rounded.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/reptile/14_nose/14_nose_straight.png",
+       "sha256": "79b408a573ea19256614c02b4a262d5b9dab9732bce0173d770ca3541a1f3fa9",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/reptile/nose/straight.png"
+      }
+     ]
+    },
+    "mouth": {
+     "count": 5,
+     "values": [
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/reptile/15_mouth/15_mouth_default.png",
+       "sha256": "10c516209ae1e2a1ad8d477c33ad93a62b6efc1ed4e2a43dec35d8d265898a7f",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/reptile/mouth/default.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/reptile/15_mouth/15_mouth_frown.png",
+       "sha256": "cc7473fb4861bbaf13e78f8d1f59578e9bd3f82b28526d0b9a32fadf493d934a",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/reptile/mouth/frown.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/reptile/15_mouth/15_mouth_smile.png",
+       "sha256": "35d1947de60e61a28ce22fcca55f7d1945fce36cde23ee7ee18b7c043a6edb4f",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/reptile/mouth/smile.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/reptile/15_mouth/15_mouth_smirk.png",
+       "sha256": "dcc563b0238419e6bd125dbd9cfa9d5e1571959391f57ee47030e5df34038d6a",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/reptile/mouth/smirk.png"
+      },
+      {
+       "file": "<repo>/art/arc-traits/handoff-2026-09-19/variants/reptile/15_mouth/15_mouth_soft.png",
+       "sha256": "7cd973cb4c22fbfbdd7394a4d2d07982eefb34c9282bda38f52a0488de0ed2b6",
+       "size": [
+        1254,
+        1254
+       ],
+       "alpha_binary": true,
+       "target": "art/v2/layers_png/head-variants/reptile/mouth/soft.png"
+      }
+     ]
+    }
+   }
+  }
+ },
+ "problems": [],
+ "source": "art/arc-traits/handoff-2026-09-19",
+ "layout": "v2.1",
+ "slots": {
+  "background": {
+   "category": "background",
+   "count": 10,
+   "values": [
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_beach.png",
+     "sha256": "d9a6d1b88e43915507ed419556b4756ce91e397d388f5f7bd118d061ad088078",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/beach.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_city.png",
+     "sha256": "1adf975eae3d3f33c0c8db743cc46c84264baec1ae5afce08bb921186266b902",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/city.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_construction.png",
+     "sha256": "edd2f08d5a1ef8db01290757808184bac4b548ffe79510eebbd770f1eedebad0",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/construction.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_forest.png",
+     "sha256": "a031e44c89a80c624efd50f413ecab4babc9d7e5018f099316fd453299092a77",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/forest.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_lab.png",
+     "sha256": "9c0995cf08a1194f75d9ee0bffcf218a3f8b28f925267cec9b308b9eef1cd2c2",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/lab.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_night.png",
+     "sha256": "d59a0094e4bf8a4332468395e663847ffa5df332f18dc53cc41479c7528a1f3a",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/night.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_office.png",
+     "sha256": "52d534f5b7dedefeb501a63870e40a3fede881dbe33eb9feb46978c006464f30",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/office.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_snow.png",
+     "sha256": "bf3b8e90d4f63d3be4539eaa5a5c2942e876f164c802395c18964ce9e88f205c",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/snow.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_space.png",
+     "sha256": "378cb0ae4222c73ecf4137857db61d7d42c02f59d5d84e5bc77ac8485b246019",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/space.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/01_background/01_background_sunset.png",
+     "sha256": "e8a7abdffdce0de738bfd7e457c3063af077f3eca16a4197128fdb8cfb5284bb",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/background/sunset.png"
+    }
+   ]
+  },
+  "outfit": {
+   "category": "body",
+   "count": 12,
+   "values": [
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_analyst.png",
+     "sha256": "afe13240da654c66294a317474c049e87d594422769199b3ec424da10e0c306b",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/analyst.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_architect.png",
+     "sha256": "00a431cd42486e58c2e4b34b87099a732021366ad987012bf30e1cfdff014efa",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/architect.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_builder.png",
+     "sha256": "96239346642db1155946539bbeacfae7105e14de541e5896a9c23be699b46f89",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/builder.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_coat.png",
+     "sha256": "00fd3a4d0a1762b2db9d877bf0558b732c884464b62b89306788d11e320bc3d3",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/coat.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_engineer.png",
+     "sha256": "97402b870fa2004e0271362f72dae744e58c9310935ac0854166101531c62543",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/engineer.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_hacker.png",
+     "sha256": "c6bcba1108181497e8404f0a1cd2d69d5d81ffb371ee35afef0c6624706753c8",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/hacker.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_hoodie.png",
+     "sha256": "9de339e3141d3e503bee04751e00098e8404a04fe62c5fb5cabfe67b5eaca5bf",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/hoodie.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_jacket.png",
+     "sha256": "81339a8bc64295116ae3a38b03c1d93a965a02d6cae3725c184d149663c2b22e",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/jacket.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_lab-coat.png",
+     "sha256": "14196da9fabc317e5eaac5a60ea21e7e6142025b7a4c537052d0b0867f111130",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/lab-coat.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_techwear.png",
+     "sha256": "b4ec5a7b2732ceed009b4c881312b770542dd9abfd419840ca525ca92c2536cd",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/techwear.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_tee.png",
+     "sha256": "da12cf171d8ac33a160f6e7eb9f33e8d09aaa4a299fc85e23e55ad78390e036a",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/tee.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/02_body/02_body_vest.png",
+     "sha256": "bd1ecc1a22f9a40302dc846995def3814fd83dc66447c18d54a4de9cd469773e",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/outfit/vest.png"
+    }
+   ]
+  },
+  "head": {
+   "category": "head",
+   "count": 6,
+   "values": [
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/03_head/03_head_default.png",
+     "sha256": "4b30dbc7085c78b7454553f3a7ac6e8550cf6649d347cc4c4250beb9fb6193f1",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/head/default.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/03_head/03_head_female.png",
+     "sha256": "9deba1c8f90e366710c50b5e06cd46fef29ff5a47ff842d4c38b22753575e343",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/head/female.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/03_head/03_head_ice.png",
+     "sha256": "02ca35b85c86fc2e1140cf02e89fa50ab6c2dda1581831f22d9328eeb89322ac",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/head/ice.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/03_head/03_head_pale.png",
+     "sha256": "ac2492c436e21f7bd0c8f1ea475b540790af625d743fd5750997bc03c6bed923",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/head/pale.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/03_head/03_head_reptile.png",
+     "sha256": "fe034f1a5f0f9e1ecce02f7c281a386944c21aa2814177bd9a29fa830e131e70",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/head/reptile.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/03_head/03_head_scar.png",
+     "sha256": "a71293f0869196237f5d47abc2c9b7ef0661c924cdb464c5dcac4f514181ccbc",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/head/scar.png"
+    }
+   ]
+  },
+  "hair": {
+   "category": "hair",
+   "count": 3,
+   "values": [
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/04_hair/04_hair_curly.png",
+     "sha256": "1a9ec5a351e0c03cc3733b7face22563da659f66f28e2157561d33b1150a58d0",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/hair/curly.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/04_hair/04_hair_long.png",
+     "sha256": "3065cfdc199bf639212aabe54c9a040f1c3fe705383ca8f1be6b254768c0e7ec",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/hair/long.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/04_hair/04_hair_short.png",
+     "sha256": "05d2266d2a21c000dd2db108b18716e73ede562e14885b52853c60952afc20b3",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/hair/short.png"
+    }
+   ]
+  },
+  "eyes": {
+   "category": "eyes",
+   "count": 5,
+   "values": [
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/05_eyes/05_eyes_default.png",
+     "sha256": "8a255a9ca89da7b8b1b102c77673303dc3df7fe79b7597e46d6796d564d9367b",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyes/default.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/05_eyes/05_eyes_explorer.png",
+     "sha256": "e0d636bdcb0f27c05caaab69b79ad5c4ef87335338776ae095f0a6bf5ca3ba04",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyes/explorer.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/05_eyes/05_eyes_laser.png",
+     "sha256": "b0358639a7bb342a4d2d1f27a7b4acfb9167b853b85cb4f1441d55486ab4cadf",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyes/laser.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/05_eyes/05_eyes_red.png",
+     "sha256": "285456a4f104d257927172a478c6c5cef29753fc125affd611819b37f1010a4c",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyes/red.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/05_eyes/05_eyes_soft.png",
+     "sha256": "d42500d37661a309835f2bcd3211ed36bd498d30a2d8de58d6e58cb89cd7be29",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyes/soft.png"
+    }
+   ]
+  },
+  "eyewear": {
+   "category": "eyewear",
+   "count": 4,
+   "values": [
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/06_eyewear/06_eyewear_glasses.png",
+     "sha256": "2d02773ed1411fe2df597734aa894189f04b31e06e1bf8dfc2efeaba87502785",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyewear/glasses.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/06_eyewear/06_eyewear_mono.png",
+     "sha256": "6fba1d7e022b4ce6c4b8c75e07990c1ef0bb559c1d087a56693203629fc68673",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyewear/mono.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/06_eyewear/06_eyewear_sunglasses.png",
+     "sha256": "e6a6ea2df52c4cdf9e091d4e6c799c6420132d04b89e14dba96742d809802780",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyewear/sunglasses.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/06_eyewear/06_eyewear_usdc-lenses.png",
+     "sha256": "309551b8776d58d7ef59202fa37d7425a3aac21dc19dea97d23fadb34b7c57df",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/eyewear/usdc-lenses.png"
+    }
+   ]
+  },
+  "headwear": {
+   "category": "headwear",
+   "count": 6,
+   "values": [
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/07_headwear/07_headwear_beanie.png",
+     "sha256": "364aaa34a3977e7e62516608b5ba3598fe62b05ee97ee93fc08c7ab669b0e147",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/headwear/beanie.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/07_headwear/07_headwear_cap.png",
+     "sha256": "415435f94c3521922fe93c56c6f25f16e49a6d9252fdb109442f903ad4951508",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/headwear/cap.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/07_headwear/07_headwear_crown.png",
+     "sha256": "485fbcf514eab7735baea9a3546f9e583e425fb6ceb61ff379ca9b678d73f693",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/headwear/crown.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/07_headwear/07_headwear_halo.png",
+     "sha256": "62d0df49e15d0aa0a92a01e538d84b38517d5d73bab8c5d2b41f767c11ea9ea0",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/headwear/halo.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/07_headwear/07_headwear_hard-hat.png",
+     "sha256": "e7bb57ace0f3e5b596a2945e53108ded690f5eb435588b387f49f3455f38cf4c",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/headwear/hard-hat.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/07_headwear/07_headwear_headphones.png",
+     "sha256": "a79af0960e6442191ae7b9df17d43492e17731ca95586839cdb99304e258d454",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/headwear/headphones.png"
+    }
+   ]
+  },
+  "companion": {
+   "category": "companion",
+   "count": 9,
+   "values": [
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_ai-orb.png",
+     "sha256": "baff6949a2f6bbf46a3b3e465803684e1f07e78bd303595fcb3dd9e3fc9f8054",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/ai-orb.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_bonkguy.png",
+     "sha256": "fa6084656f995f4666a1480901f8dcf2c59554c559f679cdafec2b487369d050",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/bonkguy.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_cat.png",
+     "sha256": "67503033cb24639ebb4225ef001d6e9e06e4d9f7c2da8791d50630ca4b61ee1c",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/cat.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_dog.png",
+     "sha256": "1030a3ea1fb189823ef6e063a67621a38a27decddb2f0fdbcdfb76c944f0be60",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/dog.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_drone.png",
+     "sha256": "98dcdb82ec2172a88d5a9382450c5320757f5cebef16708b23fa7e3701147ccf",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/drone.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_flying-rat.png",
+     "sha256": "ca6597e5dca7268e464cea458a0608ff0c39f14a1a6af4bf5702f0164e45eadb",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/flying-rat.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_mouse.png",
+     "sha256": "28976d0ab0d4bcafca8b0ebc23d8eddb5215c5664ace11dc6d88993b89d46fab",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/mouse.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_robot.png",
+     "sha256": "25671f5c4a39185033f90ef12417d4c1ae818900c0e86676f169c67d8c3e35b8",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/robot.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/08_companion/08_companion_winged-rat.png",
+     "sha256": "0823881795d69370edebae29743b4659f43f548ac8d5468519e3ed92428f4c72",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/companion/winged-rat.png"
+    }
+   ]
+  },
+  "nose": {
+   "category": "nose",
+   "count": 5,
+   "values": [
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/14_nose/14_nose_angular.png",
+     "sha256": "25613b54598948111728abf5ffc27629a2f9bfa3c1a453682c612c31721e8cb9",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/nose/angular.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/14_nose/14_nose_button.png",
+     "sha256": "10c538e14e9f2a43690fa3a572d1ce48cd7ef5428a70e87f406343011968a35b",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/nose/button.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/14_nose/14_nose_default.png",
+     "sha256": "335e3d4607a855028948c8c99cd011e1ba77c55e0606919ab412abdf45214ffa",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/nose/default.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/14_nose/14_nose_rounded.png",
+     "sha256": "f57e2f7eecfa8689b8f1ef413c802d1703ee1cbdf17571d6091667eab0ba0f01",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/nose/rounded.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/14_nose/14_nose_straight.png",
+     "sha256": "6915d1394fcdbdeb8f59386d9b3abb08efd37b5e40000651b165ed13ba7000e1",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/nose/straight.png"
+    }
+   ]
+  },
+  "mouth": {
+   "category": "mouth",
+   "count": 9,
+   "values": [
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_default.png",
+     "sha256": "1ae0684925dfa3f34115e7bfed1f474ba3ce1719017ab2812681250370ad37af",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/mouth/default.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_fangs.png",
+     "sha256": "8b02aac361b0ae59cc6ebc263b59a5df9dec53730b140179f0f773bfa5c9d00f",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/mouth/fangs.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_frown.png",
+     "sha256": "eae8e171bd2140d196f79b2c9771514038dd6fd591570c46a94dd021097d1000",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/mouth/frown.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_grin.png",
+     "sha256": "db12ebd06943b67a43c751e9e208bfdc98bfeef3da5e4e709b5cbf918c52b67b",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/mouth/grin.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_open.png",
+     "sha256": "f59bcc180398d6f8d5d604389683b59f83c2ee2a76436c7a36c453bbc2814132",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/mouth/open.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_smile.png",
+     "sha256": "7f80decbe9c81153dd5617f550f740a058fc48eb633526353083ef10dbaa0c58",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/mouth/smile.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_smirk.png",
+     "sha256": "0b9f6b8fe3f606c547a8da0191d24b0ba188d0d89771a834029496df1454a922",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/mouth/smirk.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_soft.png",
+     "sha256": "20eee78b2c8d6ff9601bfc407e36e9727cbefa553e921d22b272b7494db2bd47",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/mouth/soft.png"
+    },
+    {
+     "file": "<repo>/art/arc-traits/handoff-2026-09-19/layers/15_mouth/15_mouth_surprised.png",
+     "sha256": "e2c23804836fc09a78a43054174073ac2e6aad47fa4f12c628a0b88c192e8d9b",
+     "size": [
+      1254,
+      1254
+     ],
+     "alpha_binary": true,
+     "target": "art/v2/layers_png/mouth/surprised.png"
+    }
+   ]
+  }
+ }
+}

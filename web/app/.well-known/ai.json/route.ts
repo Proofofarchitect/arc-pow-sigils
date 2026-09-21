@@ -1,5 +1,5 @@
 import { SITE_URL } from "@/lib/site";
-import { CONTRACT_ADDRESS } from "@/lib/contract";
+import { ARC_CHAIN_ID, CONTRACT_ADDRESS } from "@/lib/contract";
 
 /**
  * /.well-known/ai.json — service discovery for AI agents (RFC 8615 style).
@@ -15,7 +15,7 @@ export function GET() {
       name: "Proof of Architect",
       description:
         "Proof-of-work minted NFT collection on Arc (Circle L1, USDC gas). Mine a keccak nonce; the winning hash becomes the token seed and the Architector art derives from it deterministically.",
-      version: "3.0",
+      version: "3.4",
       site: SITE_URL,
       llms: {
         index: `${SITE_URL}/llms.txt`,
@@ -47,7 +47,7 @@ export function GET() {
         season: 1,
         rules: { mine: 100, claim: 50, forge: 150, burn: 30 },
         dataset: `${SITE_URL}/api/points`,
-        note: "Season 1 points are planned to convert into future PARC rewards (subject to change, no guarantees).",
+        note: "Season 1 points are an activity ledger for this network season; no conversion and no rewards are promised.",
       },
       agents: {
         page: `${SITE_URL}/agents`,
@@ -67,15 +67,13 @@ export function GET() {
           "required_bits",
           "verify_nonce",
           "price_info",
-          "verify_rarity",
           "craft_info",
-          "verify_craft_commit",
         ],
       },
       collection: {
         standard: "ERC-721 (ERC-2981 royalties 5%)",
         symbol: "PARC",
-        chain_id: 5042002,
+        chain_id: ARC_CHAIN_ID,
         chain_name: "Arc",
         gas_token: "USDC (18 decimals native)",
         contract: CONTRACT_ADDRESS,
@@ -92,17 +90,20 @@ export function GET() {
       },
       mechanics: {
         work: "keccak256(abi.encodePacked(uint256 chainId, address contract, address miner, uint256 nonce))",
-        validity: "leadingZeroBits(work) >= requiredBits(miner)",
+        validity: "uint256(work) < targetFor(miner) (fractional difficulty; requiredBits/min requiredMilli are the display values)",
         difficulty_layers: [
           "wave base: baseBits 30 + 2 bits per wave",
-          "load regulator: pace target 30 s/mint over a 25-mint window, +/-20% dead zone, 0..64 bits",
-          "per-wallet streak: +2 bits per extra mint inside a 60 s x wave cooldown; resets after the cooldown",
+          "load regulator: pace target 25 s/mint over a 5-mint window (+2 bits when fast, -1 bit when slow), +/-20% dead zone, 0..64 bits",
+          "per-wallet streak: +2 bits per extra mint inside a flat 5-25 min streak-level cooldown (capped at 25); resets after the cooldown",
+          "staking discount: stakingDiscountMilli(wallet) in milli-bits (up to 6000 = 6 bits) subtracted from the difficulty, floored at baseBits",
         ],
         seed:
-          "winning work hash stored on-chain as seedOf(tokenId) (or the claim hash for a free claim)",
+          "raw seedOf(tokenId) = winning work hash (or claim hash / craft pre-seed). The ART display seed = keccak256(seedOf ‖ blockhash(mintBlockOf + 2)); claim tokens (mintBlockOf 0) keep seedOf. Post-inclusion: traits cannot be previewed or ground for before minting.",
         art:
-          "Architector: 10 rendered pixel layers + a golden overlay + 4 metadata-only slots, derived deterministically from the seed",
+          "Architector: 10 rendered pixel layers + a golden overlay + 4 metadata-only slots, derived deterministically from the display seed",
         free_lock: "free-claim tokens are non-transferable until wave >= 5",
+        crafting:
+          "one-shot CraftingControllerV2: craft(cardA, cardB, choices, boostTier) payable burns both parents and forges the child atomically (no commit/reveal/refund)",
       },
       updated_at: new Date().toISOString(),
     },

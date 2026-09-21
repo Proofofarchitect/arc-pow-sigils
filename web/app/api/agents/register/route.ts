@@ -41,6 +41,14 @@ const RATE_LIMIT_ERROR =
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 10;
 
+/**
+ * Rejected in user-supplied text (name/description/link labels): angle
+ * brackets and braces (HTML/JSON sniffing), pipe/backslash escapes and all
+ * C0/C1 control characters. The leaderboard JSON is consumed by third-party
+ * agents, so markup-looking strings must never persist.
+ */
+const UNSAFE_TEXT = /[<>{}\\|^\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/;
+
 const TIMESTAMP_MAX_AGE_S = 86_400; // 24h in the past
 const TIMESTAMP_FUTURE_S = 300; // 5min of clock skew allowed
 
@@ -96,6 +104,9 @@ function parseLinks(value: unknown): AgentLink[] | undefined | null {
     if (typeof label !== "string" || label.length < 1 || label.length > 24) {
       return null;
     }
+    if (UNSAFE_TEXT.test(label)) {
+      return null;
+    }
     if (typeof url !== "string" || url.length > 200 || !/^https?:\/\//i.test(url)) {
       return null;
     }
@@ -131,6 +142,9 @@ export async function POST(request: Request): Promise<NextResponse> {
   ) {
     return bad("name must be 2–48 characters.");
   }
+  if (UNSAFE_TEXT.test(name)) {
+    return bad("name contains unsupported characters.");
+  }
 
   // --- description: 1..280 chars -------------------------------------------
   if (
@@ -139,6 +153,9 @@ export async function POST(request: Request): Promise<NextResponse> {
     description.length > 280
   ) {
     return bad("description must be 1–280 characters.");
+  }
+  if (UNSAFE_TEXT.test(description)) {
+    return bad("description contains unsupported characters.");
   }
 
   // --- links: optional, ≤5 labelled http(s) URLs ---------------------------

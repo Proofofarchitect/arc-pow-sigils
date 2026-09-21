@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import type { AgentEntry } from "@/lib/agent-store";
 import { shortAddress } from "@/lib/format";
 import { SITE_URL } from "@/lib/site";
 
@@ -56,9 +57,30 @@ function truncate(text: string, max = 120): string {
   return clean.length > max ? `${clean.slice(0, max - 1).trimEnd()}...` : clean;
 }
 
-export function AgentsView() {
+export function AgentsView({
+  initialAgents = [],
+}: {
+  initialAgents?: AgentEntry[];
+}) {
   const [rows, setRows] = useState<LeaderboardRow[] | null>(null);
   const [status, setStatus] = useState<"loading" | "error" | "ready">("loading");
+
+  // Server-rendered registry snapshot (name/description/address). Rendered
+  // immediately — including without JavaScript — with "…" where the live
+  // scores will land once the client fetch resolves.
+  const pendingRows: LeaderboardRow[] = initialAgents.map((agent) => ({
+    address: agent.address,
+    name: agent.name,
+    description: agent.description,
+    links: agent.links,
+    mined: 0,
+    claimed: 0,
+    forged: 0,
+    burned: 0,
+    points: 0,
+  }));
+  const displayRows = rows ?? (pendingRows.length > 0 ? pendingRows : null);
+  const scoresPending = rows === null && pendingRows.length > 0;
 
   const load = useCallback(async () => {
     setStatus("loading");
@@ -90,7 +112,69 @@ export function AgentsView() {
       <div className="panel">
         <h2>Leaderboard</h2>
 
-        {status === "loading" ? (
+        {displayRows && displayRows.length > 0 ? (
+          <>
+            {scoresPending && (
+              <p className="muted small" style={{ marginTop: 0 }}>
+                Registry snapshot — live scores arrive with JavaScript and are
+                computed purely from on-chain activity.
+              </p>
+            )}
+            <table className="claim-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Agent</th>
+                  <th>Points</th>
+                  <th>Mined</th>
+                  <th>Claimed</th>
+                  <th>Crafted</th>
+                  <th>Burned</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {displayRows.map((row, index) => (
+                  <tr key={`${row.address}-${index}`}>
+                    <td className="mono">{index + 1}</td>
+                    <td>
+                      <div>{row.name}</div>
+                      <div className="mono small muted">
+                        {shortAddress(row.address)}
+                      </div>
+                      {row.links && row.links.length > 0 && (
+                        <div className="small">
+                          {row.links.map((link) => (
+                            <a
+                              key={link.url}
+                              href={link.url}
+                              rel="noopener noreferrer"
+                              style={{ marginRight: 10 }}
+                            >
+                              {link.label}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </td>
+                    <td className="mono">
+                      {scoresPending ? "…" : row.points}
+                    </td>
+                    <td className="mono">{scoresPending ? "…" : row.mined}</td>
+                    <td className="mono">
+                      {scoresPending ? "…" : row.claimed}
+                    </td>
+                    <td className="mono">{scoresPending ? "…" : row.forged}</td>
+                    <td className="mono">{scoresPending ? "…" : row.burned}</td>
+                    <td className="small muted">
+                      {row.description ? truncate(row.description) : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        ) : status === "loading" ? (
           <div className="banner">Loading agents…</div>
         ) : status === "error" ? (
           <div className="banner error">
@@ -101,62 +185,12 @@ export function AgentsView() {
               </button>
             </div>
           </div>
-        ) : rows && rows.length === 0 ? (
+        ) : displayRows ? (
           <p className="muted">
             No agents are registered yet. The leaderboard only lists registered
             agent wallets, and ranking is computed purely on-chain. See{" "}
             <a href="#how-to-register">how to register</a> below to add one.
           </p>
-        ) : rows ? (
-          <table className="claim-table">
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Agent</th>
-                <th>Points</th>
-                <th>Mined</th>
-                <th>Claimed</th>
-                <th>Crafted</th>
-                <th>Burned</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row, index) => (
-                <tr key={`${row.address}-${index}`}>
-                  <td className="mono">{index + 1}</td>
-                  <td>
-                    <div>{row.name}</div>
-                    <div className="mono small muted">
-                      {shortAddress(row.address)}
-                    </div>
-                    {row.links && row.links.length > 0 && (
-                      <div className="small">
-                        {row.links.map((link) => (
-                          <a
-                            key={link.url}
-                            href={link.url}
-                            rel="noopener noreferrer"
-                            style={{ marginRight: 10 }}
-                          >
-                            {link.label}
-                          </a>
-                        ))}
-                      </div>
-                    )}
-                  </td>
-                  <td className="mono">{row.points}</td>
-                  <td className="mono">{row.mined}</td>
-                  <td className="mono">{row.claimed}</td>
-                  <td className="mono">{row.forged}</td>
-                  <td className="mono">{row.burned}</td>
-                  <td className="small muted">
-                    {row.description ? truncate(row.description) : "—"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         ) : null}
       </div>
 

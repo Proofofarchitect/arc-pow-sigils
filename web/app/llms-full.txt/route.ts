@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/lib/site";
+import { ARC_CHAIN_ID } from "@/lib/contract";
 import { CRAFT_ADDRESS } from "@/lib/craft";
 import { VAULT_ADDRESS } from "@/lib/staking";
 
@@ -27,16 +28,16 @@ Canonical URLs
 
 ## 1. What it is
 
-Each NFT ("Architector") is produced by grinding a nonce until the keccak-256 hash of the preimage below starts with enough zero bits. The winning hash is stored on-chain as the token seed. There is no server randomness and no oracle: art and rarity are a pure, verifiable function of the proof of work.
+Each NFT ("Architector") is produced by grinding a nonce until the keccak-256 hash of the preimage below beats the difficulty target. The winning hash is stored on-chain as seedOf, and the card's art derives from the post-inclusion display seed (see section 3). There is no server randomness and no oracle: art and rarity are a pure, verifiable function of the proof of work plus a future block hash.
 
-Difficulty escalates on three independent layers: a per-wave base (baseBits 30 plus 2 bits every wave), a load regulator that tightens or loosens to hold a pace target, and a per-wallet streak inside a wave-scaled cooldown. Supply is 15,042: 42 free claim codes (no PoW, no payment) plus 15,000 paid mints across 15 waves of 1,000. The paid price is 1.0 USDC at wave 1 and doubles every wave with no cap.
+Difficulty escalates on three independent layers: a per-wave base (baseBits 30 plus 2 bits every wave), a load regulator that tightens or loosens to hold a pace target, and a per-wallet streak inside a flat streak-level cooldown (5–25 min). Supply is 15,042: 42 free claim codes (no PoW, no payment) plus 15,000 paid mints across 15 waves of 1,000. The paid price is 1.0 USDC at wave 1 and doubles every wave with no cap.
 
 ## 2. Contract and network
 
-- Network: Arc (chainId 5042002).
-- Contract: 0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b — ERC-721 (v3.2), ERC-2981 royalties 5% (500 bps), verified on arcscan.
+- Network: Arc (chainId ${ARC_CHAIN_ID}).
+- Contract: 0x8f5795343C10b316296f6767a10e87CC40E62491 — ERC-721 (v3.4), ERC-2981 royalties 5% (500 bps), verified on arcscan.
 - Symbol: PARC.
-- Explorer: https://testnet.arcscan.app/address/0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b
+- Explorer: https://testnet.arcscan.app/address/0x8f5795343C10b316296f6767a10e87CC40E62491
 - Gas token: USDC, 18 decimals (native, not ETH). Transactions with maxFeePerGas below 20 gwei are silently dropped by Arc.
 - Payment: msg.value must equal currentMintDue().due exactly (= currentPrice() plus a 2.5% mint fee, mintFeeBps=250); the contract reverts with WrongPayment otherwise.
 - Supply: maxSupply 15,042 = 42 free claims + 15,000 paid. tokenId = 1..maxSupply. tokenURI(id) = baseURI + id.
@@ -48,19 +49,21 @@ Preimage (104 bytes):
 
     work = keccak256(abi.encodePacked(uint256 chainId, address contract, address miner, uint256 nonce))
 
-Validity:
+Validity (v3.4, fractional difficulty in milli-bits):
 
-    leadingZeroBits(work) >= requiredBits(miner)
-    requiredBits(miner) = baseBits + 2 * epochIndex + loadAdjust + (active streak bits)   (capped at 250)
+    valid  <=>  uint256(work) < targetFor(miner)
+    requiredMilli(miner) = (baseBits + 2 * epochIndex + loadAdjust + (active streak bits)) * 1000 - stakingDiscountMilli(miner)   (floored at baseBits*1000, capped at 250 bits)
+    requiredBits(miner)  = ceil(requiredMilli / 1000)   (display value only)
 
 Three difficulty layers:
 - Wave base: baseBits 30 plus 2 bits per wave (epochIndex), so each wave is 4x harder.
-- Load regulator: loadAdjust (0..64 bits) is nudged every 25 mints toward a 30 s/mint pace target. Faster than 0.8x target tightens (+1 bit); slower than 1.2x target loosens (-1 bit); the 20% band between is a dead zone.
-- Per-wallet streak: +2 bits per extra mint from the same wallet while it is inside its cooldown window (cooldown = 60 seconds x wave). The streak resets once the cooldown has elapsed.
+- Load regulator: loadAdjust (0..64 bits) is nudged every 5 mints toward a 25 s/mint pace target. Faster than 0.8x target tightens (+2 bits); slower than 1.2x target loosens (-1 bit); the 20% band between is a dead zone.
+- Per-wallet streak: +2 bits per extra mint from the same wallet while it is inside its cooldown window (cooldown = flat 5/10/15/20/25 minutes by streak level, capped at 25). The streak resets once the cooldown has elapsed.
 
 - baseBits is 30 at wave 1 (deployment parameter).
 - Nonces are single-use per wallet (nonceUsed[miner][nonce]).
-- On success the contract stores seedOf[tokenId] = work and nonceOf[tokenId] = nonce, and emits Mined(miner, tokenId, nonce, work, bits, paid).
+- On success the contract stores seedOf[tokenId] = work, nonceOf[tokenId] = nonce and mintBlockOf[tokenId] = block.number, and emits Mined(miner, tokenId, nonce, work, bits, paid).
+- Post-inclusion entropy: the ART seed is NOT seedOf. It is displaySeed = keccak256(seedOf ‖ blockhash(mintBlockOf + 2)) for minted AND forged tokens; claim tokens (mintBlockOf == 0) keep seedOf. Because blockhash(mintBlockOf + 2) does not exist when the miner submits, a miner cannot grind for a favourable seed, and traits cannot be previewed before minting.
 
 Free claims (codes)
 
@@ -112,7 +115,7 @@ GET ${SITE_URL}/api/meta/{id} returns OpenSea-compatible JSON, for example token
 
 The Architector has 15 slots. Ten are rendered pixel-art layers, composited in this order: background, body, outfit, face, eyes, headwear, tool, companion, bug, legendary. Four are metadata-only text rows: era, origin, quote, lore. The fifteenth is a "golden" overlay (a flag drawn over headwear/companion).
 
-Values are picked from the 32-byte seed by deterministic weighted rejection sampling. Each slot derives from keccak256(seed || uint8 slotIndex || uint16 counter), read as sixteen big-endian uint16 words, with the counter reset per slot. Same seed yields the same card, and anyone can recompute it from the on-chain seed.
+Values are picked from the 32-byte DISPLAY seed by deterministic weighted rejection sampling. Each slot derives from keccak256(seed || uint8 slotIndex || uint16 counter), read as sixteen big-endian uint16 words, with the counter reset per slot. Same seed yields the same card, and anyone can recompute it from the on-chain state (see section 3 for the display-seed formula).
 
 Golden overlay: two rare events, checked in order and only when the card did not roll a legendary scene. Each has a prerequisite on the rolled companion value and a 3% chance on a raw uint16 word (House Cat, then Fat Rat on companion; first success wins). If a golden event fires, bug is forced to None; if legendary fired, both golden and bug are None.
 
@@ -120,8 +123,8 @@ Rarity (OpenRarity-compatible): information content = sum over the token's trait
 
 ## 6. HTTP API
 
-- GET /api/meta/{id} — metadata JSON (reads seedOf/nonceOf/ownerOf on-chain, cached about 60 s). 404 if the token is not minted.
-- GET /api/image/{id} — deterministic PNG Architector rendered from the seed (image/png). 1024x1024 by default; add ?master=1 for the 3072x3072 master. 404 if the token is not minted.
+- GET /api/meta/{id} — metadata JSON (reads seedOf/mintBlockOf/nonceOf/ownerOf on-chain, derives the display seed, cached about 60 s). 404 if the token is not minted.
+- GET /api/image/{id} — deterministic PNG Architector rendered from the display seed (image/png). 1024x1024 by default; add ?master=1 for the 3072x3072 master. 404 if the token is not minted.
 - GET /.well-known/ai.json — machine-readable service discovery (endpoints, contract, MCP tools).
 - GET /openapi.yaml — OpenAPI 3.0 specification for the API.
 - GET /sitemap.xml — pages plus one URL per minted token.
@@ -141,20 +144,18 @@ Streamable-HTTP MCP endpoint: ${SITE_URL}/api/mcp
 
 Tools (all read-only):
 - collection_stats — totalMinted, maxSupply (15,042), freeClaims, claimsLeft, currentWave, currentPrice (USDC), baseBits, paused.
-- get_token (tokenId) — owner, seed, nonce, tokenURI, image and metadata URLs.
-- required_bits (miner) — current difficulty for that wallet (three layers: wave base, load regulator, streak).
-- verify_nonce (miner, nonce) — recomputes work locally and compares to the current target. Lets an agent verify a mined nonce WITHOUT sending a transaction.
+- get_token (tokenId) — owner, seedOf, displaySeed (post-inclusion), nonce, tokenURI, image and metadata URLs.
+- required_bits (miner) — current difficulty for that wallet as requiredBits (display), requiredMilli (milli-bits) and the exact target (three layers: wave base, load regulator, streak, minus the staking discount).
+- verify_nonce (miner, nonce) — recomputes work locally and checks it against the current fractional target (uint256(work) < targetFor(miner)). Lets an agent verify a mined nonce WITHOUT sending a transaction.
 - price_info — current wave (from currentWave()), current price (from currentPrice()), and the schedule: 1.0 USDC doubling every 1,000 paid mints across 15 waves, no cap.
-- verify_rarity (tokenId) — recompute the token's OpenRarity information-content score and tier from its on-chain seed.
-- craft_info — CraftingController parameters: craftFee, per-tier boostCost/feeFor, reveal/entropy window constants and the salt policy.
-- verify_craft_commit — check a craft commit: recomputes keccak256(abi.encode(choices, salt)) and compares it with the on-chain commit hash (wrong salt returns match false).
+- craft_info — CraftingControllerV2 parameters for the one-shot model: craftFee, per-tier boostCost/feeFor, totalFeesCollected, craftNonce, bounds and the child pre-seed formula.
 
 A standalone stdio MCP server with the same tools is published in the repository (mcp/).
 
 ## 8. How to mine (step by step)
 
-1. Read requiredBits(yourAddress) — for example via the MCP tool required_bits or a contract read.
-2. Grind nonces: work = keccak256(chainId, contract, yourAddress, nonce); accept when leadingZeroBits(work) >= requiredBits. Expected attempts are 2^requiredBits.
+1. Read requiredMilli(yourAddress) and targetFor(yourAddress) — for example via the MCP tool required_bits or a contract read.
+2. Grind nonces: work = keccak256(chainId, contract, yourAddress, nonce); accept when uint256(work) < targetFor(yourAddress). Expected attempts are ~2^(requiredMilli/1000).
 3. Verify locally (the browser UI and MCP verify_nonce do this) before paying gas.
 4. Submit mint(nonce) payable with msg.value == currentMintDue().due (wave price + 2.5% fee) and maxFeePerGas >= 20 gwei.
 5. Repeat — difficulty rises within a wave by the streak, and by +2 bits per wave overall.
@@ -163,34 +164,27 @@ Tip: eth_estimateGas with a fresh random nonce reverts with BelowFloor(uint8 got
 
 Performance reference: RTX 3090 about 2 GH/s, RTX 4090 about 4.8 GH/s (native CUDA), in-browser WebGPU miner orders of magnitude above a worker (hardware-dependent; hundreds of MH/s on desktop cards), browser Web Worker about 65 kH/s, pure Python about 0.17 MH/s. At baseBits 30 a plain worker is slow; a GPU (CUDA or in-browser WebGPU) is comfortable.
 
-## 9. Crafting (HC/2)
+## 9. Crafting (HC/2, one-shot)
 
-A holder can forge a new Architector (the child) from two Architectors they own (the parents), choosing which parent supplies each of the twelve choice-able slots. Crafting is a two-phase commit/reveal so nobody can grind the outcome: you commit a hash first, then reveal the choices once the entropy block is fixed.
+A holder can forge a new Architector (the child) from two Architectors they own (the parents), choosing which parent supplies each of the twelve choice-able slots. v3.4 crafting is a SINGLE transaction with no refusal: the two parents are escrowed and burned and the child is forged atomically. There is no commit, no reveal and no refund — crafted is taken. The child's pre-seed already exists on-chain, but the art seed adds a block hash that does not exist at craft time, so the result can be verified afterwards but never predicted or ground for before crafting.
 
-- Controller: ${CRAFT_ADDRESS ?? "(not deployed yet — set NEXT_PUBLIC_CRAFT_ADDRESS)"} (CraftingController). Parents are the PARC NFT contract in section 2. The controller address is read from the build env and updates with the env swap.
-- Commit preimage: slotChoicesHash = keccak256(abi.encode(SlotChoice[], bytes32 salt)), where SlotChoice is the struct { uint8 slot, uint8 parent } and salt is a per-commit 32-byte client secret. reveal must send the same choices and the same salt.
+- Controller: ${CRAFT_ADDRESS ?? "(not deployed yet — set NEXT_PUBLIC_CRAFT_ADDRESS)"} (CraftingControllerV2). Parents are the PARC NFT contract in section 2. The controller address is read from the build env and updates with the env swap.
+- Child pre-seed: childSeed = keccak256(abi.encodePacked("PoA_CRAFT_v2", seedLow, seedHigh, minId, maxId, uint8 door, uint8 boostTier, uint64 nonce, keccak256(abi.encode(choices)))), where seedLow/seedHigh are the parents' RAW seedOf canonicalized by tokenId (minId/maxId), door is 0 (CRAFT_2_1) and choices is the SlotChoice[] array. The child's ART seed is then keccak256(childSeed ‖ blockhash(childMintBlock + 2)).
+- Event: Crafted(uint256 indexed childId, address indexed player, uint256 cardA, uint256 cardB, bytes32 childSeed, uint8 boostTier, uint256 fee). The choices are NOT in the event (they are recoverable only from the craft transaction calldata).
 
 Steps:
 
-1. Approve both parents: call approve(controller, cardA) and approve(controller, cardB) on the core NFT. The controller pulls both parents with transferFrom, so a missing approval (or a non-transferable free token) reverts.
-2. Choose a boost tier (0..3) and compute the fee (below): craftFee is a fixed 5.0 USDC and the boost cost is priced from the core currentPrice() at commit time, in 18-decimal USDC.
-3. Generate a fresh salt (32 random bytes) and commit: commit(cardA, cardB, slotChoicesHash, boostTier) payable, with msg.value equal to the fee exactly. The choices and the salt are NOT stored on-chain in the clear — keep them yourself.
-4. Wait at least three blocks. Entropy = blockhash(commitBlock + 2); before commitBlock + 3 that block hash is not yet available and reveal reverts.
-5. Reveal: reveal(commitId, choices, salt). Reveal is permissionless, but only the holder of the salt can produce the exact preimage. The reveal window is [commitBlock + 3, commitBlock + 258].
-6. Fallback: refund(commitId), callable by the committer only, after the window closes. It returns both parent cards; the fee is NOT returned (an anti-grind premium) — EXCEPT when the core forge is paused, in which case the full fee is refunded as well.
+1. Approve the controller for both parents: call setApprovalForAll(controller, true) on the core NFT (one tx covers all future crafts). The controller pulls both parents with transferFrom, so a missing approval (or a non-transferable free token) reverts.
+2. Choose a boost tier (0..3) and the inherited slots. Selectable slots are 0..11, strictly increasing, parent in {0,1}, at most maxChosen(tier) entries. Slot 12 (legendary) is always entropy-derived and cannot be chosen.
+3. Send craft(cardA, cardB, choices, boostTier) payable with msg.value equal to feeFor(boostTier) exactly. Both parents are burned and the child is forged in the same transaction.
+4. The child art is only final once blockhash(childMintBlock + 2) exists (~2 blocks). Until then the display seed is not final and the art/traits should be treated as pending.
 
 Fee and parameters:
 
 - fee = craftFee + boostCost. craftFee = 5.0 USDC (fixed on all waves); boostCost = 0 for tier 0, else 0.5 x currentPrice() x 2^(tier-1). All values are 18-decimal USDC and integer math; msg.value must match exactly.
 - Boost tiers are 0..3; maxChosen = min(6 + 2 x tier, 12): tier 0 -> 6 slots, tier 1 -> 8, tier 2 -> 10, tier 3 -> 12.
-- Selectable slots are 0..11. Slot 12 (legendary) is always entropy-derived and cannot be chosen.
-- Every choice pair is structurally validated: slots strictly increasing, slot <= 11, parent in {0,1}, and at most maxChosen entries.
-
-Salt rules (W3-01):
-
-- Generate 32 random bytes per commit (crypto.getRandomValues) and keep the salt secret until reveal. Only the resulting hash is public at commit time; the salt is published inside the reveal transaction.
-- Back the salt up together with the choices. Without the salt you cannot reveal; after the window the only remaining action is refund() (parents returned, fee kept unless the forge is paused).
-- Never use salt = 0. The contract cannot tell a random salt from a fixed one, and a zero salt makes the preimage brute-forceable again (about 94k choice permutations), which would let a third party force-settle your commit.
+- Free-claim tokens cannot be crafted before wave 5 (mirror of the core transfer lock).
+- Reads: paused(), craftFee(), boostCost(tier), feeFor(tier), maxChosen(tier), totalFeesCollected(), craftNonce(), nft(), registry(), points().
 
 ## 10. Staking
 
@@ -209,7 +203,7 @@ Architectors can be locked in the StakingVault for a proof-of-work difficulty di
 
 ## 11. FAQ
 
-- Is the randomness fair? There is no randomness. Arc's PREVRANDAO is always 0, so traits come from the PoW hash itself — anyone can re-verify a token's traits from its seed.
+- Is the randomness fair? There is no server randomness. Arc's PREVRANDAO is always 0, so traits come from the display seed = keccak256(seedOf ‖ blockhash(mintBlockOf + 2)), where the block hash is a future block fixed only after you mint — anyone can re-verify a token's traits from on-chain state (seedOf + mintBlockOf), but nobody (including the miner) can grind for a favourable seed.
 - What does a mint cost? 1.0 USDC at wave 1, doubling every wave of 1,000 paid mints with no cap (last wave 16,384 USDC). The 42 free claim codes need no payment and no PoW; redeem one at ${SITE_URL}/claim. Gas is paid in native USDC.
 - How do I verify a nonce without sending a transaction? Use the MCP tool verify_nonce, or compare workFor(miner, nonce) on-chain with a local keccak computation.
 - Where do the funds go? All proceeds and 5% secondary royalties go to the immutable treasury; withdraw() can be called by anyone but only pays the treasury.
@@ -217,7 +211,7 @@ Architectors can be locked in the StakingVault for a proof-of-work difficulty di
 
 ## 12. Status
 
-The live deployment is v3.2 "Proof of Architect" (0x2F7cE1e4A175b1A16e4f151fA5B862ea6b9F3C8b), verified on arcscan; the previous v3 deployment (0xCc223C0e1A943916f604d729Cddfb5B85f266193) remains verified on arcscan. The browser miner, GPU miner, metadata API, the Architector art pipeline, the free-claim page (${SITE_URL}/claim), crafting and staking are all live.
+The live deployment is v3.4 "Proof of Architect" (0x8f5795343C10b316296f6767a10e87CC40E62491), verified on arcscan; the previous v3.3/v3.2/v3 deployments remain verified on arcscan. The browser miner, GPU miner, metadata API, the Architector art pipeline, the free-claim page (${SITE_URL}/claim), one-shot crafting and staking are all live.
 `;
 
   return new Response(body, {

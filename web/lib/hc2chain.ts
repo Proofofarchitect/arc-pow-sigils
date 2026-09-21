@@ -1,7 +1,9 @@
 import {
   createPublicClient,
+  decodeFunctionData,
   getAddress,
   http,
+  parseAbi,
   parseAbiItem,
   zeroHash,
   type Address,
@@ -11,6 +13,7 @@ import { arcTestnet, ARC_RPC_URL } from "./arc";
 import { rpcFetch } from "./rpc";
 import { CONTRACT_ADDRESS, POW_MINT_NFT_ABI } from "./contract";
 import { getOnChainToken } from "./chain";
+import { readDisplaySeed } from "./display-seed";
 import {
   HOUSE_CARD_SLOTS,
   attributeMap,
@@ -92,9 +95,9 @@ const CHUNK_SIZE = 10_000n;
 /** Hard cap on the number of `getLogs` pages per scan (bounded RPC budget). */
 const MAX_CHUNKS = 200n;
 
-/** The controller's `Crafted` event — compiled from the Solidity struct. */
+/** The controller's `Crafted` event — v2 one-shot shape (no commitId / entropy). */
 const CRAFTED_EVENT = parseAbiItem(
-  "event Crafted(uint256 indexed commitId, address indexed player, uint256 cardA, uint256 cardB, bytes32 childSeed, bytes32 entropy, (uint8 slot, uint8 parent)[] choices)",
+  "event Crafted(uint256 indexed childId, address indexed player, uint256 cardA, uint256 cardB, bytes32 childSeed, uint8 boostTier, uint256 fee)",
 );
 
 const publicClient = createPublicClient({
@@ -102,24 +105,28 @@ const publicClient = createPublicClient({
   transport: http(ARC_RPC_URL, { timeout: 15_000, fetchFn: rpcFetch(6) }),
 });
 
-/** One decoded `Crafted` log. */
+/** One decoded `Crafted` log. `childSeed` here is the v2 PRE-seed (no choices). */
 type CraftedRecord = {
-  commitId: bigint;
+  childId: bigint;
   player: Address;
   cardA: bigint;
   cardB: bigint;
   childSeed: Hex;
-  entropy: Hex;
-  choices: Hc2Choice[];
+  boostTier: number;
+  fee: bigint;
+  /** Tx that forged this child — its `craft(...)` calldata carries `choices`. */
+  txHash: Hex;
 };
 
 export type CraftedTokenResolution = {
+  /** The child's DISPLAY seed (pre-seed mixed with blockhash(mintBlock+2)). */
   childSeed: Hex;
   choices: Hc2Choice[];
   attributes: Record<string, string>;
   golden: boolean;
   /** `[minId, maxId]` — parents canonicalized by tokenId (F-04). */
   parentIds: [bigint, bigint];
+  /** Parents' DISPLAY seeds (their art attributes derive from these). */
   seedLow: Hex;
   seedHigh: Hex;
 };
@@ -141,7 +148,7 @@ const resolutionCache =
   store.__arcHc2ResolutionCache ??
   (store.__arcHc2ResolutionCache = new Map<string, CachedResolution>());
 
-async function readSeed(id: bigint): Promise<Hex | null> {
+async function readRawSeed(id: bigint): Promise<Hex | null> {
   try {
     return await publicClient.readContract({
       address: getAddress(CONTRACT_ADDRESS),
@@ -149,6 +156,35 @@ async function readSeed(id: bigint): Promise<Hex | null> {
       functionName: "seedOf",
       args: [id],
     });
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The `craft` calldata ABI (v2 one-shot). Used to recover the player's chosen
+ * inherited slots from the forging transaction — the `Crafted` event does not
+ * carry them.
+ */
+const CRAFT_FN_ABI = parseAbi([
+  "function craft(uint256 cardA, uint256 cardB, (uint8 slot, uint8 parent)[] choices, uint8 boostTier) payable",
+]);
+
+/**
+ * Recover the inherited-slot choices for a craft from its transaction calldata.
+ * Returns `null` when the tx cannot be fetched/decoded (then HC/2 resolution
+ * falls back to a plain derivation of the display seed).
+ */
+async function readCraftChoices(txHash: Hex): Promise<Hc2Choice[] | null> {
+  try {
+    const tx = await publicClient.getTransaction({ hash: txHash });
+    const decoded = decodeFunctionData({ abi: CRAFT_FN_ABI, data: tx.input });
+    if (decoded.functionName !== "craft") return null;
+    const rawChoices = decoded.args[2] as readonly { slot: number; parent: number }[];
+    return rawChoices.map((choice) => ({
+      slot: Number(choice.slot),
+      parent: Number(choice.parent) === 1 ? 1 : 0,
+    }));
   } catch {
     return null;
   }
@@ -195,28 +231,25 @@ async function scanCraftedLogs(): Promise<Map<string, CraftedRecord>> {
         const args = log.args;
         if (!args || !args.childSeed) continue;
         if (
-          args.commitId === undefined ||
+          args.childId === undefined ||
           args.player === undefined ||
           args.cardA === undefined ||
           args.cardB === undefined ||
-          args.entropy === undefined
+          args.boostTier === undefined ||
+          args.fee === undefined
         ) {
           continue;
         }
 
-        const choices: Hc2Choice[] = (args.choices ?? []).map((choice) => ({
-          slot: Number(choice.slot),
-          parent: Number(choice.parent) === 1 ? 1 : 0,
-        }));
-
         records.set(args.childSeed.toLowerCase(), {
-          commitId: args.commitId,
+          childId: args.childId,
           player: args.player,
           cardA: args.cardA,
           cardB: args.cardB,
           childSeed: args.childSeed,
-          entropy: args.entropy,
-          choices,
+          boostTier: Number(args.boostTier),
+          fee: args.fee,
+          txHash: log.transactionHash,
         });
       }
     } catch {
@@ -274,35 +307,49 @@ export async function resolveCraftedToken(
   let value: CraftedTokenResolution | null = null;
 
   try {
-    const childSeed = await readSeed(tokenId);
+    // Match the `Crafted` event by the RAW child pre-seed (`seedOf[childId]`,
+    // which is exactly `Crafted.childSeed`). Post-inclusion entropy is added on
+    // top to form the DISPLAY seed fed to the derivation.
+    const preSeed = await readRawSeed(tokenId);
 
-    if (childSeed && childSeed !== zeroHash) {
+    if (preSeed && preSeed !== zeroHash) {
       const index = await loadCraftedIndex();
-      const record = index.get(childSeed.toLowerCase());
+      const record = index.get(preSeed.toLowerCase());
 
       if (record) {
-        const [seedA, seedB] = await Promise.all([
-          readSeed(record.cardA),
-          readSeed(record.cardB),
+        // The `Crafted` event carries no choices — recover them from the tx
+        // calldata, and read each parent's DISPLAY seed (their art attributes
+        // derive from those, not from the raw `seedOf` the pre-seed packed).
+        const [child, parentA, parentB, choices] = await Promise.all([
+          readDisplaySeed(publicClient, tokenId),
+          readDisplaySeed(publicClient, record.cardA),
+          readDisplaySeed(publicClient, record.cardB),
+          readCraftChoices(record.txHash),
         ]);
 
-        // Parents are burned, but the core keeps `seedOf` after `_burn`. If a
-        // parent seed is unavailable (zero/revert) we cannot derive → fallback.
-        if (seedA && seedB && seedA !== zeroHash && seedB !== zeroHash) {
+        // Parents are burned, but the core keeps `seedOf`/`mintBlockOf` after
+        // `_burn`. If a seed is unavailable or any display seed is still
+        // pending (mintBlock + 2 not yet mined) we cannot derive → fallback.
+        if (
+          choices &&
+          !child.pending &&
+          !parentA.pending &&
+          !parentB.pending
+        ) {
           const aIsLow = record.cardA < record.cardB;
-          const seedLow = aIsLow ? seedA : seedB;
-          const seedHigh = aIsLow ? seedB : seedA;
+          const seedLow = aIsLow ? parentA.displaySeed : parentB.displaySeed;
+          const seedHigh = aIsLow ? parentB.displaySeed : parentA.displaySeed;
           const parentIds: [bigint, bigint] = aIsLow
             ? [record.cardA, record.cardB]
             : [record.cardB, record.cardA];
 
           const derived = IS_V2
-            ? deriveHC2V2(childSeed, seedLow, seedHigh, record.choices)
-            : deriveHC2(childSeed, seedLow, seedHigh, record.choices);
+            ? deriveHC2V2(child.displaySeed, seedLow, seedHigh, choices)
+            : deriveHC2(child.displaySeed, seedLow, seedHigh, choices);
 
           value = {
-            childSeed,
-            choices: record.choices,
+            childSeed: child.displaySeed,
+            choices,
             attributes: derived.attributes,
             golden: derived.golden,
             parentIds,
@@ -385,20 +432,20 @@ export type TokenTraits = {
  * `tierForScore` (works for any trait dict — never `rarityForSeed` for crafted
  * tokens, whose traits are not a plain function of `childSeed`).
  *
- * Reads `seedOf`/`ownerOf` through `getOnChainToken` (60s cache), so an unminted
- * id still throws and callers map it to a 404 exactly as before.
+ * Reads `seedOf`/`mintBlockOf`/`ownerOf` through `getOnChainToken` (60s cache),
+ * so an unminted id still throws and callers map it to a 404 exactly as before.
  */
 export async function getTraitsForToken(tokenId: bigint): Promise<TokenTraits> {
   const token = await getOnChainToken(tokenId);
 
   if (!isCraftedId(tokenId)) {
     const derived = IS_V2
-      ? deriveAttributesV2(token.seed)
-      : deriveAttributes(token.seed);
+      ? deriveAttributesV2(token.displaySeed)
+      : deriveAttributes(token.displaySeed);
     return {
       crafted: false,
       craftedLookup: "ok",
-      seed: token.seed,
+      seed: token.displaySeed,
       derived,
       rarity: rarityForDerived(derived),
     };
@@ -413,23 +460,24 @@ export async function getTraitsForToken(tokenId: bigint): Promise<TokenTraits> {
     return {
       crafted: true,
       craftedLookup: "ok",
-      seed: token.seed,
+      seed: token.displaySeed,
       derived,
       rarity: rarityForDerived(derived),
     };
   }
 
-  // Documented fallback: HC/2 resolution unavailable → deterministic plain
-  // derivation of the childSeed under the active trait set (house-card/1 or
+  // Documented fallback: HC/2 resolution unavailable (tx calldata undecodable,
+  // seed pending, or no matching Crafted log) → deterministic plain derivation
+  // of the child's DISPLAY seed under the active trait set (house-card/1 or
   // ARC-traits/2). Traits will NOT match the crafted card;
   // `craftedLookup: "unavailable"` lets the UI/API say so.
   const derived = IS_V2
-    ? deriveAttributesV2(token.seed)
-    : deriveAttributes(token.seed);
+    ? deriveAttributesV2(token.displaySeed)
+    : deriveAttributes(token.displaySeed);
   return {
     crafted: true,
     craftedLookup: "unavailable",
-    seed: token.seed,
+    seed: token.displaySeed,
     derived,
     rarity: rarityForDerived(derived),
   };

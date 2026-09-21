@@ -5,6 +5,7 @@ import {ERC721Minimal} from "./ERC721Minimal.sol";
 
 /// @title PowMintNFTv3_1 — "Proof of Architect" v3.1 (Arc Chain, USDC gas).
 // v3.2 (2026-09-19): optional mint fee — immutable mintFeeBps (≤10%), totalFees counter, currentMintDue() helper; mainnet target 250 bps; deployed testnet v3.1 instances remain fee-less (0 bps).
+// v3.3 (2026-09-19): anti-sybil delta — cooldown() is now a FLAT schedule by streak level (5/10/15/20/25 min for levels 1..5, cap 25 min; COOLDOWN_BASE × wave removed); pace regulator uses an asymmetric step (+2 bits when fast, −1 bit when slow) with deploy defaults regWindow=5 / paceTargetS=25. Streak semantics (+2 bits per mint within window) unchanged.
 ///
 /// = v3 + the minimal pre-mainnet delta (v3.1 spec):
 ///   1. `burn(tokenId)`            — holder/approved burn; increments `totalBurned`.
@@ -77,11 +78,16 @@ contract PowMintNFTv3_1 is ERC721Minimal {
 
     uint256 public constant EPOCH_BITS = 2; // +2 difficulty bits per wave
     uint256 public constant STREAK_STEP = 2; // +2 difficulty bits per streak mint
-    uint256 public constant COOLDOWN_BASE = 60; // cooldown = COOLDOWN_BASE * wave (seconds)
+    // v3.3: flat streak-cooldown schedule (seconds) — 5 min per streak level, capped at 25 min.
+    uint256 public constant COOLDOWN_STEP_S = 300; // wait added per streak level (5 minutes)
+    uint256 public constant COOLDOWN_MAX_S = 1500; // schedule cap = streak level 5 (25 minutes)
+    uint256 public constant COOLDOWN_MAX_LEVEL = COOLDOWN_MAX_S / COOLDOWN_STEP_S; // levels 1..5 map onto the schedule
     uint256 public constant LOCK_WAVES = 5; // free tokens lock until wave >= 5
     uint8 public constant LOAD_ADJ_MAX = 64; // regulator ceiling
     uint256 public constant PACE_FAST_PCT = 80; // faster than 0.8x target → tighten
     uint256 public constant PACE_SLOW_PCT = 120; // slower than 1.2x target → loosen
+    uint256 public constant PACE_STEP_UP = 2; // v3.3: fast window → +2 difficulty bits
+    uint256 public constant PACE_STEP_DOWN = 1; // v3.3: slow window → −1 difficulty bit
 
     /// @notice Forged token ids live in a separate namespace: FORGE_ID_BASE + totalForged.
     uint256 public constant FORGE_ID_BASE = 10_000_000;
@@ -125,7 +131,7 @@ contract PowMintNFTv3_1 is ERC721Minimal {
     mapping(uint256 => bytes32) public seedOf; // winning work hash (or claim hash) → art seed
     mapping(uint256 => uint256) public nonceOf; // winning nonce (audit)
 
-    // streak: per-wallet escalating penalty inside a wave-scaled cooldown
+    // streak: per-wallet escalating penalty inside a flat streak-level cooldown (v3.3)
     mapping(address => uint256) public streakBits;
     mapping(address => uint256) public lastMintAt;
 
@@ -259,9 +265,13 @@ contract PowMintNFTv3_1 is ERC721Minimal {
         return keccak256(abi.encodePacked(block.chainid, address(this), miner, nonce));
     }
 
-    /// @notice Cooldown (seconds) for the current wave; grows linearly with the wave.
-    function cooldown(address) public view returns (uint256) {
-        return COOLDOWN_BASE * currentWave();
+    /// @notice Cooldown (seconds) before a wallet's streak resets — v3.3 FLAT schedule by
+    ///         streak level: 5/10/15/20/25 min for levels 1..5, capped at 25 min at level 5+.
+    ///         No wave scaling (supersedes the old `COOLDOWN_BASE × wave`).
+    function cooldown(address miner) public view returns (uint256) {
+        uint256 level = streakBits[miner] / STREAK_STEP;
+        if (level > COOLDOWN_MAX_LEVEL) level = COOLDOWN_MAX_LEVEL;
+        return COOLDOWN_STEP_S * level;
     }
 
     /// @notice True while a wallet's streak penalty is still "hot".
@@ -506,8 +516,9 @@ contract PowMintNFTv3_1 is ERC721Minimal {
 
     // -------------------------------------------------------------- internals
 
-    /// @dev Pace regulator: tightens when mints are faster than 0.8×target, loosens when
-    ///      slower than 1.2×target, holds inside the dead zone. Floor is implicit (0).
+    /// @dev Pace regulator: tightens by PACE_STEP_UP bits when mints are faster than
+    ///      0.8×target, loosens by PACE_STEP_DOWN bit when slower than 1.2×target, holds inside
+    ///      the dead zone. Floor is implicit (0); the ceiling is LOAD_ADJ_MAX.
     function _regulate() internal {
         if (regWindowMints == 0) {
             regWindowStartTs = block.timestamp;
@@ -519,9 +530,11 @@ contract PowMintNFTv3_1 is ERC721Minimal {
             uint256 avg = elapsed / regWindow;
 
             if (avg * 100 < paceTargetS * PACE_FAST_PCT) {
-                if (loadAdjust < LOAD_ADJ_MAX) loadAdjust += 1;
+                // v3.3 asymmetry: fast window tightens by +2 bits (clamped at the ceiling).
+                uint256 next = uint256(loadAdjust) + PACE_STEP_UP;
+                loadAdjust = next > LOAD_ADJ_MAX ? LOAD_ADJ_MAX : uint8(next);
             } else if (avg * 100 > paceTargetS * PACE_SLOW_PCT) {
-                if (loadAdjust > 0) loadAdjust -= 1;
+                if (loadAdjust > 0) loadAdjust -= uint8(PACE_STEP_DOWN);
             }
             emit Regulated(loadAdjust, avg);
             regWindowMints = 0;

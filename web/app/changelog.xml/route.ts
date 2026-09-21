@@ -28,6 +28,14 @@ type Milestone = {
 // Newest first (feed order + lastBuildDate derive from index 0).
 const MILESTONES: Milestone[] = [
   {
+    title: "Contract v3.4 — post-inclusion entropy, milli-bit staking, one-shot craft",
+    link: `${SITE_URL}/docs/verification`,
+    guid: "poa:v3.4",
+    date: "2026-09-21T12:00:00Z",
+    description:
+      "Canonical v3.4 core 0x8f579534…2491: post-inclusion entropy (the art seed is derived from a block hash that does not exist at submit time), milli-bit staking difficulty and one-shot craft (no commit/reveal/refund). Mint fee stays 2.5%. Contract suite 350/350; core, vault and craft verified on arcscan.",
+  },
+  {
     title: "Headwear set finalized + rarity recalibrated",
     link: `${SITE_URL}/llms-full.txt`,
     guid: "poa:headwear-final",

@@ -105,7 +105,7 @@ nonceOf(1) = 403415
 ```
 
 JS (`node miner/crosscheck.mjs 403415 <seedOf(1)>`) with
-chainId=5042002, contract=0xc7D2…, miner=0x1c35…:
+chainId=5042002, contract=0xc7D2…, miner=<ops-wallet-address>:
 
 ```
 schemeHash = 0x00000dcc59e937a8228cb92d216aeb3705bd3c4d1dff61fa648d1d603777f5bf
@@ -117,7 +117,7 @@ MATCH
 
 ## 6. Real E2E mint (step 4)
 
-* Private key read from the local key file (`PRIVATE_KEY=` line) into a shell variable;
+* Private key read from `ops/.wallet` (`PRIVATE_KEY=` line) into a shell variable;
   **never printed** (only its length/prefix was echoed).
 * Pre-mint: `requiredBits(wallet)=22`, `totalMinted=1`, `currentPrice()=0` (free phase).
 * Mined nonce (node, target 22 bits, start 0):
@@ -139,13 +139,13 @@ blockNumber       62398084
 gasUsed           136931
 effectiveGasPrice 24 gwei
 event Mined       tokenId=2 nonce=12175032 bits=22 paid=0
-event Transfer    tokenId=2 -> 0x1111111111111111111111111111111111111111
+event Transfer    tokenId=2 -> <ops-wallet-address>
 ```
 
 * Post-mint on-chain verification:
 
 ```
-ownerOf(2)             = 0x1111111111111111111111111111111111111111
+ownerOf(2)             = <ops-wallet-address>
 seedOf(2)              = 0x000003fb32c005819d758df16aff8c3e10b3b44c5cf1575a5552cb5265508d69
 nonceOf(2)             = 12175032
 requiredBits(wallet)   = 24   (was 22 → advanced by +2)
@@ -172,4 +172,4 @@ All post-conditions match. No `--value` (free wave; `totalMinted < freeSupply=25
 * Only `mint()` was exercised; no paid-phase mint, no `withdraw`, no pause/admin,
   no negative/revert paths (e.g. `BelowFloor`, `NonceUsed`, `WrongPayment`).
 * Difficulty beyond 22 bits and multi-worker `SharedArrayBuffer` scaling untested.
-* all project directories were read-only and untouched.
+* `ops/`, `contracts/`, `web/`, `art/` were read-only and untouched.
