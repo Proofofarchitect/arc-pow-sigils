@@ -656,15 +656,7 @@ export default function ClaimPage() {
             </div>
             <p className="muted small" style={{ marginTop: 10 }}>
               The claim sends <span className="mono">claim(code)</span> with
-              zero payment — gas only. Need USDC for gas?{" "}
-              <a
-                href="https://faucet.circle.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                faucet.circle.com
-              </a>
-              .
+              zero payment — gas only.
             </p>
           </>
         )}

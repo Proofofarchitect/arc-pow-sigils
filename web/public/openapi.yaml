@@ -4,7 +4,7 @@ info:
   version: 3.4.0
   description: >-
     Metadata and image endpoints for Proof of Architect — a proof-of-work
-    minted NFT collection on Arc (Circle L1, chainId 5042002). Metadata is
+    minted NFT collection on Arc (Circle L1, chainId 5042). Metadata is
     OpenSea-compatible; images are deterministic PNG "House Cards" derived from
     the on-chain token seed (the winning PoW work hash, or the claim hash for a
     free claim).
@@ -188,7 +188,7 @@ components:
           description: NFT contract address.
         chainId:
           type: integer
-          example: 5042002
+          example: 5042
     TokenMetadata:
       type: object
       required: [name, description, image, attributes, rarity]

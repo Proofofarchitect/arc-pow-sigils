@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/lib/site";
+import { CANON_CORE } from "@/lib/canonical";
 import { ARC_CHAIN_ID } from "@/lib/contract";
 import { CRAFT_ADDRESS } from "@/lib/craft";
 import { VAULT_ADDRESS } from "@/lib/staking";
@@ -17,7 +18,9 @@ export const revalidate = 3600;
 export function GET() {
   const body = `# Proof of Architect — full documentation
 
-> Proof of Architect is a proof-of-work minted NFT collection on Arc, Circle's EVM L1 with USDC as the native gas token. Instead of buying randomness, holders mine a keccak-256 nonce; the valid hash found becomes the token's on-chain seed, and the card's art derives deterministically from that hash. This document is the complete agent-readable reference: contract, mechanics, economics, metadata, HTTP API and MCP tools.
+> Proof of Architect is a proof-of-work minted NFT collection on Arc, Circle's EVM L1 with USDC as the native gas token. Instead of buying randomness, holders mine a keccak-256 nonce; the valid nonce's hash is recorded on-chain as the token's seed (seedOf), and the card's art seed derives POST-INCLUSION from it plus a later block hash (keccak256(seedOf ‖ blockhash(mintBlockOf(id) + 2))) — traits are not knowable before the mint. This document is the complete agent-readable reference: contract, mechanics, economics, metadata, HTTP API and MCP tools.
+>
+> Launch status: LIVE on Arc mainnet since 2026-09-21 (chainId 5042, USDC gas). All pages and APIs are open; /api/image serves a deterministic render.
 
 Canonical URLs
 - Site: ${SITE_URL}/
@@ -28,16 +31,16 @@ Canonical URLs
 
 ## 1. What it is
 
-Each NFT ("Architector") is produced by grinding a nonce until the keccak-256 hash of the preimage below beats the difficulty target. The winning hash is stored on-chain as seedOf, and the card's art derives from the post-inclusion display seed (see section 3). There is no server randomness and no oracle: art and rarity are a pure, verifiable function of the proof of work plus a future block hash.
+Each NFT ("Architector") is produced by grinding a nonce until the keccak-256 hash of the preimage below starts with enough zero bits. The winning hash is stored on-chain as the token seed. There is no server randomness and no oracle: art and rarity are a pure, verifiable function of the proof of work.
 
-Difficulty escalates on three independent layers: a per-wave base (baseBits 30 plus 2 bits every wave), a load regulator that tightens or loosens to hold a pace target, and a per-wallet streak inside a flat streak-level cooldown (5–25 min). Supply is 15,042: 42 free claim codes (no PoW, no payment) plus 15,000 paid mints across 15 waves of 1,000. The paid price is 1.0 USDC at wave 1 and doubles every wave with no cap.
+Difficulty escalates on three independent layers: a per-wave base (baseBits 30 plus 2 bits every wave), a load regulator that tightens or loosens to hold a pace target, and a per-wallet streak inside a wave-scaled cooldown. Supply is 15,042: 42 free claim codes (no PoW, no payment) plus 15,000 paid mints across 15 waves of 1,000. The paid price is 1.0 USDC at wave 1 and doubles every wave with no cap.
 
 ## 2. Contract and network
 
-- Network: Arc (chainId ${ARC_CHAIN_ID}).
-- Contract: 0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4 — ERC-721 (v3.4), ERC-2981 royalties 5% (500 bps), verified on the Arc explorer.
+- Network: Arc (chainId ${ARC_CHAIN_ID}; the contract below is the current canonical v3.4 deployment).
+- Contract: ${CANON_CORE} — ERC-721 (v3.4), ERC-2981 royalties 5% (500 bps), verified on the Arc explorer (canon v3.4).
 - Symbol: PARC.
-- Explorer: https://explorer.arc.io/address/0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4
+- Explorer: https://explorer.arc.io/address/${CANON_CORE}
 - Gas token: USDC, 18 decimals (native, not ETH). Transactions with maxFeePerGas below 20 gwei are silently dropped by Arc.
 - Payment: msg.value must equal currentMintDue().due exactly (= currentPrice() plus a 2.5% mint fee, mintFeeBps=250); the contract reverts with WrongPayment otherwise.
 - Supply: maxSupply 15,042 = 42 free claims + 15,000 paid. tokenId = 1..maxSupply. tokenURI(id) = baseURI + id.
@@ -49,21 +52,20 @@ Preimage (104 bytes):
 
     work = keccak256(abi.encodePacked(uint256 chainId, address contract, address miner, uint256 nonce))
 
-Validity (v3.4, fractional difficulty in milli-bits):
+Validity:
 
-    valid  <=>  uint256(work) < targetFor(miner)
-    requiredMilli(miner) = (baseBits + 2 * epochIndex + loadAdjust + (active streak bits)) * 1000 - stakingDiscountMilli(miner)   (floored at baseBits*1000, capped at 250 bits)
-    requiredBits(miner)  = ceil(requiredMilli / 1000)   (display value only)
+    uint256(work) < targetFor(miner)
+    requiredMilli(miner) = per-wallet difficulty in MILLI-BITS (thousandths of a bit); requiredBits(miner) is its display value (ceil)
 
-Three difficulty layers:
-- Wave base: baseBits 30 plus 2 bits per wave (epochIndex), so each wave is 4x harder.
-- Load regulator: loadAdjust (0..64 bits) is nudged every 5 mints toward a 25 s/mint pace target. Faster than 0.8x target tightens (+2 bits); slower than 1.2x target loosens (-1 bit); the 20% band between is a dead zone.
-- Per-wallet streak: +2 bits per extra mint from the same wallet while it is inside its cooldown window (cooldown = flat 5/10/15/20/25 minutes by streak level, capped at 25). The streak resets once the cooldown has elapsed.
+Difficulty layers (v3.4):
+- Wave base: baseBits starts at 30 and rises per wave.
+- Load regulator: nudged every 5 mints toward a 25 s/mint pace target; +2 bits when too fast, -1 bit when too slow.
+- Per-wallet streak: flat cooldown 5–25 min; extra fast mints add streak bits (+2 each), reset after the cooldown.
+- Staking discount: a milli-bit reduction (0/0.5/1.5/3/4.5/6 bits) from a vault lock.
 
 - baseBits is 30 at wave 1 (deployment parameter).
 - Nonces are single-use per wallet (nonceUsed[miner][nonce]).
-- On success the contract stores seedOf[tokenId] = work, nonceOf[tokenId] = nonce and mintBlockOf[tokenId] = block.number, and emits Mined(miner, tokenId, nonce, work, bits, paid).
-- Post-inclusion entropy: the ART seed is NOT seedOf. It is displaySeed = keccak256(seedOf ‖ blockhash(mintBlockOf + 2)) for minted AND forged tokens; claim tokens (mintBlockOf == 0) keep seedOf. Because blockhash(mintBlockOf + 2) does not exist when the miner submits, a miner cannot grind for a favourable seed, and traits cannot be previewed before minting.
+- On success the contract stores seedOf[tokenId] = work and nonceOf[tokenId] = nonce, and emits Mined(miner, tokenId, nonce, work, bits, paid).
 
 Free claims (codes)
 
@@ -87,7 +89,7 @@ Free claims (codes)
 
 ## 5. Metadata and traits
 
-GET ${SITE_URL}/api/meta/{id} returns OpenSea-compatible JSON, for example token 1:
+GET ${SITE_URL}/api/meta/{id} returns OpenSea-compatible JSON, for example (shape as of the ARC-traits/2 set; live since 2026-09-21):
 
 {
   "name": "Proof of Architect #1",
@@ -95,36 +97,36 @@ GET ${SITE_URL}/api/meta/{id} returns OpenSea-compatible JSON, for example token
   "image": "${SITE_URL}/api/image/1",
   "external_url": "${SITE_URL}/token/1",
   "attributes": [
-    { "trait_type": "background", "value": "House Grid" },
-    { "trait_type": "body", "value": "Builder Frame" },
-    { "trait_type": "outfit", "value": "House Hoodie" },
-    { "trait_type": "face", "value": "None" },
+    { "trait_type": "background", "value": "Night" },
+    { "trait_type": "head", "value": "Default" },
+    { "trait_type": "outfit", "value": "Hoodie" },
+    { "trait_type": "hair", "value": "Short" },
+    { "trait_type": "hair_color", "value": "Ginger" },
     { "trait_type": "eyes", "value": "Default" },
-    { "trait_type": "headwear", "value": "None" },
-    { "trait_type": "era", "value": "Genesis" },
-    { "trait_type": "origin", "value": "Community" },
-    { "trait_type": "quote", "value": "None" },
-    { "trait_type": "lore", "value": "None" },
-    { "trait_type": "tool", "value": "Faucet" },
+    { "trait_type": "nose", "value": "Default" },
+    { "trait_type": "mouth", "value": "Frown" },
+    { "trait_type": "eyewear", "value": "Glasses" },
+    { "trait_type": "headwear", "value": "Cap" },
     { "trait_type": "companion", "value": "None" },
-    { "trait_type": "legendary", "value": "None" },
-    { "trait_type": "golden", "value": "None" },
-    { "trait_type": "bug", "value": "None" }
+    { "trait_type": "era", "value": "Genesis" },
+    { "trait_type": "origin", "value": "Early Wanderer" },
+    { "trait_type": "quote", "value": "None" },
+    { "trait_type": "lore", "value": "None" }
   ]
 }
 
-The Architector has 15 slots. Ten are rendered pixel-art layers, composited in this order: background, body, outfit, face, eyes, headwear, tool, companion, bug, legendary. Four are metadata-only text rows: era, origin, quote, lore. The fifteenth is a "golden" overlay (a flag drawn over headwear/companion).
+The Architector has 15 slots (the ARC-traits/2 set, 69 trait values). Ten are rendered pixel-art layers, composited in this order: background, head, outfit, hair, eyes, nose, mouth, eyewear, headwear, companion. One is a render modifier (hair_color recolors the hair layer). Four are metadata-only text rows: era, origin, quote, lore.
 
-Values are picked from the 32-byte DISPLAY seed by deterministic weighted rejection sampling. Each slot derives from keccak256(seed || uint8 slotIndex || uint16 counter), read as sixteen big-endian uint16 words, with the counter reset per slot. Same seed yields the same card, and anyone can recompute it from the on-chain state (see section 3 for the display-seed formula).
-
-Golden overlay: two rare events, checked in order and only when the card did not roll a legendary scene. Each has a prerequisite on the rolled companion value and a 3% chance on a raw uint16 word (House Cat, then Fat Rat on companion; first success wins). If a golden event fires, bug is forced to None; if legendary fired, both golden and bug are None.
+Values are picked from the 32-byte seed by deterministic weighted rejection sampling. Each slot derives from keccak256(seed || uint8 slotIndex || uint16 counter), read as sixteen big-endian uint16 words, with the counter reset per slot. Same seed yields the same card, and anyone can recompute it from the on-chain seed. Head variants (ice / pale / reptile heads) adjust the nose and mouth layers per the render rules.
 
 Rarity (OpenRarity-compatible): information content = sum over the token's traits of -log2(count(value) / totalTokens). Rarer tokens have higher information content.
 
 ## 6. HTTP API
 
-- GET /api/meta/{id} — metadata JSON (reads seedOf/mintBlockOf/nonceOf/ownerOf on-chain, derives the display seed, cached about 60 s). 404 if the token is not minted.
-- GET /api/image/{id} — deterministic PNG Architector rendered from the display seed (image/png). 1024x1024 by default; add ?master=1 for the 3072x3072 master. 404 if the token is not minted.
+Note: /api/meta, /api/mcp, /api/points, /api/agents and /stats/* are live (all open since 2026-09-21); /api/image serves a deterministic render for minted tokens (404 if the token is not minted).
+
+- GET /api/meta/{id} — metadata JSON (reads seedOf/nonceOf/ownerOf on-chain, cached about 60 s). 404 if the token is not minted.
+- GET /api/image/{id} — deterministic PNG Architector rendered from the seed (image/png). 1024x1024 by default; add ?master=1 for the 3072x3072 master. 404 if the token is not minted.
 - GET /.well-known/ai.json — machine-readable service discovery (endpoints, contract, MCP tools).
 - GET /openapi.yaml — OpenAPI 3.0 specification for the API.
 - GET /sitemap.xml — pages plus one URL per minted token.
@@ -144,23 +146,24 @@ Streamable-HTTP MCP endpoint: ${SITE_URL}/api/mcp
 
 Tools (all read-only):
 - collection_stats — totalMinted, maxSupply (15,042), freeClaims, claimsLeft, currentWave, currentPrice (USDC), baseBits, paused.
-- get_token (tokenId) — owner, seedOf, displaySeed (post-inclusion), nonce, tokenURI, image and metadata URLs.
-- required_bits (miner) — current difficulty for that wallet as requiredBits (display), requiredMilli (milli-bits) and the exact target (three layers: wave base, load regulator, streak, minus the staking discount).
-- verify_nonce (miner, nonce) — recomputes work locally and checks it against the current fractional target (uint256(work) < targetFor(miner)). Lets an agent verify a mined nonce WITHOUT sending a transaction.
+- get_token (tokenId) — owner, seed, nonce, tokenURI, image and metadata URLs.
+- required_bits (miner) — current difficulty for that wallet (three layers: wave base, load regulator, streak).
+- verify_nonce (miner, nonce) — recomputes work locally and compares to the current target. Lets an agent verify a mined nonce WITHOUT sending a transaction.
 - price_info — current wave (from currentWave()), current price (from currentPrice()), and the schedule: 1.0 USDC doubling every 1,000 paid mints across 15 waves, no cap.
-- craft_info — CraftingControllerV2 parameters for the one-shot model: craftFee, per-tier boostCost/feeFor, totalFeesCollected, craftNonce, bounds and the child pre-seed formula.
+- verify_rarity (tokenId) — recompute the token's OpenRarity information-content score and tier from its on-chain seed.
+- craft_info — CraftingControllerV2 (ONE-SHOT) parameters: craftFee (fixed 5 USDC), per-tier boostCost/feeFor/maxChosen, craftNonce, bounds (MAX_SLOT, MAX_BOOST_TIER, LOCK_WAVES) and the child pre-seed formula (no commit/reveal/salt).
 
 A standalone stdio MCP server with the same tools is published in the repository (mcp/).
 
 ## 8. How to mine (step by step)
 
-1. Read requiredMilli(yourAddress) and targetFor(yourAddress) — for example via the MCP tool required_bits or a contract read.
-2. Grind nonces: work = keccak256(chainId, contract, yourAddress, nonce); accept when uint256(work) < targetFor(yourAddress). Expected attempts are ~2^(requiredMilli/1000).
+1. Read requiredBits(yourAddress) — for example via the MCP tool required_bits or a contract read.
+2. Grind nonces: work = keccak256(chainId, contract, yourAddress, nonce); accept when uint256(work) < targetFor(yourAddress). Expected attempts are 2^requiredBits.
 3. Verify locally (the browser UI and MCP verify_nonce do this) before paying gas.
 4. Submit mint(nonce) payable with msg.value == currentMintDue().due (wave price + 2.5% fee) and maxFeePerGas >= 20 gwei.
 5. Repeat — difficulty rises within a wave by the streak, and by +2 bits per wave overall.
 
-Tip: eth_estimateGas with a fresh random nonce reverts with BelowFloor(uint8 got, uint8 need) (selector 0xfcf93064), revealing your current difficulty for free without a transaction.
+Tip: eth_estimateGas with a fresh random nonce reverts with BelowTarget(uint256 work, uint256 target), revealing your current difficulty for free without a transaction.
 
 Performance reference: RTX 3090 about 2 GH/s, RTX 4090 about 4.8 GH/s (native CUDA), in-browser WebGPU miner orders of magnitude above a worker (hardware-dependent; hundreds of MH/s on desktop cards), browser Web Worker about 65 kH/s, pure Python about 0.17 MH/s. At baseBits 30 a plain worker is slow; a GPU (CUDA or in-browser WebGPU) is comfortable.
 
@@ -203,7 +206,7 @@ Architectors can be locked in the StakingVault for a proof-of-work difficulty di
 
 ## 11. FAQ
 
-- Is the randomness fair? There is no server randomness. Arc's PREVRANDAO is always 0, so traits come from the display seed = keccak256(seedOf ‖ blockhash(mintBlockOf + 2)), where the block hash is a future block fixed only after you mint — anyone can re-verify a token's traits from on-chain state (seedOf + mintBlockOf), but nobody (including the miner) can grind for a favourable seed.
+- Is the randomness fair? There is no randomness. Arc's PREVRANDAO is always 0, so traits come from the PoW hash itself — anyone can re-verify a token's traits from its seed.
 - What does a mint cost? 1.0 USDC at wave 1, doubling every wave of 1,000 paid mints with no cap (last wave 16,384 USDC). The 42 free claim codes need no payment and no PoW; redeem one at ${SITE_URL}/claim. Gas is paid in native USDC.
 - How do I verify a nonce without sending a transaction? Use the MCP tool verify_nonce, or compare workFor(miner, nonce) on-chain with a local keccak computation.
 - Where do the funds go? All proceeds and 5% secondary royalties go to the immutable treasury; withdraw() can be called by anyone but only pays the treasury.
@@ -211,7 +214,7 @@ Architectors can be locked in the StakingVault for a proof-of-work difficulty di
 
 ## 12. Status
 
-The live deployment is v3.4 "Proof of Architect" (0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4), verified on the Arc explorer; the previous v3.3/v3.2/v3 deployments remain verified on the Arc explorer. The browser miner, GPU miner, metadata API, the Architector art pipeline, the free-claim page (${SITE_URL}/claim), one-shot crafting and staking are all live.
+The v3.4 "Proof of Architect" contracts are the current canon, live on Arc mainnet (${CANON_CORE}). The full stack — miners, metadata API, art pipeline, claim page (${SITE_URL}/claim), crafting and staking — is open.
 `;
 
   return new Response(body, {

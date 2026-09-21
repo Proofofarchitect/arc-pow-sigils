@@ -1,10 +1,13 @@
 import { SITE_URL } from "@/lib/site";
-import { ARC_CHAIN_ID, CONTRACT_ADDRESS } from "@/lib/contract";
+import { CONTRACT_ADDRESS, ARC_CHAIN_ID } from "@/lib/contract";
 
 /**
  * /.well-known/ai.json — service discovery for AI agents (RFC 8615 style).
  * Describes the collection, endpoints and MCP tools so crawlers/agents can
  * self-configure without scraping HTML.
+ *
+ * Live since 2026-09-21 — the `launch` block reports mode: "live" and all
+ * chain surfaces are open.
  */
 export const dynamic = "force-static";
 export const revalidate = 3600;
@@ -14,7 +17,7 @@ export function GET() {
     {
       name: "Proof of Architect",
       description:
-        "Proof-of-work minted NFT collection on Arc (Circle L1, USDC gas). Mine a keccak nonce; the winning hash becomes the token seed and the Architector art derives from it deterministically.",
+        "Proof-of-work minted NFT collection on Arc (Circle L1, USDC gas). Mine a keccak nonce; a valid nonce is stored on-chain as seedOf, and the display/art seed is derived POST-INCLUSION from seedOf and a later block hash (the mint block + 2) — traits are not knowable before mint.",
       version: "3.4",
       site: SITE_URL,
       llms: {
@@ -24,6 +27,11 @@ export function GET() {
       links: {
         x: "https://x.com/proof_of_arc",
         gitbook: "https://proofofarchitect.gitbook.io/proof-of-architect/",
+      },
+      launch: {
+        mode: "live",
+        note:
+          "Live on Arc mainnet (chainId 5042, USDC gas) since 2026-09-21. All action pages and chain APIs are open (metadata, MCP, points, agents, stats). The contract below is the canonical mainnet deployment.",
       },
       endpoints: {
         robots: `${SITE_URL}/robots.txt`,
@@ -47,7 +55,7 @@ export function GET() {
         season: 1,
         rules: { mine: 100, claim: 50, forge: 150, burn: 30 },
         dataset: `${SITE_URL}/api/points`,
-        note: "Season 1 points are an activity ledger for this network season; no conversion and no rewards are promised.",
+        note: "Season 1 points are planned to convert into future PARC rewards (subject to change, no guarantees).",
       },
       agents: {
         page: `${SITE_URL}/agents`,
@@ -77,6 +85,7 @@ export function GET() {
         chain_name: "Arc",
         gas_token: "USDC (18 decimals native)",
         contract: CONTRACT_ADDRESS,
+        network_note: "Arc mainnet (Circle L1), USDC gas, chainId 5042.",
         explorer: `https://explorer.arc.io/address/${CONTRACT_ADDRESS}`,
         max_supply: 15042,
         free_claims: 42,
@@ -90,20 +99,17 @@ export function GET() {
       },
       mechanics: {
         work: "keccak256(abi.encodePacked(uint256 chainId, address contract, address miner, uint256 nonce))",
-        validity: "uint256(work) < targetFor(miner) (fractional difficulty; requiredBits/min requiredMilli are the display values)",
+        validity: "uint256(work) < targetFor(miner) — milli-bit fractional difficulty; requiredBits(miner) is the display value",
         difficulty_layers: [
           "wave base: baseBits 30 + 2 bits per wave",
-          "load regulator: pace target 25 s/mint over a 5-mint window (+2 bits when fast, -1 bit when slow), +/-20% dead zone, 0..64 bits",
-          "per-wallet streak: +2 bits per extra mint inside a flat 5-25 min streak-level cooldown (capped at 25); resets after the cooldown",
-          "staking discount: stakingDiscountMilli(wallet) in milli-bits (up to 6000 = 6 bits) subtracted from the difficulty, floored at baseBits",
+          "load regulator: pace target 25 s/mint over a 5-mint window, +2 bits / -1 bit (cap 64 bits)",
+          "per-wallet streak: +2 bits per extra mint; flat cooldowns 5/10/15/20/25 minutes",
         ],
         seed:
-          "raw seedOf(tokenId) = winning work hash (or claim hash / craft pre-seed). The ART display seed = keccak256(seedOf ‖ blockhash(mintBlockOf + 2)); claim tokens (mintBlockOf 0) keep seedOf. Post-inclusion: traits cannot be previewed or ground for before minting.",
+          "seedOf(tokenId) is stored on-chain at mint (the raw work hash, or the claim hash for a free claim); the display/art seed is keccak256 of seedOf concatenated with blockhash(mintBlockOf(id) + 2) — post-inclusion, so traits are not knowable before mint",
         art:
-          "Architector: 10 rendered pixel layers + a golden overlay + 4 metadata-only slots, derived deterministically from the display seed",
+          "Architector (ARC-traits/2): 15 slots — 10 rendered pixel layers, a hair-color render modifier, and 4 metadata-only slots — derived deterministically from the seed",
         free_lock: "free-claim tokens are non-transferable until wave >= 5",
-        crafting:
-          "one-shot CraftingControllerV2: craft(cardA, cardB, choices, boostTier) payable burns both parents and forges the child atomically (no commit/reveal/refund)",
       },
       updated_at: new Date().toISOString(),
     },

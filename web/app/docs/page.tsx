@@ -230,7 +230,7 @@ export default function DocsIndexPage() {
         </span>
         . Explorer:{" "}
         <a href="https://explorer.arc.io/address/0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4">
-          arcscan
+          explorer
         </a>
         . This is the live collection contract.
       </p>

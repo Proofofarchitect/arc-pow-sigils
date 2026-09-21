@@ -14,7 +14,7 @@ export function GET() {
 
 ## Before you start
 
-- A wallet on Arc (chainId ${ARC_CHAIN_ID}), funded with native USDC for gas (faucet: faucet.circle.com).
+- A wallet on Arc (chainId ${ARC_CHAIN_ID}), funded with native USDC for gas.
 - No GPU is required to try, but base difficulty is 30 bits, which is heavy work: a GPU is strongly recommended. The browser worker (${SITE_URL}/mine) is fine for experimenting. Free claim codes (42) require no PoW at all.
 
 ## The algorithm

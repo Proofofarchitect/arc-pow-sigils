@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/lib/site";
+import { CANON_CORE } from "@/lib/canonical";
 import { ARC_CHAIN_ID } from "@/lib/contract";
 
 /**
@@ -10,15 +11,17 @@ export const revalidate = 3600;
 export function GET() {
   const body = `# Proof of Architect — collection overview
 
-> Proof-of-work minted NFT collection on Arc (Circle L1, chainId ${ARC_CHAIN_ID}). Mine a keccak-256 nonce in the browser or on GPU; the winning hash becomes the token's on-chain seed and the Architector art derives from it deterministically.
+> Proof-of-work minted NFT collection on Arc (Circle L1, chainId ${ARC_CHAIN_ID}). Mine a keccak-256 nonce in the browser or on GPU; a valid nonce is stored on-chain as the token's seedOf, and the display/art seed is derived POST-INCLUSION from seedOf and the block hash of the mint block + 2 — the Architector traits are not knowable before mint.
+>
+> Launch status: LIVE on Arc mainnet since 2026-09-21 (chainId 5042, USDC gas). All pages and APIs are open.
 
 ## What you get
 
-Each token is an "Architector": 10 rendered pixel-art layers (background, body, outfit, face, eyes, headwear, tool, companion, bug, legendary) plus a golden overlay (3 rare events, each with a prerequisite) and 4 metadata-only slots (era, origin, quote, lore) — 15 slots total, all a pure function of the mined hash. No randomness, no oracle — anyone can recompute a card from its on-chain seed.
+Each token is an "Architector": 15 slots — 10 rendered pixel-art layers (background, head, outfit, hair, eyes, nose, mouth, eyewear, headwear, companion), a hair-color render modifier, and 4 metadata-only slots (era, origin, quote, lore) — all a pure function of the mined hash (ARC-traits/2 set). No randomness, no oracle — anyone can recompute a card from its on-chain seed.
 
 ## Key numbers
 
-- Contract: 0x3E20bb7be2C46f94Cab78d340D3F79Afc2a9Fed4 (Arc, ERC-721, symbol PARC, v3.4, verified on arcscan)
+- Contract: ${CANON_CORE} (Arc mainnet, ERC-721, symbol PARC, v3.4; 2.5% mint fee)
 - Supply: 15,042 = 42 free claim codes + 15,000 paid, tokenId 1..15,042
 - Paid price: 1.0 USDC at wave 1, doubling every wave of 1,000 mints with no cap (last wave 16,384 USDC)
 - Free claims: 42 code-gated mints (non-transferable until wave 5)
